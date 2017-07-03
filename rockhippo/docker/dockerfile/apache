@@ -1,0 +1,6 @@
+FROM docker.io/centos:6.7 
+MAINTAINER  COLIN
+RUN yum install pcre-devel -y
+RUN yum install httpd httpd-devel -y
+EXPOSE  80
+CMD /etc/init.d/httpd restart && top

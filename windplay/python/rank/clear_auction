@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import MySQLdb
+from read_host import read_host
+def main():
+    try:
+        for host_ in read_host():
+#            print host_
+            conn = MySQLdb.connect(host=host_[0],user='root',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
+            cur = conn.cursor()
+            sql = "update t_auction_list set c_state = 2 where c_state=0 and c_end_time < UNIX_TIMESTAMP()"
+            cur.execute(sql)
+            conn.commit()
+            cur.close()
+            conn.close()
+    except MySQLdb.Error,e:
+        print "MySQL Error %d:%s"%(e.args[0],e.args[1])	
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import MySQLdb
+from read_host import read_host
+def main():
+    try:
+        for host_ in read_host():
+            conn = MySQLdb.connect(host=host_[0],user='root',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
+            conn2 = MySQLdb.connect(host=host_[0],user='root',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
+            cur = conn.cursor()
+            cur2 = conn2.cursor()
+            sql = "select c_cid,c_shieldstatus from t_char_guild"
+            count = cur.execute(sql)
+            for i in xrange(count):
+                result = cur.fetchone()
+                if(result[1] != 0):
+                    sql = "update t_char_guild set c_shieldstatus = 0 where c_cid=%d and UNIX_TIMESTAMP()-c_lastbrokentime > %d*2*3600"%(result[0],result[1])
+                    cur2.execute(sql)
+            conn.commit()
+            cur.close()
+            conn.close()
+            conn2.commit()
+            cur2.close()
+            conn2.close()
+    except MySQLdb.Error,e:
+        print "MySQL Error %d:%s"%(e.args[0],e.args[1])	
+
+if __name__ == "__main__":
+	main()
