@@ -1,1 +1,4 @@
-#shell_scripts
+[TOC]
+***
+# 说明
+包含以前写的shell与python脚本。清理了重要的密码、用户名，以及真实的IP地址。
