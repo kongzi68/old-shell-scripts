@@ -42,7 +42,7 @@ root@ubuntu:/data/shell_scripts# tree
 │   │   └── checkVPN.py
 │   ├── create_user_and_set_sudoer.sh
 │   ├── creat_tongji_hoobanr_com.sh
-│   ├── cut_and_upload            # 重点推荐，用于向FTP服务器上传日志文件，失败后重传、补传
+│   ├── cut_and_upload            # 用于向FTP服务器上传日志文件，失败后重传、补传
 │   │   ├── aclog_backup_and_upload.sh
 │   │   ├── authlog_wificonnect_upload.sh
 │   │   ├── cut_log_everyday_array.sh
@@ -63,7 +63,7 @@ root@ubuntu:/data/shell_scripts# tree
 │   ├── download_log_to_chengdu_v2.sh
 │   ├── get_system_info.sh
 │   ├── importData.sh
-│   ├── installSourceCode
+│   ├── installSourceCode             # 适用于ubuntu系统，源码安装mysql、nginx、php、DNS等
 │   │   ├── centos_nginx
 │   │   ├── centos_php-fpm
 │   │   ├── installBySourceCode.sh
@@ -78,7 +78,7 @@ root@ubuntu:/data/shell_scripts# tree
 │   ├── mod_m3u8.sh
 │   ├── mod_shell_scripts.sh
 │   ├── README.md
-│   ├── rsync+inotify
+│   ├── rsync+inotify                 # 用于自动更新代码与静态资源的脚本，需配合rsync使用
 │   │   ├── auto_inotify.sh
 │   │   ├── backup_log_to_save.sh
 │   │   ├── local-hls
@@ -88,7 +88,7 @@ root@ubuntu:/data/shell_scripts# tree
 │   │   │   ├── auto_inotify_qqhr.sh
 │   │   │   └── scripts_run_status_check.sh
 │   │   └── scripts_run_status_check.sh
-│   ├── system_status.sh
+│   ├── system_status.sh               # 定时采集ubuntu服务器的系统状态数据，发送到API接口
 │   ├── temp_upload.sh
 │   ├── toPIng
 │   │   ├── ip.txt
@@ -96,7 +96,7 @@ root@ubuntu:/data/shell_scripts# tree
 │   └── web_jn_dns_switch_qdn.sh
 └── wp
     ├── python
-    │   ├── allgs_count
+    │   ├── allgs_count                # 全服统计分析汇总某些数据
     │   │   ├── get_allgs_login_and_charge.py
     │   │   ├── get_allgs_login_and_task_statistics.py
     │   │   ├── get_allgs_vip_charge_cost.py
@@ -104,18 +104,18 @@ root@ubuntu:/data/shell_scripts# tree
     │   ├── dolist.db
     │   ├── get_charge_and_item_cost.py
     │   ├── get_charge_list.py
-    │   ├── getGMSInfo
+    │   ├── getGMSInfo                 # python、saltstack，采集游戏服配置文件
     │   │   ├── getGameServerList.py
     │   │   └── gslist.db
     │   ├── get_player_level_distribution.py
     │   ├── get_server_config_xml.py
     │   ├── parse_pb_demo_change.py
-    │   ├── player_login_query
+    │   ├── player_login_query                # 统计游戏数据
     │   │   ├── get_player_task_and_login.py
     │   │   ├── query_DB_VIPAssetData_PB_and_player_login_info.py
     │   │   ├── query_new_gsserver.py
     │   │   └── query_player_login_info_by_chartype.py
-    │   ├── query_charge_top50.py
+    │   ├── query_charge_top50.py             # 统计充值与VIP数据
     │   ├── query_charge_username_and_charname.py
     │   ├── query_DB_ActorInnAsset_PB.py
     │   ├── query_DB_AllianceAsset_PB.py
@@ -126,7 +126,7 @@ root@ubuntu:/data/shell_scripts# tree
     │   ├── query_oss_record_additem.py
     │   ├── query_player_charname.py
     │   ├── query_player_gold_info_list.py
-    │   ├── query_player_gold_list_new_change.py
+    │   ├── query_player_gold_list_new_change.py        # 全服拉取符合要求的玩家宝石数据，并执行清理操作
     │   ├── query_player_gold_list_new.py
     │   ├── query_player_gold.py
     │   ├── query_player_info.py
@@ -142,7 +142,7 @@ root@ubuntu:/data/shell_scripts# tree
     │   │   ├── clear_defstate
     │   │   ├── order_all.py
     │   │   └── read_host.py
-    │   ├── salt_modules
+    │   ├── salt_modules                    # python、saltstack（master、minion）更新游戏服、重启游戏服GSM等
     │   │   ├── sendMsg.py
     │   │   ├── updategs.py
     │   │   └── updatews.py
@@ -154,7 +154,7 @@ root@ubuntu:/data/shell_scripts# tree
         ├── auto_reboot_oss_agent.sh
         ├── auto_start_services.sh
         ├── bak_10_104_154_151_web1.sh
-        ├── bak_mysql.sh
+        ├── bak_mysql.sh                    # 数据库备份
         ├── bak_mysql_shenji.sh
         ├── bak_oss_record_big_tables.sh
         ├── clean_useless_file.sh
@@ -167,7 +167,7 @@ root@ubuntu:/data/shell_scripts# tree
         ├── lnmp1.2.tar.gz
         ├── mod_mail_address.sh
         ├── mod_thailand_time.sh
-        ├── mysql_install.sh
+        ├── mysql_install.sh                # 通过二进制包，多实例与单实例安装与配置mysql
         ├── open.sh
         ├── scripts_run_status_check.sh
         └── send_log.sh
