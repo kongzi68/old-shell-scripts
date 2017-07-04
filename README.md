@@ -3,7 +3,7 @@
 # 说明
 包含以前写的shell与python脚本。清理了重要的密码、用户名，以及真实的IP地址。
 ## 脚本用途简要说明
-'''
+```
 root@ubuntu:/data/shell_scripts# tree 
 .
 ├── qf
@@ -173,4 +173,4 @@ root@ubuntu:/data/shell_scripts# tree
         └── send_log.sh
 
 22 directories, 143 files
-'''
+```
