@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+
+{% block extracss %}
+  <!-- Bootstrap table -->
+  <link href="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.css', _external=True) }}" rel="stylesheet">
+  <!--custom css-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/table_base_set.css') }}">
+{% endblock %}
+
+{% block title %}
+  <title>资源管理</title>
+{% endblock %}
+
+
+{% block breadcrumbs %}
+  {{ super() }}
+  <li><a href="{{ url_for(model_name) }}">游戏类型管理</a></li>
+{% endblock %}
+
+
+{% block content %}
+  {{ super() }}
+
+  <div class="container" style="margin-left: 0; padding-left: 10px;">
+    <div class="row" >
+      <div class="col-sm-8">
+        <!-- 表格部分 -->
+        <div class="panel-body" id="bootstrap_table_padding_left" style="padding-bottom:0;">
+          <div id="toolbar" class="btn-group">
+            <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#customModal">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </button>
+            <button id="btn_edit" type="button" class="btn btn-default" onclick="return get_edit_info()" data-toggle="modal" data-target="#customModal">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+            </button>
+            <button id="btn_delete" type="button" class="btn btn-default" onclick="return delete_info()">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+            </button>
+          </div>
+          <table id="table_cmdb_tgametype" data-toggle="table" data-url="{{ url_for('cmdb._api_table_data_tgametype') }}"
+                 data-toolbar="#toolbar" data-search="true" data-striped="true" data-show-refresh="true"
+                 data-show-toggle="true" data-show-columns="true" dataType="json" data-side-pagination="client"
+                 data-click-to-select="true" data-unique-id="game_id" data-sort-name="game_id"
+                 data-pagination="true" data-page-list="[25, 50, 100, All]" data-page-size="25" data-row-style="displaycolor"
+                 data-show-footer="false" data-single-select="true">
+            <thead>
+            <tr>
+              <th data-field="state" data-checkbox="true" data-align="center"></th>
+              <th data-field="game_id" data-align="center" data-sortable="true">自编号</th>
+              <th data-field="game" data-align="center" data-sortable="true">游戏名</th>
+              <th data-field="type" data-align="center" data-sortable="true">版本</th>
+            </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 模态框（Modal）新增 -->
+  <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="myaddModalLabel">游戏类型管理</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" role="form">
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-2 control-label clear_padding_row" for="id_game_id">自编号</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control set_padding_custom" id="id_game_id" placeholder="游戏自编ID，4位">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label clear_padding_row" for="id_game">游戏名</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control set_padding_custom" id="id_game" placeholder="游戏名">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label clear_padding_row" for="id_type">版本</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control set_padding_custom" id="id_type" placeholder="版本">
+                </div>
+              </div>
+            <!--隐藏的input，用于判断是增加还是修改-->
+            <input type="hidden" id="id_form_type" value="add">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="saveRecord" data-dismiss="modal">保存</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+
+
+
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+
+    var $table = $('#table_cmdb_tgametype');
+
+    /**********模态框*********/
+    var $game_id = $('#id_game_id'),
+        $game = $('#id_game'),
+        $type = $('#id_type'),
+        $form_type = $('#id_form_type');
+    // 保存模态框中输入的数据
+    $("#saveRecord").click(function(){
+      var datas = {};
+      datas['game_id'] = $game_id.val();
+      datas['game'] = $game.val();
+      datas['type'] = $type.val();
+      datas['form_type'] = $form_type.attr('value');
+      console.log($form_type.attr('value'));
+      // console.log(typeof datas);
+      // 检查input的值不为空？
+      var t_check = {
+        game_id: $game_id.attr('placeholder'),
+        game: $game.attr('placeholder'),
+        type: $type.attr('placeholder')
+      };
+      //用forEach()进行遍历
+      var arrayData = Object.keys(t_check);
+      //console.log(arrayData.join());
+      var ret_value = Object.keys(datas).some(function (tz) {
+        // console.log("datas ", tz, ": ", datas[tz]);
+        var result = $.inArray(tz, arrayData);
+        if(!datas[tz] && result >= 0){
+          alert(t_check[tz] + '：值为空，请重新输入.');
+          $("#id_"+tz).focus();  // 选择器用变量
+          return true;
+        }
+      });
+      if( ret_value == true) {
+        return false;
+      }
+      // 保存数据
+      $.ajax({
+        type: 'POST',
+        url: "{{ url_for('._api_save_gametype') }}",
+        data: JSON.stringify({'datas': datas}),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+        beforeSend:function(){
+          return true;
+        },
+        success:function(data){
+          console.log(data);
+          if(data.ret == true ){
+            alert("数据保存成功");
+            setTimeout(function(){
+              location.reload();    // 要延迟执行的代码块
+            }, 1000);               // 延迟1秒
+          } else {
+            alert('保存失败');
+            location.reload();
+          }
+        },
+        error:function() {
+          alert('请求出错');
+        },
+        complete:function() {
+        }
+      });
+    });
+
+    // 加载需要修改的数据
+    function get_edit_info() {
+      var getselectdata = $table.bootstrapTable('getSelections');
+      if(getselectdata.length == 0) {
+        alert('请选择需要修改的数据！');
+        location.reload();
+        return false;
+      } else if(getselectdata.length >= 2){
+        alert('请重新选择，不要多选，修改数据只能单选！');
+        location.reload();
+        return false;
+      }
+      var json_data = eval(getselectdata);
+      console.log(json_data);
+      console.log(json_data[0].game_id);
+      $game_id.val(json_data[0].game_id);
+      $game.val(json_data[0].game);
+      $type.val(json_data[0].type);
+      $form_type.attr({'value': 'mod'});
+      return true;
+    }
+
+    // 删除数据
+    function delete_info() {
+      var arrayData = [];
+      var getselectdata = $table.bootstrapTable('getSelections');
+      if(getselectdata.length == 0) {
+        alert('请选择需要删除的数据！');
+        location.reload();
+        return false;
+      }
+      var json_data = eval(getselectdata);
+      console.log(json_data);
+      for(var i=0; i<getselectdata.length; i++) {
+        arrayData.push(json_data[i].game_id);
+      }
+      console.log(arrayData.join());
+      if(confirm("确定要删除数据呢？")) {
+        $.ajax({
+          type: 'POST',
+          url: "{{ url_for('._delete_gametype') }}",
+          data: JSON.stringify({'datas': arrayData.join()}),
+          dataType: 'json',
+          contentType: 'application/json; charset=UTF-8',
+          beforeSend:function(){
+            return true;
+          },
+          success:function(data){
+            console.log(data);
+            if(data.ret == true ) {
+              alert("OK！已删除");
+              setTimeout(function(){
+                location.reload();    // 要延迟执行的代码块
+              }, 1000);               // 延迟1秒
+            } else {
+              alert('操作失败');
+            }
+          },
+          error:function() {
+            alert('请求出错');
+          }
+        });
+      }
+    }
+
+
+  </script>
+  <script src="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.js', _external=True) }}"></script>
+  <!-- put your locale files after bootstrap-table.js -->
+  <script src="{{ url_for('static', filename='bootstrap-table/dist/locale/bootstrap-table-zh-CN.js', _external=True) }}"></script>
+{% endblock %}

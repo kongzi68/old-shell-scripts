@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+
+{% block extracss %}
+  <!-- Bootstrap table -->
+  <link href="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.css', _external=True) }}" rel="stylesheet">
+  <!--custom css-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/table_base.css') }}">
+{% endblock %}
+
+
+{% block title %}
+  <title>配置管理</title>
+{% endblock %}
+
+
+
+
+{% block breadcrumbs %}
+  {{ super() }}
+  <li><a href="{{ url_for(model_name) }}">服务器清单</a></li>
+{% endblock %}
+
+
+
+
+{% block content %}
+  {{ super() }}
+
+  <ul class="nav nav-tabs">
+    <li role="presentation" ><a  href="{{ url_for('.set_conf_server') }}">服务器清单</a></li>
+    <li role="presentation" ><a  href="{{ url_for('.set_conf_manage') }}">配置管理</a></li>
+    <li role="presentation" class="active"><a  href="{{ url_for('.set_conf_query') }}">查询配置</a></li>
+  </ul>
+
+  <div class="panel-body" id="bootstrap_table_padding_left" style="padding-bottom:0;">
+    <!-- 表单 -->
+    <form action="." class="form-inline btn-group" id="toolbar" method="post">
+      {% if csrf_token %}{# Support for flask-seasurf #}<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">{% endif %}
+      <!-- 游戏ID -->
+      <div class="form-group">
+        <div class="form-control system_game_id">{{ form.game_id }}</div>
+        {{ form.csrf_token }}
+        <button type="submit" id="id_btn_submit" class="form-control btn btn-default" >{{ form.submit.label.text }}</button>
+        <a href="{{ url_for('.conf_upload') }}"><button type="button" id="id_btn_reupload_model_config" class="btn btn-default">重新上传配置文件模版</button></a>
+        <a href="{{ url_for('.conf_cat_table') }}"><button type="button" id="id_btn_get_config" class="btn btn-default" >查看配置文件</button></a>
+        <a href="{{ url_for('.create_sls') }}"><button type="button" id="id_btn_rebulid_config" class="btn btn-default" >重新生成SLS文件</button></a>
+        <a href="{{ url_for('.test_push_sls') }}"><button type="button" id="id_btn_test_push_config" class="btn btn-default" >测试推送配置文件</button></a>
+        <a href="{{ url_for('.push_sls') }}"><button type="button" id="id_btn_push_config" class="btn btn-default" >推送配置文件</button></a>
+      </div>
+    </form>
+    <!-- //表单 -->
+    <table id="table_cfm_tconfig" data-toggle="table" data-url="{{ url_for('cfm._api_table_data_tconfig') }}"
+           data-toolbar="#toolbar" data-search="true" data-striped="true" data-show-refresh="true"
+           data-show-toggle="true" data-show-columns="true" dataType="json" data-side-pagination="client"
+           data-click-to-select="true" data-unique-id="id" data-sort-name="game_id" data-sort-order="desc"
+           data-single-select="true">
+      <thead>
+      <tr>
+        <th data-field="state" data-checkbox="true" data-align="center"></th>
+        <th data-field="id" data-align="center" data-sortable="true">自编配置ID</th>
+        <th data-field="game_id" data-align="center" data-sortable="true">游戏ID</th>
+        <th data-field="custom_name" data-align="center" data-sortable="true">自定义配置组名称</th>
+        <th data-field="servers" data-align="center" data-sortable="true">SERVERS</th>
+        <th data-field="conf_name" data-align="center" data-sortable="true">配置文件名称</th>
+        <th data-field="conf_save_name" data-align="center" data-sortable="true">配置文件临时名称</th>
+        <th data-field="conf_data" data-halign="center" data-align="left" data-visible="false">配置文件动态数据</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+
+
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    var $table = $('#table_cfm_tconfig');
+
+    function getConfigid() {
+      var getselectdata = $table.bootstrapTable('getSelections');
+      if (getselectdata.length == 0) {
+        alert('请选择需要修改的数据！');
+        location.reload();
+        return false;
+      } else if (getselectdata.length >= 2) {
+        alert('请重新选择，不要多选，只能单选！');
+        location.reload();
+        return false;
+      }
+      var json_data = eval(getselectdata);
+      console.log(json_data);
+      console.log(json_data[0].id);
+      return json_data[0].id;
+    }
+
+    function useConfigid(){
+      /*点击按钮之后，获取checkbox选中后的值*/
+      $("[id='id_btn_reupload_model_config'], [id='id_btn_get_config'], [id='id_btn_rebulid_config'], [id='id_btn_test_push_config'], [id='id_btn_push_config']").on('click', function(){
+        id = getConfigid();
+        //发送数据给后台
+        $.ajax({
+          type: 'POST',
+          url: "{{ url_for('._get_id') }}",
+          data: JSON.stringify({'id': id}),
+          contentType: 'application/json; charset=UTF-8',
+          dataType: 'json'
+        });
+      });
+    }
+    useConfigid();
+
+  </script>
+  <script src="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.js', _external=True) }}"></script>
+  <!-- put your locale files after bootstrap-table.js -->
+  <script src="{{ url_for('static', filename='bootstrap-table/dist/locale/bootstrap-table-zh-CN.js', _external=True) }}"></script>
+{% endblock %}

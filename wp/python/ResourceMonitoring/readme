@@ -1,0 +1,2 @@
+# ResourceMonitoring低负载云服务器与云数据库mysql统计
+10 0 * * 1 bash /data/scripts/ResourceMonitoring/resourcemonitoring.sh >> /dev/null 2>&1 &

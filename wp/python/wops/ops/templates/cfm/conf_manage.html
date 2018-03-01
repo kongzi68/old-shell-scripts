@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  {{ super() }}
+  <ul class="nav nav-tabs">
+    <li role="presentation" ><a href="{{ url_for('.set_conf_server') }}">服务器清单</a></li>
+    <li role="presentation" class="active"><a href="{{ url_for('.set_conf_manage') }}">配置管理</a></li>
+    <li role="presentation"><a href="{{ url_for('.set_conf_query') }}">查询配置</a></li>
+  </ul>
+  &nbsp;
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-9 col-md-offset-1">
+        <p>说明：</p>
+        <p>1、一份配置文件：相同的游戏（指game_id相同），相同的服务器群（指它们的server_id相同），相同的配置文件名，在本系统中将生成为相同的配置数据。</p>
+        <p>2、其它说明暂无。</p>
+        &nbsp;
+      </div>
+      <div class="col-md-9">
+        <!-- 文件上传表单 -->
+        <form class="form-horizontal" role="form" method="post" action="." enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" >{{ form.custom_name.label.text }}</label>
+            <div class="col-sm-9">{{ form.custom_name }}</div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{ form.conf_template.label.text }}</label>
+            <div class="col-sm-9">{{ form.conf_template }}</div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">{{ form.conf_data.label.text }}</label>
+            <div class="col-sm-9">{{ form.conf_data }}</div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3 ">
+              {{ form.csrf_token }}
+              <button type="submit" class="btn btn-default">上传配置文件与保存数据</button>
+            </div>
+          </div>
+        </form>
+        <!-- //文件上传表单 -->
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <form class="form-inline">
+        <div class="form-group col-md-9 col-md-offset-1">
+          <p>根据当前上传的配置文件模版，生成适用于saltstack的SLS，并从master端推送更新的配置文件到minion端。</p>
+          <button type="button" id="id_btn_create_sls" class="btn btn-default" href="javscript:;" data-url="{{ url_for('._create_sls') }}">CREATE SLS</button>
+          <button type="button" id="id_btn_test_push_sls" class="btn btn-default" href="javscript:;" data-url="{{ url_for('._test_push_sls') }}">TEST PUSH CONFIG</button>
+          <button type="button" id="id_btn_push_sls" class="btn btn-default" href="javscript:;" data-url="{{ url_for('._push_sls') }}">PUSH CONFIG</button>
+        </div>
+      </form>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class=" col-sm-9 col-sm-offset-1">
+            &nbsp;
+            <textarea id="show_logs" class="form-control" readonly="readonly" style="background-color: #f7f7f7" rows="15" placeholder="show logs ..."></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    $(function(){
+      // create_sls
+      $("#id_btn_create_sls").on('click', function(){
+        var btn = $(this);
+        $.post(btn.attr('data-url'), function(data){
+          $("#show_logs").val(data);
+        })
+      });
+
+      // test push config
+      $("#id_btn_test_push_sls").on('click', function(){
+        var btn = $(this);
+        $.post(btn.attr('data-url'), function(data){
+          $("#show_logs").val(data);
+        })
+      });
+
+      // push config
+      $("#id_btn_push_sls").on('click', function(){
+        var btn = $(this);
+        $.post(btn.attr('data-url'), function(data){
+          $("#show_logs").val(data);
+        })
+      });
+
+    })
+  </script>
+{% endblock %}

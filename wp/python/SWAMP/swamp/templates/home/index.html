@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>测试paramiko</title>
+{% endblock %}
+
+{% block content %}
+&nbsp;
+<div class="container-fluid">
+  <div class="row">
+    <form action="." id="myform" class="form-horizontal form_scripts_custom_name" method="post" enctype="multipart/form-data" >
+      <fieldset>
+        <legend>选择需要执行的脚本：</legend>
+        {% if csrf_token %}{# Support for flask-seasurf #}<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">{% endif %}
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.custom_name.label.text }}</label>
+          <div class="col-sm-6">
+            {{ form.custom_name }}
+          </div>
+          <label class="col-sm-2 control-label">{{ form.update_target.label.text }}</label>
+          <div class="col-sm-2">
+            {{ form.update_target }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.pkg_name.label.text }}</label>
+          <div class="col-sm-4">
+            {{ form.pkg_name }}
+          </div>
+          <label class="col-sm-2 control-label">{{ form.pkg_md5.label.text }}</label>
+          <div class="col-sm-4">
+            {{ form.pkg_md5 }}
+          </div>
+        </div>
+        {{ form.msgsid }}
+        <!--{{ form.errors }}-->
+        {{ form.csrf_token }}
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <button type="submit" id="id_btn_button" class="btn btn-info" style="font-weight: bold;font-size: 15px;letter-spacing: 5px">
+              {{ form.submit.label.text }}
+            </button>
+            <button type="button" id="id_network_interrupts_get_log" class="btn btn-warning" style="margin-left: 25px;">
+              网络中断后，重新提取脚本运行日志
+            </button>
+            <button type="button" id="id_btn_reset" class="btn btn-danger" style="margin-left: 25px;">
+              重置表单
+            </button>
+            <button type="button" id="id_btn_reset_scripts" class="btn btn-danger" style="margin-left: 25px;">
+              重置脚本为未锁定状态
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    &nbsp;
+    <fieldset>
+      <legend>脚本运行日志：</legend>
+      <p><span><b>脚本运行开始时间：</b></span>
+        <span id="start_time">NaN</span>
+        <span><b>&emsp;&emsp;&emsp;&emsp;当前时间：</b></span>
+        <span id="now_time">NaN</span>
+        <span>&emsp;&emsp;&emsp;&emsp;<b>已运行约&ensp;</b></span>
+        <span id="tsecond">NaN</span>
+        <span><b>&ensp;秒</b></span>
+      </p>
+      <div class="row" style="background:#EBEBEB;">
+        <div class="col-sm-7">
+          <p style="font-size: 16px; height: 30px; padding-top: 10px; padding-bottom: 10px;">
+            <span><b>当前脚本运行的日志记录：</b></span>
+          </p>
+        </div>
+        <div class="col-sm-5">
+          <p style="font-size: 16px; height: 30px; padding-top: 10px; padding-bottom: 10px;">
+            <span><b>其它的记录：</b></span>
+          </p>
+        </div>
+        <div class="col-sm-7 message_holder_web"></div>
+        <div class="col-sm-5 message_holder_temp"></div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+<script type="text/javascript" charset="utf-8">
+  var id_custom_name = $('#id_custom_name');
+  var id_btn_button = $('#id_btn_button');
+  var id_btn_reset = $('#id_btn_reset');
+  var id_network_interrupts_get_log = $('#id_network_interrupts_get_log');
+  var id_set_msgsid = $('#id_set_msgsid');
+  var gmsgsid = '';
+  var id_btn_reset_scripts = $('#id_btn_reset_scripts');
+
+  //var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+  var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
+
+  socket.on('connect', function() {
+    console.log('I\'m connected!');
+    socket.emit('my_event', {data: 'I\'m connected server!'});
+  });
+
+  socket.on('show_web_scripts_log', function(msg) {
+    //console.log(msg.data);
+    var msgsid = sessionStorage.getItem('msgsid');
+    if (msgsid == msg.msgsid){
+      gmsgsid = msgsid;
+      //console.log('msgsid: ' + msg.msgsid);
+      get_start_time(msgsid);
+      $('div.message_holder_web').prepend('<li style="list-style-type:none; word-break:break-all;"><span>' +
+          '<b>Received: </b></span>' + msg.data + '</li>');
+      //    $('div.message_holder_web').append('<span >Received: ' + msg.data + '<br></span>');
+    }
+  });
+
+  socket.on('show_temp_scripts_log', function(msg) {
+    //console.log(msg.data);
+    var msgsid = sessionStorage.getItem('msgsid');
+    if (msgsid == msg.msgsid) {
+      gmsgsid = msgsid;
+      //console.log('msgsid: ' + msg.msgsid);
+      $('div.message_holder_temp').prepend('<li style="list-style-type:none; word-break:break-all;"><span>' +
+          '<b>Received: </b></span>' + msg.data + '</li>');
+    }
+  });
+
+  // 用于停止计时
+  var t_interval_id = null;
+  var temp_array = [];
+
+  function get_start_time(tmsgsid){
+    var msgsid = sessionStorage.getItem('msgsid');
+    start_status = sessionStorage.getItem('start_status');
+    if (start_status == 'start' && tmsgsid == msgsid) {
+      id_btn_button.attr({"disabled":"disabled"});
+      id_custom_name.attr({"disabled":"disabled"});
+      id_network_interrupts_get_log.attr({"disabled":"disabled"});
+      start_time = sessionStorage.getItem('start_time');
+      $('#start_time').text(start_time);
+    }
+  }
+
+  setInterval("now_time.innerHTML=new Date().toLocaleString()",1000);
+
+  socket.on('scripts_start', function(msg) {
+    //console.log(msg.data);
+    var start_status = msg.data;
+    var msgsid = sessionStorage.getItem('msgsid');
+    if (start_status == 'start' && msgsid == msg.msgsid) {
+      var s_time = new Date();
+      var sta_time = s_time.getTime();
+      sessionStorage.setItem('start_time', s_time.toLocaleString());
+      sessionStorage.setItem('sta_time', sta_time);
+      sessionStorage.setItem('start_status', 'start');
+      console.log('开始运行');
+      gmsgsid = msgsid;
+      console.log('msgsid: ' + msg.msgsid);
+      console.log(sessionStorage.getItem('sta_time'));
+    }
+  });
+
+  function get_interval_second(){
+    var now_time = new Date().getTime();
+    start_status = sessionStorage.getItem('start_status');
+    var msgsid = sessionStorage.getItem('msgsid');
+    if (start_status == 'start') {
+      sta_time = sessionStorage.getItem('sta_time');
+    } else {
+      sta_time = now_time;
+    }
+    //console.log(interval);
+    //console.log('开始时间:' + sta_time );
+    return now_time - sta_time;
+  }
+
+  t_interval_id = setInterval("tsecond.innerHTML=get_interval_second()/1000",1000);
+
+  id_custom_name.on('change', function() {
+    id_network_interrupts_get_log.removeAttr("disabled");
+    id_btn_button.removeAttr("disabled");
+    $("#id_pkg_name, #id_pkg_md5").val("");
+  });
+
+  id_btn_reset.on('click', function(){
+    if(confirm("确定要重置呢?")){
+      when_stop_to_clean();
+      id_network_interrupts_get_log.removeAttr("disabled");
+      id_btn_button.removeAttr("disabled");
+      $("#myform :input").not(":button, :submit, :reset, :hidden, :checkbox, :radio").val("");
+      $("#myform :input").removeAttr("checked").remove("selected");
+    }
+  });
+
+  function when_stop_to_clean(){
+    clearInterval(t_interval_id);
+    sessionStorage.removeItem('sta_time');
+    sessionStorage.removeItem('start_status');
+    sessionStorage.removeItem('start_time');
+    sessionStorage.removeItem('msgsid');
+    temp_array = [];
+    id_custom_name.removeAttr("disabled");
+  }
+
+  socket.on('scripts_stop', function(msg) {
+    //console.log(msg.data);
+    var msgsid = sessionStorage.getItem('msgsid');
+    if (msgsid == msg.msgsid){
+      var stop_status = msg.data;
+      temp_array.push(stop_status);
+      var stop_strings = temp_array.join();
+      console.log(stop_strings);
+      if (stop_strings == 'stop'){
+        console.log('运行结束');
+        when_stop_to_clean();
+        id_btn_button.removeAttr("disabled");
+        alert('脚本已执行完毕，请通过查看脚本运行日志记录及其它方式确定是否执行成功。');
+      } else if (stop_strings == 'net_stop') {
+        console.log("网络中断");
+        when_stop_to_clean();
+        id_network_interrupts_get_log.removeAttr("disabled");
+        alert("网络中断，请点击 '重新提取脚本运行日志' .");
+      }
+    }
+  });
+
+  id_network_interrupts_get_log.click(function(){
+    $.ajax({
+      type: 'POST',
+      url: "{{ url_for('_get_web_scripts_log') }}",
+      data: JSON.stringify({'data': 'get_log'}),
+      contentType: 'application/json; charset=UTF-8',
+      dataType: 'json',
+      success: function(data) {
+        var status = data.status;
+        console.log(status);
+        if (status == 'yes'){
+          id_network_interrupts_get_log.attr({"disabled":"disabled"});
+          alert("已准备开始重新拉取脚本的运行日志。");
+        } else {
+          alert("非网络中断，无需重新拉取运行日志。");
+        }
+      },
+      error: function(xhr, type) {
+      }
+    });
+  });
+
+  id_btn_button.click(function(){
+    var now_time = new Date().getTime();
+    var rand = parseInt(Math.random()*1000+1);
+    var msgsid = now_time + rand;
+    id_set_msgsid.attr({"value": msgsid});
+    sessionStorage.setItem('msgsid', msgsid);
+    get_start_time(msgsid);
+  });
+
+  id_btn_reset_scripts.click(function(){
+    if(confirm("确定要重置当前选择的脚本为：【未锁定状态】 呢?")) {
+      var scripts_id = $('#id_custom_name').val();
+      //console.log(scripts_id);
+      $.ajax({
+        type: 'POST',
+        url: "{{ url_for('_clean_scripts_status') }}",
+        data: JSON.stringify({'data': scripts_id}),
+        contentType: 'application/json; charset=UTF-8',
+        dataType: 'json',
+        success: function (data) {
+          if (data.ret == true) {
+            alert('已重置脚本为：未锁定状态！');
+          }
+        },
+        error: function (xhr, type) {
+        }
+      });
+    }
+  });
+
+
+</script>
+{% endblock %}
+

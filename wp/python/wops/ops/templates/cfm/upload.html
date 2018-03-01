@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {{ super() }}
+  <div class="contanier">
+    <div class="col-md-9 col-md-offset-1">
+      <!-- 文件上传表单 -->
+      <form class="form-horizontal" role="form" method="post" action="." enctype="multipart/form-data">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">{{ form.conf_template.label.text }}</label>
+          <div class="col-sm-7">{{ form.conf_template }}</div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            {{ form.csrf_token }}
+            <button type="submit" class="btn btn-default"> 上传文件 </button>
+          </div>
+        </div>
+      </form>
+      <!-- //文件上传表单 -->
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  {{ super() }}
+
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="{{ url_for('.conf_cat_table') }}">查看配置文件</a></li>
+    <li role="presentation" ><a href="{{ url_for('.conf_cat_details') }}">配置文件内容</a></li>
+  </ul>
+  &nbsp;
+
+  &nbsp;
+  <form>
+  <table class="table table-bordered table-condensed table-striped table-responsive table-hover">
+      <thead>
+      <tr>
+        {% for key in titles %}
+          <th>{{ key }}</th>
+        {% endfor %}
+          <th>扩展功能</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for new_obj in page_data %}
+        <tr>
+          {% for key in titles %}
+            <td>{{ get_model_field(new_obj, key) }}</td>
+          {% endfor %}
+          <td><a class="btn btn-info btn-sm" href="{{ url_for('.conf_cat_details', pk=new_obj.id) }}">查看配置文件内容</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </form>
+
+{% endblock %}

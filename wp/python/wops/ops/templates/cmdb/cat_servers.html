@@ -1,0 +1,464 @@
+{% extends 'base.html' %}
+
+
+{% block extracss %}
+  <!-- Bootstrap table -->
+  <link href="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.css', _external=True) }}" rel="stylesheet">
+  <!--custom css-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/table_base.css') }}">
+{% endblock %}
+
+{% block title %}
+  <title>资源管理</title>
+{% endblock %}
+
+
+{% block breadcrumbs %}
+  {{ super() }}
+  <li><a href="{{ url_for(model_name) }}">服务器</a></li>
+{% endblock %}
+
+
+{% block content %}
+  {{ super() }}
+
+  <!-- 筛选功能 -->
+  <div id="id_query_server" style="height: 50px; padding-top: 20px; padding-bottom: 20px;">
+    <form action="." class="form-inline btn-group" method="post">
+      {% if csrf_token %}{# Support for flask-seasurf #}<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">{% endif %}
+      <!-- 游戏ID -->
+      <div class="form-group">
+        <div class="form-control system_game_id">{{ form.game_id }}</div>
+        <div class="form-control system_game_id">{{ form.env }}</div>
+        {{ form.csrf_token }}
+        <button type="submit" id="id_btn_submit" class="form-control btn btn-default" >{{ form.submit.label.text }}</button>
+      </div>
+    </form>
+  <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">后台设置 <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a href="{{ url_for('cmdb.set_gametype') }}">添加游戏类型</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 表格部分 -->
+  <div class="panel-body" id="bootstrap_table_padding_left" style="padding-bottom:0;">
+    <div id="toolbar" class="btn-group">
+      <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#customModal">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+      </button>
+      <button id="btn_edit" type="button" class="btn btn-default" onclick="return get_edit_info()" data-toggle="modal" data-target="#customModal">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+      </button>
+      <button id="btn_delete" type="button" class="btn btn-default" onclick="return delete_info()">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+      </button>
+    </div>
+
+    <table id="table_cmdb_tserver" data-toggle="table" data-url="{{ url_for('cmdb._api_table_data_tserver') }}"
+           data-toolbar="#toolbar" data-search="true" data-striped="true" data-show-refresh="true"
+           data-show-toggle="true" data-show-columns="true" dataType="json" data-side-pagination="client"
+           data-click-to-select="true" data-unique-id="server_id" data-sort-name="game_id" data-sort-order="desc"
+           data-pagination="true" data-page-list="[25, 50, 100, All]" data-page-size="25" data-row-style="displaycolor"
+           data-show-footer="false">
+      <thead>
+      <tr>
+        <th data-field="state" data-checkbox="true" data-align="center"></th>
+        <th data-field="server_id" data-align="center" data-sortable="true">SERVER_ID</th>
+        <th data-field="game_id" data-align="center" data-sortable="true">GAME_ID</th>
+        <th data-field="ip" data-align="center" data-sortable="true">IP</th>
+        <th data-field="netip" data-align="center" data-sortable="true">NETIP</th>
+        <th data-field="env" data-align="center" data-sortable="true">SALT分组</th>
+        <th data-field="saltid" data-align="center" data-sortable="true">SALT_ID</th>
+        <th data-field="hostname" data-align="center" data-sortable="true">HOSTNAME</th>
+        <th data-field="os" data-halign="center" data-align="left" data-sortable="true">OS</th>
+        <th data-field="cpu" data-halign="center" data-align="left" data-sortable="true" data-visible="false">CPU</th>
+        <th data-field="mem" data-align="center" data-sortable="true" data-visible="false">MEM</th>
+        <th data-field="disk" data-align="center" data-sortable="true" data-visible="false">DISK</th>
+        <th data-field="uninstanceid" data-align="center" data-sortable="true">云ID</th>
+        <th data-field="price" data-align="center" data-sortable="true">PRICE</th>
+        <th data-field="cvmtype" data-align="center" data-sortable="true" data-visible="false">CVMTYPE</th>
+        <th data-field="bandwidth" data-align="center" data-sortable="true" data-visible="false">带宽限制</th>
+        <th data-field="status" data-align="center" data-sortable="true" data-visible="false">停用</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+
+  <!-- 模态框（Modal）新增 -->
+  <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="myaddModalLabel">服务器 - 信息详表</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" role="form">
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-1 control-label clear_padding_row" for="id_server_id">SERVER_ID</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control set_padding_custom" id="id_server_id" placeholder="服务器自编ID，自动生成" readonly>
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_uninstanceid">云ID</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control set_padding_custom" id="id_uninstanceid" placeholder="云ID，是云API中的uninstanceid">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_game_id">GAME_ID</label>
+                <div class="col-sm-2">
+                  <select class="form-control set_padding_custom" id="id_game_id" required>
+                    <option selected="selected">请选择</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-1 control-label clear_padding_row" for="id_hostname">HOSTNAME</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control set_padding_custom" id="id_hostname" placeholder="hostname">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_cvmtype">资源类型</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control set_padding_custom" id="id_cvmtype" placeholder="计算、DB、存储等">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_status">停用</label>
+                <div class="col-sm-2">
+                  <select class="form-control set_padding_custom" id="id_status" required>
+                    <option value="0">停用</option>
+                    <option value="1" selected="selected">启用</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-1 control-label clear_padding_row" for="id_ip">内网IP</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control set_padding_custom" id="id_ip" placeholder="内网IP">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_netip">外网IP</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control set_padding_custom" id="id_netip" placeholder="外网IP">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-1 control-label clear_padding_row" for="id_os">操作系统</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control set_padding_custom" id="id_os" placeholder="操作系统版本">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_cpu">CPU</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control set_padding_custom" id="id_cpu" placeholder="cpu">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-1 control-label clear_padding_row" for="id_mem">内存</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control set_padding_custom" id="id_mem" placeholder="内存/MB">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_disk">磁盘</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control set_padding_custom" id="id_disk" placeholder="磁盘/GB">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_price">价格</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control set_padding_custom" id="id_price" placeholder="价格-RMB/月，从云API中获取">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-1 control-label clear_padding_row" for="id_env">SALT分组</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control set_padding_custom" id="id_env" placeholder="master group">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_saltid">SALT_ID</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control set_padding_custom" id="id_saltid" placeholder="minion id">
+                </div>
+                <label class="col-sm-1 control-label clear_padding_row" for="id_bandwidth">带宽限制</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control set_padding_custom" id="id_bandwidth" placeholder="从云API中获取">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="saveRecord" data-dismiss="modal">保存</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+
+
+
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+
+    var $table = $('#table_cmdb_tserver');
+
+    /*** 两个下拉菜单联合，下拉1更新后，根据其值更新下拉2的选项 ***/
+    $(function(){
+      // jQuery selection for the 2 select boxes
+      var dropdown = {
+        game_id: $('#select_gameid'),
+        env: $('#select_env')
+      };
+      // call to update on load
+      updateSaltGroup();
+      // function to call XHR and update county dropdown
+      function updateSaltGroup() {
+        var arrayData = [];
+        var send = {
+          game_id: dropdown.game_id.val()
+        };
+        dropdown.env.attr('disabled', 'disabled');
+        var env_value = dropdown.env.val();
+        //console.log(env_value);
+        //console.log(dropdown.env.attr('placeholder'));
+        dropdown.env.empty();
+        $.getJSON("{{ url_for('._get_salt_group') }}", send, function(data) {
+          data.forEach(function(item) {
+            dropdown.env.append(
+                $('<option>', {
+                  value: item[0],
+                  text: item[1]
+                })
+            );
+            // alert(item[0]+','+item[1])
+            arrayData.push(item[0]);
+          });
+          dropdown.env.removeAttr('disabled');
+          //console.log(arrayData[0]);
+          // 清空之后，用选择的值复原，若这个值未在数组中，就用数组中的第一个值
+          var result = $.inArray(env_value, arrayData);
+          //console.log(result);
+          if(result >= 0){
+            dropdown.env.val(env_value);
+          }else{
+            dropdown.env.val(arrayData[0]);
+          }
+        });
+        arrayData = [];
+      }
+      // event listener to state dropdown change
+      dropdown.game_id.on('change', function() {
+        updateSaltGroup();
+      });
+    });
+
+    //表格内的数据颜色标记，status=0的标记为红色
+    function displaycolor(row,index) {
+      var style = {};
+      if (row.status == 0) {
+        style = {css: {'color': '#FF0000'}};
+      }
+      return style;
+    }
+
+    //动态绑定下拉框项
+    $(function(){
+      $.ajax({
+        type: "GET",
+        url: "{{ url_for('._get_gameid') }}",
+        dataType: "json",
+        success: function (data) {
+          var unitObj = $("#id_game_id");
+          if(data != null){
+            data.forEach(function (item) {
+              //console.log(item);
+              unitObj.append( $('<option>', {value: item[0], text: item[1]}) );
+            });
+          }
+        }
+      });
+    });
+
+
+    /**********模态框*********/
+    var $server_id = $('#id_server_id'), $uninstanceid = $('#id_uninstanceid'),
+        $game_id = $('#id_game_id'), $hostname = $('#id_hostname'),
+        $cvmtype = $('#id_cvmtype'), $status = $('#id_status'),
+        $ip = $('#id_ip'), $netip = $('#id_netip'),
+        $os = $('#id_os'), $cpu = $('#id_cpu'),
+        $mem = $('#id_mem'), $disk = $('#id_disk'),
+        $price = $('#id_price'), $env = $('#id_env'),
+        $saltid = $('#id_saltid'), $bandwidth = $('#id_bandwidth');
+    // 保存模态框中输入的数据
+    $("#saveRecord").click(function(){
+      var datas = {};
+      datas['server_id'] = $server_id.val();
+      datas['uninstanceid'] = $uninstanceid.val();
+      datas['game_id'] = $game_id.val();
+      datas['hostname'] = $hostname.val();
+      datas['cvmtype'] = $cvmtype.val();
+      datas['status'] = $status.val();
+      datas['ip'] = $ip.val();
+      datas['netip'] = $netip.val();
+      datas['os'] = $os.val();
+      datas['cpu'] = $cpu.val();
+      datas['mem'] = $mem.val();
+      datas['disk'] = $disk.val();
+      datas['price'] = $price.val();
+      datas['env'] = $env.val();
+      datas['saltid'] = $saltid.val();
+      datas['bandwidth'] = $bandwidth.val();
+      // console.log(data.server_id);
+      // console.log('对象：', datas);
+      // console.log(typeof datas);
+      // console.log('对象：', datas);
+      // alert("server_id:" + $("#id_server_id").val() + "uninstanceid:" +$("#id_uninstanceid").val());
+      // 检查input的值不为空？
+      var t_check = {
+        game_id: $game_id.attr('placeholder'),
+        hostname: $hostname.attr('placeholder'),
+        cvmtype: $cvmtype.attr('placeholder'),
+        status: $status.attr('placeholder'),
+        ip: $ip.attr('placeholder'),
+        netip: $netip.attr('placeholder'),
+        os: $os.attr('placeholder'),
+        cpu: $cpu.attr('placeholder'),
+        mem: $mem.attr('placeholder'),
+        disk: $disk.attr('placeholder'),
+        env: $env.attr('placeholder'),
+        saltid: $saltid.attr('placeholder')
+      };
+      //用forEach()进行遍历
+      var arrayData = Object.keys(t_check);
+      //console.log(arrayData.join());
+      var ret_value = Object.keys(datas).some(function (tz) {
+        // console.log("datas ", tz, ": ", datas[tz]);
+        var result = $.inArray(tz, arrayData);
+        if(!datas[tz] && result >= 0){
+          alert(t_check[tz] + '：值为空，请重新输入.');
+          $("#id_"+tz).focus();  // 选择器用变量
+          return true;
+        }
+      });
+      if( ret_value == true) {
+        return false;
+      }
+      // 保存数据
+      $.ajax({
+        type: 'POST',
+        url: "{{ url_for('._api_save_datas') }}",
+        data: JSON.stringify({'datas': datas}),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+        beforeSend:function(){
+          return true;
+        },
+        success:function(data){
+          console.log(data);
+          if(data.ret == true ){
+            alert("数据保存成功");
+            setTimeout(function(){
+              location.reload();    // 要延迟执行的代码块
+            }, 1000);               // 延迟1秒
+          } else {
+            alert('保存失败');
+          }
+        },
+        error:function() {
+          alert('请求出错');
+        },
+        complete:function() {
+        }
+      });
+    });
+
+    // 加载需要修改的数据
+    function get_edit_info() {
+      var getselectdata = $table.bootstrapTable('getSelections');
+      if(getselectdata.length == 0) {
+        alert('请选择需要修改的数据！');
+        location.reload();
+        return false;
+      } else if(getselectdata.length >= 2){
+        alert('请重新选择，不要多选，修改数据只能单选！');
+        location.reload();
+        return false;
+      }
+      var json_data = eval(getselectdata);
+      console.log(json_data);
+      console.log(json_data[0].server_id);
+      $server_id.val(json_data[0].server_id);
+      $uninstanceid.val(json_data[0].uninstanceid);
+      $game_id.val(json_data[0].game_id);
+      $hostname.val(json_data[0].hostname);
+      $cvmtype.val(json_data[0].cvmtype);
+      $status.val(json_data[0].status);
+      $ip.val(json_data[0].ip);
+      $netip.val(json_data[0].netip);
+      $os.val(json_data[0].os);
+      $cpu.val(json_data[0].cpu);
+      $mem.val(json_data[0].mem);
+      $disk.val(json_data[0].disk);
+      $price.val(json_data[0].price);
+      $env.val(json_data[0].env);
+      $saltid.val(json_data[0].saltid);
+      $bandwidth.val(json_data[0].bandwidth);
+      return true;
+    }
+
+    // 删除数据
+    function delete_info() {
+      var arrayData = [];
+      var getselectdata = $table.bootstrapTable('getSelections');
+      if(getselectdata.length == 0) {
+        alert('请选择需要删除的数据！');
+        location.reload();
+        return false;
+      }
+      var json_data = eval(getselectdata);
+      console.log(json_data);
+      for(var i=0; i<getselectdata.length; i++) {
+        if(json_data[i].status == 0){
+          arrayData.push(json_data[i].server_id);
+        } else {
+          alert('注意：只能删除已停用的SERVER！');
+          return false;
+        }
+      }
+      console.log(arrayData.join());
+      if(confirm("确定要删除数据呢？")) {
+        $.ajax({
+          type: 'POST',
+          url: "{{ url_for('._delete_datas') }}",
+          data: JSON.stringify({'datas': arrayData.join()}),
+          dataType: 'json',
+          contentType: 'application/json; charset=UTF-8',
+          beforeSend:function(){
+            return true;
+          },
+          success:function(data){
+            console.log(data);
+            if(data.ret == true ) {
+              alert("OK！已删除");
+              setTimeout(function(){
+                location.reload();    // 要延迟执行的代码块
+              }, 1000);               // 延迟1秒
+            } else {
+              alert('操作失败');
+            }
+          },
+          error:function() {
+            alert('请求出错');
+          }
+        });
+      }
+    }
+
+
+  </script>
+  <script src="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.js', _external=True) }}"></script>
+  <!-- put your locale files after bootstrap-table.js -->
+  <script src="{{ url_for('static', filename='bootstrap-table/dist/locale/bootstrap-table-zh-CN.js', _external=True) }}"></script>
+{% endblock %}

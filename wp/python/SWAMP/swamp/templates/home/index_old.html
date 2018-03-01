@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>SWAMP_SCRIPTS</title>
+{% endblock %}
+
+{% block content %}
+&nbsp;
+<div class="container-fluid">
+  <div class="row">
+    <form action="." class="form-horizontal form_scripts_custom_name" method="post" enctype="multipart/form-data">
+      <fieldset>
+        <legend>选择需要执行的脚本：</legend>
+        {% if csrf_token %}{# Support for flask-seasurf #}<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">{% endif %}
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.custom_name.label.text }}</label>
+          <div class="col-sm-6">
+            {{ form.custom_name }}
+          </div>
+          <label class="col-sm-2 control-label">{{ form.update_target.label.text }}</label>
+          <div class="col-sm-2">
+            {{ form.update_target }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.pkg_name.label.text }}</label>
+          <div class="col-sm-4">
+            {{ form.pkg_name }}
+          </div>
+          <label class="col-sm-2 control-label">{{ form.pkg_md5.label.text }}</label>
+          <div class="col-sm-4">
+            {{ form.pkg_md5 }}
+          </div>
+        </div>
+        <!--{{ form.errors }}-->
+        {{ form.csrf_token }}
+        <div class="form-group">
+          <div class="col-sm-1 col-sm-offset-2">
+            <button type="submit" id="id_btn_button" class="btn btn-info" style="font-weight: bold;font-size: 15px;letter-spacing: 5px">
+              {{ form.submit.label.text }}
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    &nbsp;
+    <form class="form-horizontal ">
+      <fieldset>
+        <legend>脚本运行日志：</legend>
+        <div class="form-group">
+          <div class=" col-sm-12">
+            <textarea id="show_logs" class="form-control" readonly="readonly" style="background-color: #f7f7f7" rows="20" placeholder="show logs ...">{{ log_result }}</textarea>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

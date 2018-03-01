@@ -1,0 +1,23 @@
+<nav>
+  <ul class="pagination">
+    {% if page_data.has_prev %}
+      <li><a href="{{ url_for(model_name, page=page_data.prev_num) }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><a href="javscript:;">&raquo;</a></li>
+    {% endif %}
+    {% for page in page_data.iter_pages() %}
+      {% if page %}
+        {% if page != page_data.page %}
+          <li><a href="{{ url_for(model_name, page=page) }}">{{ page}}</a></li>
+        {% endif %}
+      {% else %}
+        <li class=ellipsis><a href="{{ url_for(model_name, page=1) }}">…</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_data.has_next %}
+      <li><a href="{{ url_for(model_name, page=page_data.next_num ) }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><a href="javscript:;">&raquo;</a></li>
+    {% endif %}
+  </ul>
+</nav>

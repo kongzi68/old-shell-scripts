@@ -1,0 +1,25 @@
+alarm工具使用参考：
+[root@sjh-gsdbMater04 scripts]# python alarm.py         //直接运行，提示如何使用帮助
+2017-11-16 09:54:17,983 ERROR alarm-169::Usage: alarm.py -h|--help, get help.
+
+示例参考：
+    python alarm.py -h      //获取帮助
+    python alarm.py --help      //获取帮助
+    python alarm.py -u      // 手动更新通讯录，其实第一次运行时会自动更新通讯录
+
+发普通邮件：
+    python alarm.py -e '孔小林,袁成双,苏林' '报警测试邮件' < mail.txt
+    python alarm.py -e 'kongxiaolin,zhangyuping' -c 'yuanchengshuang,sulin' '报警测试邮件' < mail.txt
+    python alarm.py -e '孔小林,袁成双,苏林' '报警测试邮件' '测试数据：获取云产品的监控数据。传入产品的命名空间、对象维度描述和监控指标即可获得相应的监控数据'
+
+发带附件的邮件：
+    python alarm.py -e '孔小林' '报警测试邮件' '/root/sid.txt,/data/scripts/mail.txt' < mail.txt
+    python alarm.py -e 'kongxiaolin,zhangyuping' -c 'yuanchengshuang,sulin' '报警测试邮件' '/root/sid.txt,/data/scripts/mail.txt' < mail.txt
+    python alarm.py -e 'kongxiaolin,张玉平' -c '袁成双,sulin' '报警测试邮件' '/root/sid.txt,/data/scripts/mail.txt' < mail.txt
+    python alarm.py -e '孔小林,袁成双,苏林' '报警测试邮件' '测试数据：获取云产品的监控数据。传入产品的命名空间、对象维度描述和监控指标即可获得相应的监控数据' '/root/sid.txt,/data/scripts/mail.txt'
+    python alarm.py -e '孔小林' '报警测试邮件' '测试数据：获取云产品的监控数据。传入产品的命名空间、对象维度描述和监控指标即可获得相应的监控数据' '/root/test.xml,/data/scripts/mail.txt'
+
+发短信：
+    python alarm.py -m '孔小林,袁成双,苏林' < mail.txt
+    python alarm.py -m '孔小林,袁成双,苏林' '测试数据：获取云产品的监控数据。传入产品的命名空间、对象维度描述和监控指标即可获得相应的监控数据'
+

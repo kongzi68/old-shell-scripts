@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+
+{% block extracss %}
+<!-- Bootstrap table -->
+<link href="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.css', _external=True) }}" rel="stylesheet">
+<!--custom css-->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/table_base.css') }}">
+{% endblock %}
+
+{% block title %}
+<title>配置管理</title>
+{% endblock %}
+
+
+
+
+{% block breadcrumbs %}
+{{ super() }}
+<li><a href="{{ url_for(model_name) }}">服务器清单</a></li>
+{% endblock %}
+
+
+{% block content %}
+{{ super() }}
+
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="{{ url_for('.set_conf_server') }}">服务器清单</a></li>
+  <li role="presentation"><a href="{{ url_for('.set_conf_manage') }}">配置管理</a></li>
+  <li role="presentation"><a href="{{ url_for('.set_conf_query') }}">查询配置</a></li>
+</ul>
+
+<div class="panel-body" id="bootstrap_table_padding_left" style="padding-bottom:0;">
+  <!-- 表单 -->
+  <form action="." class="form-inline btn-group" id="toolbar" method="post">
+    {% if csrf_token %}{# Support for flask-seasurf #}<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">{% endif %}
+    <!-- 游戏ID -->
+    <div class="form-group">
+      <div class="form-control system_game_id">{{ form.game_id }}</div>
+      <div class="form-control system_game_id">{{ form.env }}</div>
+      {{ form.csrf_token }}
+      <button type="submit" id="id_btn_submit" class="form-control btn btn-default" >{{ form.submit.label.text }}</button>
+      <span><textarea id="show_serverids" class="form-control" rows="1" cols="60" placeholder="show server_ids"></textarea></span>
+      <button type="button" id="id_btn_getserverid" class="form-control btn btn-default" >提取SERVER_ID</button>
+    </div>
+  </form>
+  <!-- //表单 -->
+  <table id="table_cfm_tserver" data-toggle="table" data-url="{{ url_for('cfm._api_table_data_tserver') }}"
+         data-toolbar="#toolbar" data-search="true" data-striped="true" data-show-refresh="true"
+         data-show-toggle="true" data-show-columns="true" dataType="json" data-side-pagination="client"
+         data-click-to-select="true" data-unique-id="server_id" data-sort-name="game_id" data-sort-order="desc">
+    <thead>
+    <tr>
+      <th data-field="state" data-checkbox="true" data-align="center"></th>
+      <th data-field="server_id" data-align="center" data-sortable="true">SERVER_ID</th>
+      <th data-field="game_id" data-align="center" data-sortable="true">GAME_ID</th>
+      <th data-field="ip" data-align="center" data-sortable="true">IP</th>
+      <th data-field="netip" data-align="center" data-sortable="true">NETIP</th>
+      <th data-field="env" data-align="center" data-sortable="true">SALT分组</th>
+      <th data-field="saltid" data-align="center" data-sortable="true">SALT_ID</th>
+      <th data-field="hostname" data-align="center" data-sortable="true">HOSTNAME</th>
+      <th data-field="os" data-halign="center" data-align="left" data-sortable="true">操作系统</th>
+    </tr>
+    </thead>
+  </table>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script>
+  $(function(){
+
+    function getServerids(){
+      var arrayData = [];
+      $('#id_btn_getserverid').click(function () {
+        var getselectdata = $('#table_cfm_tserver').bootstrapTable('getSelections');
+        if(getselectdata.length == 0)
+        {
+          alert('请选择需要进行配置管理的服务器！');
+          return false;
+        }
+        var json_data = eval(getselectdata);
+        //console.log(json_data[0].server_id);
+        for (var i = 0,len = json_data.length; i < len; i++) {
+          console.log(json_data[i].server_id);
+          var txtvalue = json_data[i].server_id;
+          arrayData.push(txtvalue)
+        }
+        var serverids = arrayData.join(",");
+        $("[id='show_serverids']").val(serverids);
+        //发送数据给后台
+        $.ajax({
+          type: 'POST',
+          url: "{{ url_for('._get_serverids') }}",
+          data: JSON.stringify({'serverids': serverids}),
+          contentType: 'application/json; charset=UTF-8',
+          dataType: 'json'
+        });
+        /*清空数组*/
+        arrayData = [];
+      });
+    }
+    getServerids();
+
+
+    /*** 两个下拉菜单联合，下拉1更新后，根据其值更新下拉2的选项 ***/
+    // jQuery selection for the 2 select boxes
+    var dropdown = {
+      game_id: $('#select_gameid'),
+      env: $('#select_env')
+    };
+    // call to update on load
+    updateSaltGroup();
+    // function to call XHR and update county dropdown
+    function updateSaltGroup() {
+      var arrayData = [];
+      var send = {
+        game_id: dropdown.game_id.val()
+      };
+      dropdown.env.attr('disabled', 'disabled');
+      var env_value = dropdown.env.val();
+      //console.log(env_value);
+      //console.log(dropdown.env.attr('placeholder'));
+      dropdown.env.empty();
+      $.getJSON("{{ url_for('._get_salt_group') }}", send, function(data) {
+        data.forEach(function(item) {
+          dropdown.env.append(
+              $('<option>', {
+                value: item[0],
+                text: item[1]
+              })
+          );
+          // alert(item[0]+','+item[1])
+          arrayData.push(item[0]);
+        });
+        dropdown.env.removeAttr('disabled');
+        //console.log(arrayData[0]);
+        // 清空之后，用选择的值复原，若这个值未在数组中，就用数组中的第一个值
+        var result = $.inArray(env_value, arrayData);
+        //console.log(result);
+        if(result >= 0){
+          dropdown.env.val(env_value);
+        }else{
+          dropdown.env.val(arrayData[0]);
+        }
+      });
+      arrayData = [];
+    }
+    // event listener to state dropdown change
+    dropdown.game_id.on('change', function() {
+      updateSaltGroup();
+    });
+
+  });
+</script>
+<script src="{{ url_for('static', filename='bootstrap-table/dist/bootstrap-table.js', _external=True) }}"></script>
+<!-- put your locale files after bootstrap-table.js -->
+<script src="{{ url_for('static', filename='bootstrap-table/dist/locale/bootstrap-table-zh-CN.js', _external=True) }}"></script>
+{% endblock %}
