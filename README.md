@@ -176,3 +176,172 @@ root@ubuntu:/data/shell_scripts# tree
 
 22 directories, 143 files
 ```
+## PYTHON项目开发
+```
+root@ubuntu:/data/shell_scripts/wp/python# tree -L 3 .
+.
+├── alarm
+│   ├── alarm.py
+│   ├── readme
+│   └── 在shell脚本中使用的示例.jpg
+├── allgs_count
+│   ├── get_allgs_login_and_charge.py
+│   ├── get_allgs_login_and_task_statistics.py
+│   ├── get_allgs_vip_charge_cost.py
+│   └── get_allgs_vip_distribution.py
+├── cmdb                    # CMDB数据采集
+│   ├── cmdb.sh
+│   ├── config
+│   │   ├── cmdb.conf
+│   │   └── logging.yaml
+│   ├── libs
+│   │   ├── db.py
+│   │   ├── id.py
+│   │   ├── __init__.py
+│   │   ├── libemail.py
+│   │   ├── log.py
+│   │   └── src
+│   ├── main.py
+│   ├── modules
+│   │   ├── __init__.py
+│   │   ├── t_cdb.py
+│   │   ├── t_dbserver.py
+│   │   ├── t_pingfailure.py
+│   │   ├── t_program.py
+│   │   └── t_server.py
+│   └── scripts
+│       ├── get_disk.py
+│       ├── get_netip.py
+│       └── __init__.py
+├── dolist.db
+├── get_charge_and_item_cost.py
+├── get_charge_list.py
+├── getGMSInfo
+│   ├── getGameServerList.py
+│   └── gslist.db
+├── get_player_level_distribution.py
+├── get_server_config_xml.py
+├── parse_pb_demo_change.py
+├── player_login_query
+│   ├── get_player_task_and_login.py
+│   ├── query_DB_VIPAssetData_PB_and_player_login_info.py
+│   ├── query_new_gsserver.py
+│   └── query_player_login_info_by_chartype.py
+├── query_charge_top50.py
+├── query_charge_username_and_charname.py
+├── query_DB_ActorInnAsset_PB.py
+├── query_DB_AllianceAsset_PB.py
+├── query_DB_AllianceNewResource_PB.py
+├── query_db_mountentry_pb.py
+├── query_nkore_cid.py
+├── query_oss_record_additem_cn.py
+├── query_oss_record_additem.py
+├── query_player_charname.py
+├── query_player_gold_info_list.py
+├── query_player_gold_list_new_change.py
+├── query_player_gold_list_new.py
+├── query_player_gold.py
+├── query_player_info.py
+├── query_player_info_tmp_ciduid.py
+├── query_player_info_tmp_siduidcid.py
+├── query_player_info_up.py
+├── query_table_t_char_soloteam.py
+├── query_table_t_char_soloteam_up.py
+├── query_vip_all_nk.py
+├── query_vip_all.py
+├── rank
+│   ├── clear_auction
+│   ├── clear_defstate
+│   ├── order_all.py
+│   └── read_host.py
+├── ResourceMonitoring              # 低负载云服务器分析统计
+│   ├── config
+│   │   ├── config.conf
+│   │   └── logging.yaml
+│   ├── libs
+│   │   ├── common.py
+│   │   ├── db.py
+│   │   ├── db.pyc
+│   │   ├── __init__.py
+│   │   ├── __init__.pyc
+│   │   ├── libemail.py
+│   │   ├── liblog.py
+│   │   └── src
+│   ├── main.py
+│   ├── modules
+│   │   ├── __init__.py
+│   │   ├── __init__.pyc
+│   │   ├── r_monitor.py
+│   │   └── r_monitor.pyc
+│   ├── readme
+│   └── resourcemonitoring.sh
+├── salt_modules                       # saltstack自定义模块
+│   ├── jlmf
+│   │   ├── start.py
+│   │   ├── stop.py
+│   │   └── updategs_jlmf.py
+│   ├── sendMsg.py
+│   ├── updategs.py
+│   ├── updategs_t.py
+│   └── updatews.py
+├── send_t_char_basic.py
+├── SWAMP                             # web shell脚本管理平台
+│   ├── manage.py
+│   ├── manage.pyc
+│   ├── migrations
+│   │   ├── alembic.ini
+│   │   ├── env.py
+│   │   ├── env.pyc
+│   │   ├── README
+│   │   ├── script.py.mako
+│   │   └── versions
+│   ├── readme.md
+│   ├── requirements.txt
+│   ├── settings.py
+│   ├── settings.pyc
+│   ├── swamp
+│   │   ├── config
+│   │   ├── __init__.py
+│   │   ├── __init__.pyc
+│   │   ├── main
+│   │   ├── models.py
+│   │   ├── models.pyc
+│   │   ├── static
+│   │   └── templates
+│   └── tests
+│       └── __init__.py
+├── tmp.py
+└── wops                             # 自动化运维平台雏形，目前含有CMDB、配置管理等的WEB平台，后续会陆续增加其他功能
+    ├── config
+    │   ├── config.conf
+    │   ├── gunicorn.ini
+    │   └── logging.yaml
+    ├── config.py
+    ├── db
+    │   ├── cmdb_oss.sql
+    │   ├── cmdb.sql
+    │   └── cmdb_web.sql
+    ├── manage.py
+    ├── ops
+    │   ├── api
+    │   ├── auth
+    │   ├── cfm
+    │   ├── cmdb
+    │   ├── __init__.py
+    │   ├── libs
+    │   ├── models.py
+    │   ├── static
+    │   └── templates
+    ├── QQ图片20180301162720_看图王.png
+    ├── QQ图片20180301162728_看图王.png
+    ├── readme.md
+    ├── requirements
+    │   ├── common.txt
+    │   ├── dev.txt
+    │   └── prod.txt
+    ├── requirements.txt
+    └── tests
+        └── __init__.py
+
+40 directories, 122 files
+```
