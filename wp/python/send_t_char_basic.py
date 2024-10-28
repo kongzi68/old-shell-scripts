@@ -28,13 +28,13 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 # 游戏服用户名与密码
-gsdb_user = 'root'
+gsdb_user = 'IamUsername'
 gsdb_passwd = '123456'
 
 # 登录服与充值库,lc：login和charge
-lc_user = 'root'
+lc_user = 'IamUsername'
 lc_passwd = '123456'
-lc_host = '10.221.124.144'
+lc_host = 'iamIPaddress'
 lc_port = 3306
 
 def query_mysql_result(host, port, user, passwd, dbname, query, 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     logging.info("Now, export t_char_basic.")
     query = '''SELECT c_uid,c_cid,c_charname,c_level,FROM_UNIXTIME(c_last_leave_time) 
                AS last_leave_time FROM t_char_basic WHERE DATE_FORMAT(c_create_time,'%Y-%m-%d') = '2017-02-23';'''
-    q_ret = query_mysql_result('10.207.164.148', 3307, gsdb_user, gsdb_passwd, 
+    q_ret = query_mysql_result('iamIPaddress', 3307, gsdb_user, gsdb_passwd, 
                                'ProjectM', query)
 
     # 创建excle表格文件，保存匹配的数据

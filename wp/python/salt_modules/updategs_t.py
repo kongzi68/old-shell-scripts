@@ -48,7 +48,7 @@ def ftp_get_file(update_file, ftpdir):
     update_file = str(update_file)
     ftp = ftplib.FTP()
     try:
-        ftp.connect('192.168.21.95', 21)
+        ftp.connect('iamIPaddress', 21)
         ftp.login('myftp', r'111111')
         ftp.cwd(ftpdir)
         ftp.retrbinary('RETR {0}'.format(update_file),
@@ -163,9 +163,9 @@ def check_md5(gs_dir, update_pkg):
     若for循环期间未检测出失败的情况，for循环结束后就返回True
     '''
     if file_zip(update_pkg, temp_dir):
-        for root, _, files in os.walk(temp_dir):
-            n_files = [os.path.join(root, name) for name in files]
-            t_gs_dir = root.replace(temp_dir, gs_dir)
+        for IamUsername, _, files in os.walk(temp_dir):
+            n_files = [os.path.join(IamUsername, name) for name in files]
+            t_gs_dir = IamUsername.replace(temp_dir, gs_dir)
             u_files = [os.path.join(t_gs_dir, name) for name in files]
             for i, item in enumerate(u_files):
                 #if os.path.isfile(item):

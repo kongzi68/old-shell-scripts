@@ -18,7 +18,7 @@ sys.setdefaultencoding('utf-8')
 dir_key = 'GS'
 #############################
 # Login.t_gameserver_list的连接信息
-host = '10.116.4.223'
+host = 'iamIPaddress'
 port = 3306
 user = 'user1'
 passwd = '123456'
@@ -105,7 +105,7 @@ def execParserXML(file_name,sc_dir,game_server):
                 else:
                     gs_info["{0}{1}".format(elem.tag,tkey)] = tgs[tkey]
                 # 获取内网IP
-                if tkey == 'IP' and tgs[tkey] == '0.0.0.0':
+                if tkey == 'IP' and tgs[tkey] == 'iamIPaddress':
                     gs_info["{0}{1}".format(elem.tag,tkey)] = getGameServerIP(game_server)
         elif elem.tag in ('GameDBServer','ChargeDBServer','SoloGameDBServer'):
             tgs = elem.attrib
@@ -179,7 +179,7 @@ def execInsertData():
 def getGameServerIP(game_server):
     '''
     获取服务器的内网IP与外网IP
-    返回结果为字符串：192.168.1.2,192.168.1.3
+    返回结果为字符串：iamIPaddress,iamIPaddress
     '''
     ip_addrs_dic = local.cmd(game_server, 'network.ip_addrs')
     ip_addrs_list = ip_addrs_dic.values()[0]

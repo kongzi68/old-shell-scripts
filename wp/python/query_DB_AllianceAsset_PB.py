@@ -8,7 +8,7 @@ import MG_DBProtocol_PB_pb2 as MHPB
 
 gsMsgPb = MHPB.DB_AllianceAsset_PB()
 
-host = "192.168.10.24"
+host = "iamIPaddress"
 port = 3306
 dbname = "baiyubin_test"
 user = "colin"
@@ -30,7 +30,7 @@ charname_list=(
 )
 
 conn = pymysql.connect(host=host, port=port, user=user, passwd=passwd, db=dbname, charset="utf8")
-#conn = pymysql.connect(host='192.168.10.24', port=3306, user='colin', passwd='123456', db='baiyubin_test')
+#conn = pymysql.connect(host='iamIPaddress', port=3306, user='colin', passwd='123456', db='baiyubin_test')
 cur = conn.cursor()
 
 file_name = "/tmp/score_info.txt"

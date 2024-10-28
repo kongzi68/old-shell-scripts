@@ -54,7 +54,7 @@ STATION=`echo $(hostname) |awk -F- '{print $3}'|tr [A-Z] [a-z]`
 ##
 # define the ftp server
 #
-FTPSERVER='11.11.11.11'
+FTPSERVER='iamIPaddress'
 FTPUSER='upload'
 FTPPASSWD='thisispassword'
 SSHPORT='220'

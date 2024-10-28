@@ -5,8 +5,8 @@ from read_host import read_host
 def main():
     try:
         for host_ in read_host():
-            conn = MySQLdb.connect(host=host_[0],user='root',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
-            conn2 = MySQLdb.connect(host=host_[0],user='root',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
+            conn = MySQLdb.connect(host=host_[0],user='IamUsername',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
+            conn2 = MySQLdb.connect(host=host_[0],user='IamUsername',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
             cur = conn.cursor()
             cur2 = conn2.cursor()
             sql = "select c_cid,c_shieldstatus from t_char_guild"

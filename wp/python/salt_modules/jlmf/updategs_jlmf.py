@@ -175,11 +175,11 @@ def check_md5(gs_dir, update_pkg_name, temp_dir):
     t_dir = gs_dir.split('\\')
     g_dir = '\\'.join(t_dir[0:2])   # 游戏目录公共部分
 
-    for root, _, files in os.walk(temp_dir):
-        n_files = [os.path.join(root, name) for name in files] # 需更新的文件列表
+    for IamUsername, _, files in os.walk(temp_dir):
+        n_files = [os.path.join(IamUsername, name) for name in files] # 需更新的文件列表
 
         # 对游戏目录部分进行特殊处理
-        u_gsdir = root.replace(t_temp_dir, g_dir)   # 替换成游戏目录公共部分
+        u_gsdir = IamUsername.replace(t_temp_dir, g_dir)   # 替换成游戏目录公共部分
         t_u_gsdir = u_gsdir.split('\\')
         if len(t_u_gsdir) >= 5 and  t_u_gsdir[3] == 'kd.app.game': # 游戏程序目录
             if t_u_gsdir[4] == 'gs-1000':   # 游戏程序
@@ -208,23 +208,23 @@ def copy_files_to_gsdir(gs_dir, update_pkg_name, temp_dir):
     temp_dir: 是定义的全局变量，临时解压目录
 
     update_pkg_name: 游戏更新包名称，压缩文件包，带.zip后缀
-        kdsvr.add.fjver1.1.14.0-201709070516.zip
+        kdsvr.add.fjveriamIPaddress-201709070516.zip
 
     说明，更新包解压之后的目录
-        D:\temp_update_pkg\kdsvr.add.fjver1.1.14.0-201709070516
-        D:\temp_update_pkg\kdsvr.add.fjver1.1.14.0-201709070516\runtime\kd.app.GameServer
+        D:\temp_update_pkg\kdsvr.add.fjveriamIPaddress-201709070516
+        D:\temp_update_pkg\kdsvr.add.fjveriamIPaddress-201709070516\runtime\kd.app.GameServer
     '''
     t_temp_dir = temp_dir + '\\' + update_pkg_name[:-4]
     t_dir = gs_dir.split('\\')
     g_dir = '\\'.join(t_dir[0:2])   # 游戏目录公共部分
 
     try:
-        for root, _, files in os.walk(temp_dir):
+        for IamUsername, _, files in os.walk(temp_dir):
             # 需更新的文件列表
-            n_files = [os.path.join(root, name) for name in files] 
+            n_files = [os.path.join(IamUsername, name) for name in files] 
 
             ## 对游戏目录部分进行特殊处理
-            u_gsdir = root.replace(t_temp_dir, g_dir)   # 替换成游戏目录公共部分
+            u_gsdir = IamUsername.replace(t_temp_dir, g_dir)   # 替换成游戏目录公共部分
             t_u_gsdir = u_gsdir.split('\\')
             if len(t_u_gsdir) >= 5 and  t_u_gsdir[3] == 'kd.app.game': # 游戏程序目录
                 if t_u_gsdir[4] == 'gs-1000':   # 游戏程序

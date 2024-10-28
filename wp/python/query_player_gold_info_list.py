@@ -29,8 +29,8 @@ def execMysqlCommand(host,port,user,passwd,dbname,query):
 
 # 拉取所有游戏服数据库信息
 query = "SELECT DISTINCT sdbip,sdbport,sdbname,real_sid FROM t_gameserver_list;"
-server_list = execMysqlCommand('10.221.124.144', 3306, 
-                               'root', '123456', 'Login', query)
+server_list = execMysqlCommand('iamIPaddress', 3306, 
+                               'IamUsername', '123456', 'Login', query)
 
 # 已登录玩家清单
 login_play_list = set()
@@ -42,7 +42,7 @@ for i in range(1, localtime.tm_yday):
         " DATE_FORMAT(insertime,'%Y-%m-%d') "
         " BETWEEN '{1}' AND '{2}';".format(i, query_start_time, query_end_time))
     print query
-    t_login_play_list = execMysqlCommand('10.221.168.131', 3306, 'root',
+    t_login_play_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername',
                                          '123456', 'OSS', query)
     for uid,cid in t_login_play_list:
         key = "{0}{1}".format(uid, cid)
@@ -52,7 +52,7 @@ for i in range(1, localtime.tm_yday):
 charge_list = set()
 query = ("SELECT DISTINCT uid,cid FROM IOSFinish "
         " UNION SELECT DISTINCT uid,cid FROM TmallFinish;")
-t_charge_list = execMysqlCommand('10.221.124.144', 3306, 'root',
+t_charge_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername',
                                  '123456', 'Charge', query)
 for uid,cid in t_charge_list:
     key = "{0}{1}".format(uid, cid)
@@ -65,8 +65,8 @@ for host, port, dbname, real_sid in server_list:
     print host, port, dbname, real_sid
     # if real_sid in [10100010,10100011,10100037,10100061]:continue
     query = "SELECT c_cid,c_uid,c_charname,c_unbindgold FROM t_char_basic;"    
-    play_list = execMysqlCommand(host, port, 'root', '123456', dbname, query)
-    conn = pymysql.connect(host=host, port=port, user='root',
+    play_list = execMysqlCommand(host, port, 'IamUsername', '123456', dbname, query)
+    conn = pymysql.connect(host=host, port=port, user='IamUsername',
                            passwd='123456', db=dbname, charset="utf8")
     for c_cid,c_uid,c_charname,c_unbindgold in play_list:
         str_time = time.time()

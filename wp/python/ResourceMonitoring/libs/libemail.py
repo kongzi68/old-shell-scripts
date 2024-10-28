@@ -30,7 +30,7 @@ def saveAllAddress(update=False):
     :param update:
     :return:
     """
-    url = 'http://119.29.68.229:8083/api_sms/StaffInfo.php'
+    url = 'http://iamIPaddress:8083/api_sms/StaffInfo.php'
     now_time = time.mktime(time.localtime(time.time()))
 
     if os.path.isfile(staffinfofile):

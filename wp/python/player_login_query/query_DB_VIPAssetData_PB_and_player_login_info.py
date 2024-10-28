@@ -26,7 +26,7 @@ def execMysqlCommand(host,port,user,passwd,dbname,query):
 
 # 拉取所有游戏服数据库信息
 query = "SELECT DISTINCT sdbip,sdbport,sdbname,real_sid,real_sname FROM t_gameserver_list;"
-server_list = execMysqlCommand('10.221.124.144', 3306, 'root', '123456', 'Login', query)
+server_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', '123456', 'Login', query)
 
 def getVipData(register_day):
     '''
@@ -34,13 +34,13 @@ def getVipData(register_day):
     '''
     # 期间新增的玩家
     query = "SELECT c_uid FROM t_account WHERE DATE_FORMAT(inserttime, '%Y-%m-%d')='{0}';".format(register_day)
-    register_list = execMysqlCommand('10.221.124.144', 3306, 'root', '123456', 'Login', query)
+    register_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', '123456', 'Login', query)
     # 获取有效vip数据
     vip_dict = {}
     for c_uid in register_list:
         for sdbip,sdbport,sdbname,real_sid,real_sname in server_list:
             query = "SELECT c_cid,c_vip_data FROM t_char_vip WHERE c_cid IN (SELECT c_cid FROM t_char_basic WHERE c_uid = '{0}')".format(c_uid[0])
-            player_list = execMysqlCommand(sdbip, sdbport, 'root', '123456', sdbname, query)
+            player_list = execMysqlCommand(sdbip, sdbport, 'IamUsername', '123456', sdbname, query)
             for c_cid,c_vip_data in player_list:
                 try:
                     gsMsgPb.ParseFromString(c_vip_data)
@@ -84,7 +84,7 @@ for register_day in range(18, 25):
             num = 0
             for c_uid, c_cid in vip_dict.get(viplevel):
                 query = "SELECT uid, cid FROM Login{0} WHERE uid = {1} AND cid = {2}".format(d_day, c_uid, c_cid)
-                select_result = execMysqlCommand('10.221.168.131', 3306, 'root', '123456', 'OSS', query)
+                select_result = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', '123456', 'OSS', query)
                 if select_result: num += 1
             worksheet.write(i+1, j+2, num)  # 写入玩家留存
             print d_day, num

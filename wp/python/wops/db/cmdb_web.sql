@@ -1,9 +1,9 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.10.36
+Source Server         : iamIPaddress
 Source Server Version : 50613
-Source Host           : 192.168.10.36:3306
+Source Host           : iamIPaddress:3306
 Source Database       : cmdb_web
 
 Target Server Type    : MYSQL

@@ -70,7 +70,7 @@ def get_games_db_lists():
     ret = {}
     query = '''select real_sid, real_sname, sdbip, sdbport, sdbname, group_concat(sid) as sids
                from t_gameserver_list group by real_sid;'''
-    q_ret = query_mysql_result('10.0.202.221', 20306, db_user, db_passwd, 'login', query)
+    q_ret = query_mysql_result('iamIPaddress', 20306, db_user, db_passwd, 'login', query)
 
     for rsid, sname, sdbip, sdbport, sdbname, sids in q_ret:
         ret[sids] = [rsid, sname, sdbip, sdbport, sdbname]
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     logging.info('正在查询有效的玩家数据')
     query = '''SELECT DISTINCT serverid,uid,cid FROM AddItem WHERE itemid=10000005 
                AND src=23 AND itemnum=5 AND DATE_FORMAT(insertime,'%Y-%m-%d') = '2017-02-28';'''
-    q_ret = query_mysql_result('10.0.203.228', 20306, db_user, db_passwd, 'oss_record', query)
+    q_ret = query_mysql_result('iamIPaddress', 20306, db_user, db_passwd, 'oss_record', query)
 
     group_uid = {}
     for sid, uid, cid in q_ret:

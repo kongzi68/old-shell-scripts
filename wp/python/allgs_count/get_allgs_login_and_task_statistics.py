@@ -14,9 +14,9 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 #--------------------------
-dbuser = 'root'
+dbuser = 'IamUsername'
 dbpasswd = '123456'
-dbhost = '10.221.124.144'
+dbhost = 'iamIPaddress'
 dbport = 3306
 #--------------------------
 
@@ -112,7 +112,7 @@ def getOSSRecordDB(date):
     weekid = time.strftime('%W', time.strptime(date, "%Y-%m-%d"))
     query = ''' SELECT slave_ip,slave_port,slave_dbname FROM t_ossdb_list WHERE 
                 week_id={0}; '''.format(weekid)
-    q_ret = getMysqlData('10.221.168.131', 3306, dbuser, dbpasswd, 'OSS', query)
+    q_ret = getMysqlData('iamIPaddress', 3306, dbuser, dbpasswd, 'OSS', query)
 
     return q_ret[0]
 
@@ -133,10 +133,10 @@ def getLosePlayers(date, uidlists):
     # 查第一天的数据
     query = ''' SELECT DISTINCT serverid, uid, cid FROM Login{0} WHERE uid in 
                 {1} GROUP BY serverid, uid, cid; '''.format(day, uidlists)
-    q_ret = getMysqlData('10.221.168.131', 3306, dbuser, dbpasswd, 'OSS', query)
+    q_ret = getMysqlData('iamIPaddress', 3306, dbuser, dbpasswd, 'OSS', query)
 
     # 查第二、三天的数据
-    conn = getMysqlConn('10.221.168.131', 3306, dbuser, dbpasswd, 'OSS')
+    conn = getMysqlConn('iamIPaddress', 3306, dbuser, dbpasswd, 'OSS')
     cur = conn.cursor()
     for serverid, uid, cid in q_ret:
         for i in range(1, 3):
@@ -168,7 +168,7 @@ def countLosePlayers(date, d_playinfo):
     d_stime = time.strptime(date, "%Y-%m-%d")
     day = d_stime.tm_yday
     
-    conn = getMysqlConn('10.221.168.131', 3306, dbuser, dbpasswd, 'OSS')
+    conn = getMysqlConn('iamIPaddress', 3306, dbuser, dbpasswd, 'OSS')
     cur = conn.cursor()
 
     for i in range(1, 3):

@@ -24,7 +24,7 @@ swamp_url = URL('mysql+pymysql',
 # SQLALCHEMY_DATABASE_URI = swamp_url
 # 因 flask_migrate 需要的 SQLALCHEMY_DATABASE_URI 数据类型为字符串
 SQLALCHEMY_DATABASE_URI = swamp_url.__to_string__(hide_password=False)
-# SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:123456@192.168.10.36:3306/swamp?charset=utf8"
+# SQLALCHEMY_DATABASE_URI = "mysql+pymysql://IamUsername:123456@iamIPaddress:3306/swamp?charset=utf8"
 
 # 密钥
 SECRET_KEY = 'SDf84mRTZirQpisTbK5ukBhir1VTqQCA'

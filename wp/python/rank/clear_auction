@@ -6,7 +6,7 @@ def main():
     try:
         for host_ in read_host():
 #            print host_
-            conn = MySQLdb.connect(host=host_[0],user='root',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
+            conn = MySQLdb.connect(host=host_[0],user='IamUsername',passwd='123456',db=host_[2],port=host_[1],charset='utf8')
             cur = conn.cursor()
             sql = "update t_auction_list set c_state = 2 where c_state=0 and c_end_time < UNIX_TIMESTAMP()"
             cur.execute(sql)

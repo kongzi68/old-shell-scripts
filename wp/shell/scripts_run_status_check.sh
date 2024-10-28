@@ -9,7 +9,7 @@
 ##脚本说明：
 # 计划任务
 #+ # add by yunwei for monitor service ./statisticsintofile_0_0
-#+ * * * * * /root/test/scripts_run_status_check.sh >> /var/log/scripts_run_status.log 2>&1
+#+ * * * * * /IamUsername/test/scripts_run_status_check.sh >> /var/log/scripts_run_status.log 2>&1
 #
 ##更新记录：
 #

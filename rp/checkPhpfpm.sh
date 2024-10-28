@@ -71,7 +71,7 @@ sendEmail(){
 }
 
 TEL_LOG="/tmp/tmp_telnet_php_fpm.log"
-/usr/bin/telnet 127.0.0.1 9000 <<EOF > ${TEL_LOG}
+/usr/bin/telnet iamIPaddress 9000 <<EOF > ${TEL_LOG}
 quit
 EOF
 SOK=`cat ${TEL_LOG} | grep "Escape character" |wc -l`

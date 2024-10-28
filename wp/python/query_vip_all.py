@@ -22,7 +22,7 @@ vip_level = 0
 
 # 游戏服用户名与密码
 '''
-gsdb_user = 'root'
+gsdb_user = 'IamUsername'
 gsdb_passwd = '123456'
 '''
 gsdb_user = 'user'
@@ -30,14 +30,14 @@ gsdb_passwd = '123456'
 
 # 登录服与充值库,lc：login和charge
 '''
-lc_user = 'root'
+lc_user = 'IamUsername'
 lc_passwd = '123456'
-lc_host = '10.221.124.144'
+lc_host = 'iamIPaddress'
 lc_port = 3306
 '''
 lc_user = 'user'
 lc_passwd = '123456'
-lc_host = '10.0.202.221'
+lc_host = 'iamIPaddress'
 lc_port = 20306
 ########################################
 # t_vip表结构

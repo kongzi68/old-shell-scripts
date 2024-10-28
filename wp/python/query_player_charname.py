@@ -8,10 +8,10 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 
-l_host = "10.221.124.144"
+l_host = "iamIPaddress"
 l_port = 3306
 l_dbname = "Login"
-user = "root"
+user = "IamUsername"
 passwd = "123456"
 
 l_conn = pymysql.connect(host=l_host, port=l_port, user=user, passwd=passwd, db=l_dbname, charset="utf8")

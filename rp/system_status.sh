@@ -207,14 +207,14 @@ check_lnmp(){
         temp_test_files="test$$.html"
     fi
     [ -f ${temp_hostname_files} ] && rm ${temp_hostname_files}
-    [ -f ${lnmp_conf_dir}${lnmp_conf} ] && www_dir=`grep -w "root" ${lnmp_conf_dir}${lnmp_conf}|awk '{print $2}'|sed 's#;#/#g'`
+    [ -f ${lnmp_conf_dir}${lnmp_conf} ] && www_dir=`grep -w "IamUsername" ${lnmp_conf_dir}${lnmp_conf}|awk '{print $2}'|sed 's#;#/#g'`
     [ -d ${www_dir} ] && cd ${www_dir} && touch ${temp_test_files} && {
         lnmp_test_files="${www_dir}${temp_test_files}"
         if [ "${temp_hostname}" = "WEB" ];then
             cat > ${lnmp_test_files} <<EOF
 <?php
 \$mem= new Memcache;
-\$mem->connect('127.0.0.1',11211);
+\$mem->connect('iamIPaddress',11211);
 \$mem->set('test','LNMP and Memcached is ok!',0,12);
 \$val= \$mem->get('test');
 echo \$val;
@@ -233,7 +233,7 @@ EOF
     }
     temp_curl_status="/tmp/temp_curl_status$$.txt"
     cd /tmp && touch ${temp_curl_status}
-    curl -I http://127.0.0.1/${temp_test_files} > ${temp_curl_status}
+    curl -I http://iamIPaddress/${temp_test_files} > ${temp_curl_status}
     [ -f ${lnmp_test_files} ] && rm ${lnmp_test_files}
     #echo "========================"
     lnmp_status=`cat ${temp_curl_status} |head -1|awk '{print $2}'`

@@ -12,7 +12,7 @@
 #
 #使用方法：
 #添加计划任务如下，每10分钟检测一次
-#  */5 * * * * /root/check_ap_status.sh  >>/var/log/check_ap_script_run.log  2>&1 &
+#  */5 * * * * /IamUsername/check_ap_status.sh  >>/var/log/check_ap_script_run.log  2>&1 &
 #更新说明:
 #9月7日，增加多线程功能，降低脚本运行总时间
 #9月16日，脚本结构大调整，转化成函数，具体看函数功能介绍
@@ -58,7 +58,7 @@ check_ping(){
 
 #调用函数check_ping，检测AC或者是有非连续固定IP的设备状态
 #这里可添加多个需要检测的固定ip地址
-#CO:'192.168.102.254'
+#CO:'iamIPaddress'
 IP_ADDRS=(
     
 )

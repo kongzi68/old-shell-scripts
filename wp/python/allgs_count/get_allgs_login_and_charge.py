@@ -23,9 +23,9 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 #--------------------------
-dbuser = 'root'
+dbuser = 'IamUsername'
 dbpasswd = '123456'
-dbhost = '10.221.124.144'
+dbhost = 'iamIPaddress'
 dbport = 3306
 #--------------------------
 
@@ -121,7 +121,7 @@ def getOSSRecordDB(date):
     weekid = time.strftime('%W', time.strptime(date, "%Y-%m-%d"))
     query = ''' SELECT slave_ip,slave_port,slave_dbname FROM t_ossdb_list WHERE 
                 week_id={0}; '''.format(weekid)
-    q_ret = getMysqlData('10.221.168.131', 3306, dbuser, dbpasswd, 'OSS', query)
+    q_ret = getMysqlData('iamIPaddress', 3306, dbuser, dbpasswd, 'OSS', query)
 
     return q_ret[0]
 
@@ -208,7 +208,7 @@ if __name__ == '__main__':
     stime = '2017-04-01'
     etime = '2017-05-10'
 
-    conn = getMysqlConn('10.221.168.131', 3306, dbuser, dbpasswd, 'OSS')
+    conn = getMysqlConn('iamIPaddress', 3306, dbuser, dbpasswd, 'OSS')
     cur = conn.cursor()
 
     strtime = datetime.datetime.strptime(stime, '%Y-%m-%d')

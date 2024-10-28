@@ -8,7 +8,7 @@
 说明:
     1、该程序运行在中心节点，用于检测与中心节点相关联的IP是否畅通
     2、判断依据:调用ping命令，检查lost packet，如果100%则说明网络不通
-    3、如果发现某一个IP不通，则调用WriteLog()函数进行写日志，日志默认路径：/root/NetCheck.log
+    3、如果发现某一个IP不通，则调用WriteLog()函数进行写日志，日志默认路径：/IamUsername/NetCheck.log
     4、如果不通，则发送邮件告警。
 
 """
@@ -58,7 +58,7 @@ class CheckNet:
             logger=logging.getLogger()
             log_time = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
             #filename = time.strftime('%Y-%m-%d',time.localtime(time.time()))  
-            handler=logging.FileHandler("/root/NetCheck.log")
+            handler=logging.FileHandler("/IamUsername/NetCheck.log")
 
             logger.addHandler(handler)
             logger.setLevel(logging.NOTSET)
@@ -116,14 +116,14 @@ def SendMail(m_title,m_content):
 if __name__ == '__main__':
 
         station = "交运平度站"
-        #logFile = '/root/NetCheck.log'
+        #logFile = '/IamUsername/NetCheck.log'
         """
         ip_addr = {
-                        'jnac':'172.31.30.253',
+                        'jnac':'iamIPaddress',
                         }
         """
         vpn_addr = [
-                        "20.0.255.254",
+                        "iamIPaddress",
                    ]
 
 
@@ -137,5 +137,5 @@ if __name__ == '__main__':
                         s = SendMail(m_title,m_content)
                         #print send_status
                         if s == 'failed':
-                                s = CheckNet("127.0.0.1")
+                                s = CheckNet("iamIPaddress")
                                 s.WriteLog("邮件发送失败")

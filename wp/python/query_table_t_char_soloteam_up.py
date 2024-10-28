@@ -21,14 +21,14 @@ def execMysqlCommand(host,port,user,passwd,dbname,query):
 
 # 拉取所有游戏服数据库信息
 query = "SELECT DISTINCT sdbip,sdbport,sdbname,real_sid,real_sname FROM t_gameserver_list;"
-server_list = execMysqlCommand('10.221.124.144', 3306, 'root', '123456', 'Login', query)
+server_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', '123456', 'Login', query)
 
-conn_t = pymysql.connect(host='10.221.124.144', port=3306, user='root', passwd='123456', db='Login', charset="utf8")
+conn_t = pymysql.connect(host='iamIPaddress', port=3306, user='IamUsername', passwd='123456', db='Login', charset="utf8")
 for sdbip,sdbport,sdbname,real_sid,real_sname in server_list:
     for i in range(0, 8):
         query = ("select c.c_uid,c.c_charname,s.c_cid,s.c_chartype,count(s.c_chartype) as num from t_char_basic as c,t_char_soloteam{0} as s "
                " WHERE c.c_cid=s.c_cid group by s.c_cid,s.c_chartype having num > 1;".format(i))
-        t_char_soloteam = execMysqlCommand(sdbip, sdbport, 'root', '123456', sdbname, query)
+        t_char_soloteam = execMysqlCommand(sdbip, sdbport, 'IamUsername', '123456', sdbname, query)
         for c_uid,c_charname,c_cid,c_chartype,num in t_char_soloteam:
             query = "SELECT DISTINCT c_username FROM t_account where c_uid = {0}".format(c_uid)
             cur_t = conn_t.cursor()

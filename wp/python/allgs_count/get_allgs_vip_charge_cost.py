@@ -18,9 +18,9 @@ import MG_DBProtocol_PB_pb2 as MHPB
 gsMsgPb = MHPB.DB_VIPAssetData_PB()
 
 #--------------------------
-dbuser = 'root'
+dbuser = 'IamUsername'
 dbpasswd = '123456'
-dbhost = '10.221.124.144'
+dbhost = 'iamIPaddress'
 dbport = 3306
 #--------------------------
 
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     query = ''' SELECT DISTINCT LogicServerID, uid, cid, src_type FROM 
                 OSSReduceCash WHERE cashtype1=2 AND insertime BETWEEN 
                 '2017-05-03 00:00:00' AND '2017-05-10 23:59:59';'''
-    q_ret = getMysqlData('10.225.6.185', 3307, dbuser, dbpasswd, 
+    q_ret = getMysqlData('iamIPaddress', 3307, dbuser, dbpasswd, 
                          'OSS_record', query)
     logger.info('从数据库oss_record库提取明细数据完成')
 
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     # VIP按等级分组，统计不同vip等级玩家商城购买情况
     query = ''' SELECT DISTINCT serverid, uid, cid, itemid FROM ShopBuy WHERE 
                 insertime BETWEEN '2017-05-03 00:00:00' AND '2017-05-10 23:59:59';'''
-    q_ret = getMysqlData('10.225.6.185', 3307, dbuser, dbpasswd, 
+    q_ret = getMysqlData('iamIPaddress', 3307, dbuser, dbpasswd, 
                          'OSS_record', query)
     logger.info('从数据库oss_record库提取商城购买明细数据，按角色去重完成')
     conn = getMysqlConn(dbhost, dbport, dbuser, dbpasswd, 'Login')
@@ -244,7 +244,7 @@ if __name__ == '__main__':
 
     query = ''' SELECT itemid FROM ShopBuy WHERE insertime BETWEEN 
                 '2017-05-03 00:00:00' AND '2017-05-10 23:59:59' GROUP BY itemid;'''
-    q_ret = getMysqlData('10.225.6.185', 3307, dbuser, dbpasswd, 
+    q_ret = getMysqlData('iamIPaddress', 3307, dbuser, dbpasswd, 
                          'OSS_record', query)
     itemids = [ item[0] for item in q_ret ]
     ret = {}

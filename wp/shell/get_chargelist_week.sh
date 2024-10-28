@@ -22,7 +22,7 @@ mail_attachment="-a ${DIR}/ios_result_${datetime}.xls"
 # MOD: 修改接收邮件者
 EMAIL=(
     test1@windplay.cn
-    kongxiaolin@windplay.cn
+    zhangsan@windplay.cn
 )
 
 sendEmail(){

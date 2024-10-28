@@ -49,7 +49,7 @@ function init_system_environment(){
 	echo -e "\033[32mNow,Will begin initialization system,Please wait...\033[0m"
 	yum -y install cmake vim wget lrzsz unzip man ntpdate gcc* \
 autoconf libtool python-devel libXpm-devel ncurses-devel git
-	echo "alias vi='vim'" >>/root/.bashrc ; source /root/.bashrc ;
+	echo "alias vi='vim'" >>/IamUsername/.bashrc ; source /IamUsername/.bashrc ;
 	chkconfig --level 3 iptables off ; chkconfig --level 3 ip6tables off
 	ntpdate pool.ntp.org
 	sed -i "/^SELINUX=enforcing/s/enforcing/disabled/g" /etc/selinux/config
@@ -149,7 +149,7 @@ http://${IPADDR}/${CHECK_PHP_FILES}\033[0m"
 }
 
 #mysql主从服务搭建的函数
-MYSQL_USER='root'
+MYSQL_USER='IamUsername'
 MYSQL_PASSWORD='123456'
 SYNC_USER='tongbu'
 SYNC_PASSWORD='123456'
@@ -219,10 +219,10 @@ status \G" |grep Position |awk '{print $2}'`
 		judge_ip ${SLAVE_IP};
 	done
 	echo 
-	scp ${BINLOG_NODE} /root/$0 root@${SLAVE_IP}:/root/
+	scp ${BINLOG_NODE} /IamUsername/$0 IamUsername@${SLAVE_IP}:/IamUsername/
 	if [ $? -eq 0 ];then
 	    echo 
-	    echo -e "\033[32m已成功拷贝到mysql-slave，IP:${SLAVE_IP}的/root/下\033[0m"
+	    echo -e "\033[32m已成功拷贝到mysql-slave，IP:${SLAVE_IP}的/IamUsername/下\033[0m"
 	fi
 }
 #define mysql-slave function
@@ -268,9 +268,9 @@ EOF
     sleep 1
     mysqladmin -u${MYSQL_USER} password ${MYSQL_PASSWORD}
 	mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "delete from mysql.user where User='';"
-    BINLOGNAME=`cat /root/binlog.txt |grep "BINLOGNAME" | awk '{print $1}' |sed 's/BINLOGNAME=//g'`
-    BINLOGNODE=`cat /root/binlog.txt |grep "BINLOGNODE" | awk '{print $1}' |sed 's/BINLOGNODE=//g'`
-    MASTER_IP=`cat /root/binlog.txt |grep "MASTER_IP" | awk '{print $1}' |sed 's/MASTER_IP=//g'`
+    BINLOGNAME=`cat /IamUsername/binlog.txt |grep "BINLOGNAME" | awk '{print $1}' |sed 's/BINLOGNAME=//g'`
+    BINLOGNODE=`cat /IamUsername/binlog.txt |grep "BINLOGNODE" | awk '{print $1}' |sed 's/BINLOGNODE=//g'`
+    MASTER_IP=`cat /IamUsername/binlog.txt |grep "MASTER_IP" | awk '{print $1}' |sed 's/MASTER_IP=//g'`
     mysql  -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "change master to master_host='$MASTER_IP',\
 master_user='$SYNC_USER',master_password='$SYNC_PASSWORD',master_log_file='$BINLOGNAME',\
 master_log_pos=$BINLOGNODE;start slave;"

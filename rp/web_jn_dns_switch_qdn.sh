@@ -77,13 +77,13 @@ dnsSwitch(){
 ##
 # 检测济南WEB，若故障就切换到青岛南
 #
-checkStatus 221.173.128.140 SDJN-TS-JN-WEB
-dnsSwitch SDTS_BLJN 221.173.128.140 61.232.45.236 "JNX,TA,QFD,TZD,ZZ,ZB,WF,YT" JN QDN 
+checkStatus iamIPaddress SDJN-TS-JN-WEB
+dnsSwitch SDTS_BLJN iamIPaddress iamIPaddress "JNX,TA,QFD,TZD,ZZ,ZB,WF,YT" JN QDN 
 
 ##
 # 检测青岛南WEB，若故障就切换到济南
 #
-checkStatus 61.232.45.236 SDQD-TS-QDN-WEB
-dnsSwitch  SDTS_BLQDN 61.232.45.236 221.173.128.140 "CL,GM,LC,QZ,QDB" QDN JN
+checkStatus iamIPaddress SDQD-TS-QDN-WEB
+dnsSwitch  SDTS_BLQDN iamIPaddress iamIPaddress "CL,GM,LC,QZ,QDB" QDN JN
 
 cleanRunLog ${RUN_LOG}

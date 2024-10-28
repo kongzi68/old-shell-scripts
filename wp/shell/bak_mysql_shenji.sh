@@ -56,11 +56,11 @@ fi
 RUNLOG_MAX_NUM=100000
 RUNLOG_MAX_DELNUM=5000
 
-USER='root'
+USER='IamUsername'
 PASSWORD='thisispassword'
 T_YMD=$(date +%y%m%d)
 KEEPDAY=5
-LOGINIP='10.221.124.144'
+LOGINIP='iamIPaddress'
 LOGINPORT=3306
 
 BACKPATH='/data/db_backup/bak_mysql_shenji/'  # 路径最后一级必须加‘/’
@@ -70,7 +70,7 @@ cd ${BACKPATH}${T_YMD}
 
 # MOD: 修改接收邮件者
 EMAILS=(
-    kongxiaolin@windplay.cn
+    zhangsan@windplay.cn
     test1@windplay.cn
 )
 
@@ -124,7 +124,7 @@ scpBakDB(){
 	REMOTEIP=$1
 	REMOTEPATH=$2
 	BAKPATH=$3
-	scp -i ~/.ssh/3jianhao  -o StrictHostKeyChecking=no -r root@${REMOTEIP}:${REMOTEPATH}${T_YMD}/ ${BAKPATH}
+	scp -i ~/.ssh/3jianhao  -o StrictHostKeyChecking=no -r IamUsername@${REMOTEIP}:${REMOTEPATH}${T_YMD}/ ${BAKPATH}
 	if [ $? -eq 0 ];then
         echoGoodLog "Backup ${REMOTEIP}:${REMOTEPATH} successfully."
     else
@@ -155,10 +155,10 @@ bakMysqlDB ${LOGINIP} 'Login t_account t_gameserver_list' '3306' "${T_YMD}Login.
 #备份充值库
 bakMysqlDB ${LOGINIP} 'Charge IOSFinish TmallFinish' '3306' "${T_YMD}Charge.sql.gz"
 #备份OSS_Record
-scpBakDB '10.221.140.141' '/data/db_backup/bak_mysql_oss_record/' ${BACKPATH}
-scpBakDB '10.225.6.185' '/data/db_backup/bak_mysql_oss_record/' ${BACKPATH}
+scpBakDB 'iamIPaddress' '/data/db_backup/bak_mysql_oss_record/' ${BACKPATH}
+scpBakDB 'iamIPaddress' '/data/db_backup/bak_mysql_oss_record/' ${BACKPATH}
 #备份OSS
-scpBakDB '10.221.168.198' '/data/db_backup/bak_mysql_oss/' ${BACKPATH}
+scpBakDB 'iamIPaddress' '/data/db_backup/bak_mysql_oss/' ${BACKPATH}
 
 # 打包并清理数据
 zip -r "projectm"${T_YMD}.zip *.txt

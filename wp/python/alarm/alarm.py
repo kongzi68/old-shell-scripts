@@ -36,7 +36,7 @@ def saveAllAddress(update=False):
     :param update:
     :return:
     """
-    url = 'http://110.29.6.22:8080/api_sms/StaffInfo.php'   # 通讯录接口
+    url = 'http://iamIPaddress:8080/api_sms/StaffInfo.php'   # 通讯录接口
     now_time = time.mktime(time.localtime(time.time()))
 
     if os.path.isfile(staffinfofile):
@@ -165,7 +165,7 @@ def sendMessage(phones, content):
     :param content:
     :return:
     """
-    url = 'http://19.20.61.29:8080/api_sms/Sms.php'      # 发送短信的API
+    url = 'http://iamIPaddress:8080/api_sms/Sms.php'      # 发送短信的API
     privateKey = '0ecylJDlLOCm1olAyXaEiNhdU4NFoTNzz8Z'
     for phone in phones:
         sign = hashlib.md5('{0}&{1}&{2}'.format(phone, content, privateKey))

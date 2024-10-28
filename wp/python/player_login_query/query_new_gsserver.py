@@ -89,7 +89,7 @@ class UserTotalCount(object):
                     COUNT( DATE_FORMAT(c_create_time, '%Y-%m-%d')) AS num 
                     FROM t_char_basic GROUP BY ctime HAVING num > 10 
                     ORDER BY ctime LIMIT 1; '''
-        ret_query = query_mysql_result(host, port, 'root', '123456', 
+        ret_query = query_mysql_result(host, port, 'IamUsername', '123456', 
                                         dbname, query, dict_ret=True)
         return ret_query[0]['ctime']
 
@@ -107,7 +107,7 @@ class UserTotalCount(object):
         query = ''' SELECT c_uid, DATE_FORMAT(inserttime, '%Y-%m-%d') AS ctime 
                     FROM t_account WHERE DATE_FORMAT(inserttime, '%Y-%m-%d') 
                     BETWEEN '{0}' AND '{1}';'''.format(strtime, endtime)
-        reg_list = query_mysql_result('10.221.124.144',3306,'root','123456',
+        reg_list = query_mysql_result('iamIPaddress',3306,'IamUsername','123456',
                                       'Login',query)
         for c_uid,ctime in reg_list:
             if ctime not in reg_dict.keys():
@@ -116,7 +116,7 @@ class UserTotalCount(object):
                 reg_dict[ctime].append(c_uid)
         t_reg_dict = copy.deepcopy(reg_dict)
         query = "SELECT c_uid FROM t_char_basic"
-        t_char_basic = query_mysql_result(host, port, 'root', '123456', 
+        t_char_basic = query_mysql_result(host, port, 'IamUsername', '123456', 
                                           dbname, query)
         uid_lists = [i[0] for i in t_char_basic]
         for ctime, uid_day_list in t_reg_dict.items():
@@ -138,14 +138,14 @@ class UserTotalCount(object):
         
         # 查询游戏服所有的玩家角色清单
         query = "SELECT c_uid FROM t_char_basic"
-        t_char_basic = query_mysql_result(host, port, 'root', '123456', 
+        t_char_basic = query_mysql_result(host, port, 'IamUsername', '123456', 
                                           dbname, query)
         uid_lists = [i[0] for i in t_char_basic]
 
         # 从登录库中查询已登录帐号清单
         for x in lc_list:
             query = "SELECT DISTINCT uid, cid FROM Login{0}".format(x + daytime.tm_yday)
-            login_record = query_mysql_result('10.221.168.131', 3306, 'root', 
+            login_record = query_mysql_result('iamIPaddress', 3306, 'IamUsername', 
                                               '123456', 'OSS', query)
             login_lists = [i[0] for i in login_record]
             num = 0
@@ -203,7 +203,7 @@ class LosePlayer(object):
         query = '''SELECT c_cid,c_uid,c_charname,c_level,
                    DATE_FORMAT(c_create_time, '%Y-%m-%d') AS ctime,
                    c_last_leave_time FROM t_char_basic;'''
-        t_char_basic = query_mysql_result(host, port, 'root', '123456', 
+        t_char_basic = query_mysql_result(host, port, 'IamUsername', '123456', 
                                           dbname, query)
         for cid, uid, charname, level, ctime, ltime in t_char_basic:
             ltime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(ltime))
@@ -223,7 +223,7 @@ class LosePlayer(object):
         根据UID查询账号名，返回结果为玩家的账号
         '''
         query = 'SELECT c_username FROM t_account WHERE c_uid = {0};'.format(uid)
-        ret_query = query_mysql_result('10.221.124.144',3306,'root','123456',
+        ret_query = query_mysql_result('iamIPaddress',3306,'IamUsername','123456',
                                        'Login',query)
         if ret_query:
             return ret_query[0][0]
@@ -244,7 +244,7 @@ class LosePlayer(object):
         for day in range(str_day.tm_yday, end_day.tm_yday):
             query = '''SELECT uid, cid FROM Login{0} WHERE uid = {1} AND 
                        cid = {2};'''.format(day, uid, cid)
-            ret_query = query_mysql_result('10.221.168.131', 3306, 'root', 
+            ret_query = query_mysql_result('iamIPaddress', 3306, 'IamUsername', 
                                            '123456', 'OSS', query, 
                                            isclose=False)
             # 判断逻辑：
@@ -316,7 +316,7 @@ class ChargeOrderCount(object):
         ret = None
         query = '''SELECT DISTINCT real_sname FROM t_gameserver_list 
                    WHERE sid = {0}; '''.format(sid)
-        ret_query = query_mysql_result('10.221.124.144', 3306, 'root', 
+        ret_query = query_mysql_result('iamIPaddress', 3306, 'IamUsername', 
                                        '123456', 'Login', query)
         
         if ret_query: ret = ''.join(ret_query[0][0].split(' '))
@@ -340,7 +340,7 @@ class ChargeOrderCount(object):
                    FROM IOSFinish WHERE DATE_FORMAT(time, '%Y-%m-%d') BETWEEN '{1}' AND '{2}' 
                    AND sid = {3};'''.format('com.windplay.threeswordsmen2.product', 
                                             self.strtime, self.endtime, sid)
-        ret_query = query_mysql_result('10.221.124.144', 3306, 'root', 
+        ret_query = query_mysql_result('iamIPaddress', 3306, 'IamUsername', 
                                        '123456', 'Charge', query)
         if ret_query:
             sid, tmoney, o_6, o_30, o_98, o_128, o_328, o_648, o_mn648 = ret_query[0]
@@ -358,7 +358,7 @@ class ChargeOrderCount(object):
                    FROM RechargeMember_daily 
                    WHERE starttime BETWEEN '{0}' AND '{1}' AND serverid = {2} 
                    GROUP BY ubg;'''.format(self.strtime, self.endtime, sid)
-        ret_query = query_mysql_result('10.221.168.131', 3306, 'root', 
+        ret_query = query_mysql_result('iamIPaddress', 3306, 'IamUsername', 
                                        '123456', 'Statistics', query)
 
         ret = {ubg : toltal_order for toltal_order, ubg in ret_query if ret_query}
@@ -369,7 +369,7 @@ if __name__ == '__main__':
     # 拉取游戏服清单
     query = '''SELECT DISTINCT sdbip,sdbport,sdbname,real_sid,real_sname 
                FROM t_gameserver_list; '''
-    server_lists = query_mysql_result('10.221.124.144', 3306, 'root', 
+    server_lists = query_mysql_result('iamIPaddress', 3306, 'IamUsername', 
                                       '123456', 'Login', query)
     # 把结果写到excel表格
     filename = 'dataAnalysisStatistical.xlsx'

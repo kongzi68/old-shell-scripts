@@ -40,7 +40,7 @@ class Config:
     # cmdb_web_engine_url 对象类型为 class
     # SQLALCHEMY_DATABASE_URI = cmdb_web_engine_url
     # 因 flask_migrate 需要的 SQLALCHEMY_DATABASE_URI 数据类型为字符串
-    # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:123456@192.168.10.36:3306/cmdb_web?charset=utf8"
+    # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://IamUsername:123456@iamIPaddress:3306/cmdb_web?charset=utf8"
     SQLALCHEMY_DATABASE_URI = cmdb_web_engine_url
     SQLALCHEMY_BINDS = {
         'cmdb': cmdb_engine_url,

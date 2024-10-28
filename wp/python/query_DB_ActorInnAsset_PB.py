@@ -43,7 +43,7 @@ for tname in ('Add','Reduce'):
             player_info['cid'],
             tname
         ))
-    query_result = execMysqlCommand('10.116.4.245', 3306, 'windplay', '123456', 'OSS_record', query)
+    query_result = execMysqlCommand('iamIPaddress', 3306, 'windplay', '123456', 'OSS_record', query)
     line_num = len(query_result) + 1
     worksheet = workbook.add_worksheet("{0}Energy".format(tname))
     worksheet.set_column(0, 7, 12)
@@ -60,7 +60,7 @@ for tname in ('Add','Reduce'):
 # 先从Login库查询玩家所在的游戏数据库
 # 再从这个数据库查询魂魄数据并进行解密
 query = "select DISTINCT sdbip,sdbport,sdbname from t_gameserver_list where sid={0};".format(player_info['sid'])
-query_result = execMysqlCommand('10.116.4.223', 3306, 'windplay', '123456', 'Login', query)
+query_result = execMysqlCommand('iamIPaddress', 3306, 'windplay', '123456', 'Login', query)
 (sdbip, sdbport, sdbname) = query_result[0]
 query = "select c_inn_data from t_char_basic where c_cid={0} and c_uid={1};".format(player_info['cid'], player_info['uid'])
 query_result = execMysqlCommand(sdbip, sdbport, 'windplay', '123456', sdbname, query)

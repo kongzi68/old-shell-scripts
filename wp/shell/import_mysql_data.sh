@@ -13,7 +13,7 @@ echoBadLog(){
 }
 
 ###########################
-M_USER='root'
+M_USER='IamUsername'
 M_PASSWORD='thisispassword'
 DB_NAME='OSS_record'
 TB_NAME='AddCash'
@@ -28,7 +28,7 @@ DB_SOCKET='/data/mysql2/data/mysql.sock'
 E_START='85000'
 E_END='118042'
 
-# M_USER='root'
+# M_USER='IamUsername'
 # M_PASSWORD='123456'
 # DB_NAME='jfedu'
 # TB_NAME='xstest_t'
@@ -44,7 +44,7 @@ chown mysql:mysql ${BAK_DIR}
 # do
 #     START_VALUES="$(expr $i \* 10000 )"
 #     FILE_NAME="$(expr $i + 1)"
-#     mysqldump -uroot -p123456 --default-character-set=utf8 jfedu xstest --where "1=1 limit ${START_VALUES},10000" |gzip > /data/${FILE_NAME}.sql.gz
+#     mysqldump -uIamUsername -p123456 --default-character-set=utf8 jfedu xstest --where "1=1 limit ${START_VALUES},10000" |gzip > /data/${FILE_NAME}.sql.gz
 # done
 
 # use OSS_record;
@@ -54,7 +54,7 @@ chown mysql:mysql ${BAK_DIR}
 # do
 #     START_VALUES="$(expr $i \* 10000 )"
 #     FILE_NAME="$(expr $i + 1)"
-#     mysql -uroot -p123456 <<EOF
+#     mysql -uIamUsername -p123456 <<EOF
 #         use jfedu;
 #         SELECT * INTO OUTFILE '/data/${FILE_NAME}_10000.sql' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' FROM xstest limit ${START_VALUES},10000;
 # EOF

@@ -20,23 +20,23 @@ SSHUSER='windplay'
 PROT='22'
 
 SERVER_LIST_ARRARY=(
-    01:OSS:161.202.202.7:OSS
-    02:Login:161.202.202.14:Login
-    03:GSDB1+2_M:161.202.202.15:GSDB1_M
-    04:GSDB3+4_M:161.202.202.13:GSDB2_M
-    05:GSDB5+6_M:161.202.202.29:GSDB3_M
-    10:GSDB_S1_4:161.202.172.39:GSDB_S1_4
-    11:GSDB_S5_8:119.81.49.252:GSDB_S5_8
-    40:OSS_RECORD_M:161.202.202.28:OSS_RECORD_M
-    41:OSS_RECORD_S:161.202.172.43:OSS_RECORD_S
-    42:Login_DB_M:161.202.202.18:Login_DB_M
-    43:Login_DB_S:161.202.172.38:Login_DB_S
-    44:OSS_DB_M:161.202.172.37:OSS_DB_M
-    45:OSS_DB_S:161.202.172.42:OSS_DB_S
-    46:BACKUP:161.202.172.44:BACKUP
-    48:WSDB_S:161.202.202.22:WSDB_S
-    53:Test_Server:118.193.85.90:Test_Server
-    54:TS_DB:161.202.202.6:TS_DB
+    01:OSS:iamIPaddress:OSS
+    02:Login:iamIPaddress:Login
+    03:GSDB1+2_M:iamIPaddress:GSDB1_M
+    04:GSDB3+4_M:iamIPaddress:GSDB2_M
+    05:GSDB5+6_M:iamIPaddress:GSDB3_M
+    10:GSDB_S1_4:iamIPaddress:GSDB_S1_4
+    11:GSDB_S5_8:iamIPaddress:GSDB_S5_8
+    40:OSS_RECORD_M:iamIPaddress:OSS_RECORD_M
+    41:OSS_RECORD_S:iamIPaddress:OSS_RECORD_S
+    42:Login_DB_M:iamIPaddress:Login_DB_M
+    43:Login_DB_S:iamIPaddress:Login_DB_S
+    44:OSS_DB_M:iamIPaddress:OSS_DB_M
+    45:OSS_DB_S:iamIPaddress:OSS_DB_S
+    46:BACKUP:iamIPaddress:BACKUP
+    48:WSDB_S:iamIPaddress:WSDB_S
+    53:Test_Server:iamIPaddress:Test_Server
+    54:TS_DB:iamIPaddress:TS_DB
 )
 
 ##
@@ -45,7 +45,7 @@ SERVER_LIST_ARRARY=(
 sshExecCommand(){
     local SERVER_IP=$1
     local DO_COMMAND=$2
-    ssh -o StrictHostKeyChecking=no -p${PROT} ${SSHUSER}@${SERVER_IP} -i /home/kongxiaolin/.ssh/3jianhao -t ${DO_COMMAND}
+    ssh -o StrictHostKeyChecking=no -p${PROT} ${SSHUSER}@${SERVER_IP} -i /home/zhangsan/.ssh/3jianhao -t ${DO_COMMAND}
 }
 
 ##
@@ -57,11 +57,11 @@ do
     #OLD_TIMEZONE=$(ssh -o StrictHostKeyChecking=no -p${PROT} ${SSHUSER}@${SERVER_IP} -i .ssh/3jianhao "date" | awk '{print $5}')
     OLD_TIMEZONE=$(sshExecCommand "${SERVER_IP}" "sudo date" | awk '{print $5}')
     if [ "${OLD_TIMEZONE}" = "ICT" ];then
-        sshExecCommand "${SERVER_IP}" "sudo yum install ntpdate -y && sudo echo '*/30 * * * * /usr/sbin/ntpdate pool.ntp.org >> /var/log/ntpdate_run.log &' >> /var/spool/cron/root "
+        sshExecCommand "${SERVER_IP}" "sudo yum install ntpdate -y && sudo echo '*/30 * * * * /usr/sbin/ntpdate pool.ntp.org >> /var/log/ntpdate_run.log &' >> /var/spool/cron/IamUsername "
         exit
     else
         sshExecCommand "${SERVER_IP}" "sudo cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime && sudo yum install ntpdate -y && sudo ntpdate pool.ntp.org"
-        [ $? -eq 0 ] && sshExecCommand "${SERVER_IP}" "sudo echo '*/30 * * * * /usr/sbin/ntpdate pool.ntp.org >> /var/log/ntpdate_run.log &' >> /var/spool/cron/root"
+        [ $? -eq 0 ] && sshExecCommand "${SERVER_IP}" "sudo echo '*/30 * * * * /usr/sbin/ntpdate pool.ntp.org >> /var/log/ntpdate_run.log &' >> /var/spool/cron/IamUsername"
         exit
     fi
 done

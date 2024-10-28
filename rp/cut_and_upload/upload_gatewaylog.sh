@@ -56,17 +56,17 @@ PROVINCE=(
 scriptsHelp(){
     echoBadLog "======================================="
     echoGoodLog "Usage parameters:"
-    echoGoodLog "./`basename $0` -w 172.18.1.200 [-t/--tar tar] [-h/--hostname SDQD-TS-CL-WIN]"
+    echoGoodLog "./`basename $0` -w iamIPaddress [-t/--tar tar] [-h/--hostname SDQD-TS-CL-WIN]"
     echoGoodLog "Options:"
         echoGoodLog " -w/--winip)"
-        echoGoodLog "    必须参数：存储日志的win服务器IP，使用方法： -w 172.18.1.200 "
+        echoGoodLog "    必须参数：存储日志的win服务器IP，使用方法： -w iamIPaddress "
         echoGoodLog " -t/--tar)"
         echoGoodLog "    可选参数：若需打包，使用方法： -t tar "
         echoGoodLog " -h/--hostname)"
         echoGoodLog "    可选参数：若一个站点存放了多个地方的相同类型日志，此时就需要设定每个日志所属站点"
         echoGoodLog "        比如：昌乐的网关日志，没有HLS，日志存储在青岛北，那加参数如下：-h SDQD-TS-CL-WIN"
     echoGoodLog "Example:"
-    echoGoodLog "./`basename $0` -w 172.18.1.200 -t tar -h SDQD-TS-CL-WIN"
+    echoGoodLog "./`basename $0` -w iamIPaddress -t tar -h SDQD-TS-CL-WIN"
     echoBadLog "======================================="
 }
 
@@ -141,7 +141,7 @@ WIN_DIR='oldeglog'
 #############################
 # define the ftp server
 #
-FTPSERVER='11.11.11.11'
+FTPSERVER='iamIPaddress'
 FTPUSER='upload'
 FTPPASSWD='thisispassword'
 SSHPORT='220'

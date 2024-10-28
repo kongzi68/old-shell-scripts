@@ -9,9 +9,9 @@ IP_LIST=/tmp/ipaddr_list.txt
 function ipaddr_list_check() {
 if [ ! -f ${IP_LIST} ];then
 	echo -e "\033[31mPlease create ${IP_LIST}\
-\ne.g.: echo '192.168.2.231  root  /tmp/' >>/tmp/ipaddr_list.txt\033[0m"
-	echo -e "\033[33mUsage:ipaddr   user   dir\n192.168.2.230  \
-root  /tmp/\n192.168.2.231  root  /tmp/\033[0m"
+\ne.g.: echo 'iamIPaddress  IamUsername  /tmp/' >>/tmp/ipaddr_list.txt\033[0m"
+	echo -e "\033[33mUsage:ipaddr   user   dir\niamIPaddress  \
+IamUsername  /tmp/\niamIPaddress  IamUsername  /tmp/\033[0m"
 	exit
 fi
 }
@@ -39,7 +39,7 @@ done
 
 #从本机拷贝文件到远程主机
 function scp_files() {
-echo -e "\033[32mUsage:\ne.g.: /root/test.txt\033[1m"
+echo -e "\033[32mUsage:\ne.g.: /IamUsername/test.txt\033[1m"
 read -p "Please input need to copy file: " -a files
 for ((i=0;i<${#files[@]};i++))
 do

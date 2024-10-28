@@ -6,12 +6,12 @@
 echo -e "\033[32m---------------------------------\033[0m"
 
 IPADDR=`ifconfig |grep Bcast |awk '{print $2}'|sed 's/addr://g'`
-MASTER_IP=192.168.2.230
+MASTER_IP=iamIPaddress
 SYNC_USER='tongbu'
 SYNC_PASSWORD='123456'
 
 sleep 2
-if [ "$IPADDR" = "192.168.2.230" ] ;then
+if [ "$IPADDR" = "iamIPaddress" ] ;then
 	echo -e "\033[32mInstall mysql master\033[0m"
 	yum -y install ntpdate mysql-server mysql-devel mysql
 	echo -e "\033[32mPlease waiting,ntpdate is working...\033[0m"
@@ -30,19 +30,19 @@ if [ "$IPADDR" = "192.168.2.230" ] ;then
 	fi
 #	sleep 1
 	echo -e "\033[32m请输入mysql初始密码，密码为空，直接按回车键即可！ \033[0m"
-	mysqladmin -hlocalhost -uroot -p password 123456
-	mysql -hlocalhost -uroot -p123456 -e "grant replication slave on *.* to '$SYNC_USER'@'%' identified by '$SYNC_PASSWORD';flush privileges;"
+	mysqladmin -hlocalhost -uIamUsername -p password 123456
+	mysql -hlocalhost -uIamUsername -p123456 -e "grant replication slave on *.* to '$SYNC_USER'@'%' identified by '$SYNC_PASSWORD';flush privileges;"
 
 	#定义binlog日志变量
-	BINLOGNAME=`mysql -hlocalhost -uroot -p123456 -e "show master status \G" |grep File |awk '{print $2}'`
-	BINLOGNODE=`mysql -hlocalhost -uroot -p123456 -e "show master status \G" |grep Position |awk '{print $2}'`
+	BINLOGNAME=`mysql -hlocalhost -uIamUsername -p123456 -e "show master status \G" |grep File |awk '{print $2}'`
+	BINLOGNODE=`mysql -hlocalhost -uIamUsername -p123456 -e "show master status \G" |grep Position |awk '{print $2}'`
 	echo "BINLOGNAME=$BINLOGNAME" >> /tmp/binlog.txt
 	echo "BINLOGNODE=$BINLOGNODE" >> /tmp/binlog.txt
 	echo -e "\033[32m拷贝binlog相关信息到slave主机上，请按提示输入yes和密码...\033[0m"
-	scp /tmp/binlog.txt /root/$0 root@"192.168.2.231":/root/
+	scp /tmp/binlog.txt /IamUsername/$0 IamUsername@"iamIPaddress":/IamUsername/
 	if [ $? -eq 0 ];then
 	    echo 
-	    echo -e "\033[32m已成功拷贝到192.168.2.231的/root/下\033[0m"
+	    echo -e "\033[32m已成功拷贝到iamIPaddress的/IamUsername/下\033[0m"
 	fi
 	rm -rf /tmp/binlog.txt
 			
@@ -63,16 +63,16 @@ else
         fi
 	sleep 1
 	echo -e "\033[32m请输入mysql初始密码，密码为空，直接按回车键即可！ \033[0m"
-	mysqladmin -hlocalhost -uroot -p password 123456
+	mysqladmin -hlocalhost -uIamUsername -p password 123456
 
-	BINLOGNAME=`cat /root/binlog.txt |grep BINLOGNAME | awk '{print $1}' |sed 's/BINLOGNAME=//g'`
-	BINLOGNODE=`cat /root/binlog.txt |grep BINLOGNODE | awk '{print $1}' |sed 's/BINLOGNODE=//g'`
+	BINLOGNAME=`cat /IamUsername/binlog.txt |grep BINLOGNAME | awk '{print $1}' |sed 's/BINLOGNAME=//g'`
+	BINLOGNODE=`cat /IamUsername/binlog.txt |grep BINLOGNODE | awk '{print $1}' |sed 's/BINLOGNODE=//g'`
 
-	mysql -hlocalhost -uroot -p123456 -e "change master to master_host='$MASTER_IP',master_user='$SYNC_USER',master_password='$SYNC_PASSWORD',master_log_file='$BINLOGNAME',master_log_pos=$BINLOGNODE;start slave;"
+	mysql -hlocalhost -uIamUsername -p123456 -e "change master to master_host='$MASTER_IP',master_user='$SYNC_USER',master_password='$SYNC_PASSWORD',master_log_file='$BINLOGNAME',master_log_pos=$BINLOGNODE;start slave;"
 	
 	#check start status;
-	SLAVE_IO_STATUS=`mysql -hlocalhost -uroot -p123456 -e "show slave status \G" |grep Slave_IO_Running | awk '{print $2}'`
-	SLAVE_SQL_STATUS=`mysql -hlocalhost -uroot -p123456 -e "show slave status \G" |grep Slave_SQL_Running | awk '{print $2}'`
+	SLAVE_IO_STATUS=`mysql -hlocalhost -uIamUsername -p123456 -e "show slave status \G" |grep Slave_IO_Running | awk '{print $2}'`
+	SLAVE_SQL_STATUS=`mysql -hlocalhost -uIamUsername -p123456 -e "show slave status \G" |grep Slave_SQL_Running | awk '{print $2}'`
 	echo 
 	echo -e "\033[32m\n--------------------------\033[0m"
 	if [ "$SLAVE_IO_STATUS" = 'Yes' -a "$SLAVE_SQL_STATUS" = 'Yes' ];then

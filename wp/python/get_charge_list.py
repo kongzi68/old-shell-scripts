@@ -25,9 +25,9 @@ country = 'china'
 q_type = 'weekly'
 
 # 充值库:charge
-ch_user = 'root'
+ch_user = 'IamUsername'
 ch_passwd = '123456'
-ch_host = '10.221.124.144'
+ch_host = 'iamIPaddress'
 ch_port = 3306
 #--------------------------
 

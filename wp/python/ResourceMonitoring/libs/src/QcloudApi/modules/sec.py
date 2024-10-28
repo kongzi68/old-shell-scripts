@@ -15,7 +15,7 @@ def main():
         'method': 'get'
     }
     params = {
-        'userIp': '127.0.0.1',
+        'userIp': 'iamIPaddress',
         'businessId': 1,
         'captchaType': 1,
         'script': 0,

@@ -4,7 +4,7 @@
 #
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-SCRIPTS_NAME='/root/train_service/auto_inotify.sh'
+SCRIPTS_NAME='/IamUsername/train_service/auto_inotify.sh'
 
 PS_NUM=$(ps -ef | grep -v "grep" | grep "$(basename ${SCRIPTS_NAME})" | wc -l )
 if [ "${PS_NUM}" -ge 1 ];then

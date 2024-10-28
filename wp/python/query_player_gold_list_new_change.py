@@ -93,7 +93,7 @@ def get_login_play_list():
                    DATE_FORMAT(insertime,'%Y-%m-%d') BETWEEN '{1}' 
                    AND '{2}';'''.format(i, query_start_time, query_end_time)
         logging.info(query)
-        ret_query = query_mysql_result('10.221.168.131', 3306, 'root',
+        ret_query = query_mysql_result('iamIPaddress', 3306, 'IamUsername',
                                        '123456', 'OSS', query)
         for uid in ret_query:
             login_play_list.add(uid[0])
@@ -107,7 +107,7 @@ def get_charge_list():
     charge_list = set()
     query = '''SELECT DISTINCT uid FROM IOSFinish UNION 
                SELECT DISTINCT uid FROM TmallFinish;'''
-    ret_query = query_mysql_result('10.221.124.144', 3306, 'root',
+    ret_query = query_mysql_result('iamIPaddress', 3306, 'IamUsername',
                                    '123456', 'Charge', query)
     for uid in ret_query:
         charge_list.add(uid[0])
@@ -124,7 +124,7 @@ def open_gs_date(sid):
                 COUNT( DATE_FORMAT(time, '%Y-%m-%d')) AS num 
                 FROM IOSFinish WHERE sid = {0} GROUP BY sid, ctime 
                 HAVING num > 5 ORDER BY ctime LIMIT 1;'''.format(sid)
-    ret_query = query_mysql_result('10.221.124.144', 3306, 'root',
+    ret_query = query_mysql_result('iamIPaddress', 3306, 'IamUsername',
                                    '123456', 'Charge', query, dict_ret=True)
 
     if ret_query: ret = ret_query[0]['ctime']
@@ -161,11 +161,11 @@ def save_nologin_incharge_result(login_play_list, charge_list):
     # 拉取游戏服清单
     query = '''SELECT DISTINCT dbip,dbport,dbname,real_sid,real_sname 
                FROM t_gameserver_list; '''
-    server_list = query_mysql_result('10.221.124.144', 3306, 'root', 
+    server_list = query_mysql_result('iamIPaddress', 3306, 'IamUsername', 
                                      '123456', 'Login', query)
 
     # 创建用于查询username的连接与游标
-    conn = mysql_conn('10.221.124.144', 3306, 'root', '123456', 'Login')
+    conn = mysql_conn('iamIPaddress', 3306, 'IamUsername', '123456', 'Login')
     cur = conn.cursor()
 
     # 创建sqlite3游标，把符合条件的数据写入表t_list
@@ -188,7 +188,7 @@ def save_nologin_incharge_result(login_play_list, charge_list):
                        FROM_UNIXTIME(c_last_leave_time, '%Y-%m-%d') AS ltime
                        FROM t_char_basic WHERE 
                        FROM_UNIXTIME(c_last_leave_time, '%Y-%m-%d') < '2016-01-01';'''
-            play_list = query_mysql_result(host, port, 'root', '123456', 
+            play_list = query_mysql_result(host, port, 'IamUsername', '123456', 
                                            dbname, query)
             # 遍历处理单个游戏服中的所有uid
             for uid, cid, charname, unbindgold, ltime in play_list:
@@ -301,7 +301,7 @@ if __name__ == '__main__':
             sys.exit()
 
         try:
-            g_conn = mysql_conn(host, port, 'root', '123456', dbname)
+            g_conn = mysql_conn(host, port, 'IamUsername', '123456', dbname)
             g_cur = g_conn.cursor()
 
             for id_num,uid,cid,gold in gs_ret_query.fetchall():

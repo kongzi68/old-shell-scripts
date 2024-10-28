@@ -14,7 +14,7 @@ ftp_err_dir="/tmp/ftp_err/"
 [ -d ${ftp_err_dir} ] || mkdir -p ${ftp_err_dir}
 ftp_err_log="${ftp_err_dir}ftp_temp_${log_type}_err.log"
 send_log(){
-    ftp -ivn 114.215.141.72 21 2>${ftp_err_log} << _EOF_
+    ftp -ivn iamIPaddress 21 2>${ftp_err_log} << _EOF_
     user upload chriscao
     passive
     bin

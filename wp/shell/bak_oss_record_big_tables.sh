@@ -14,7 +14,7 @@ ARRY_TABLES=(
 
 cd /data/db_backup/bak_oss_record_20160809 && {
     for item in ${ARRY_TABLES[@]};do
-        /usr/local/mysql/bin/mysqldump -h'192.168.21.94' -uroot -p'thisispassword' -P3307 \
+        /usr/local/mysql/bin/mysqldump -h'iamIPaddress' -uIamUsername -p'thisispassword' -P3307 \
         --default-character-set=utf8 OSS_record ${item} | gzip > ${item}.sql.gz
         if [ $? -eq 0 ];then
             echo "Backup ${item}.sql.gz succesed."

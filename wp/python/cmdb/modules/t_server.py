@@ -222,7 +222,7 @@ def getInfo(minion_id):
     ret['env'] = env_dict.get(minion_id)
     ret['cpu'] = "{0}[{1}]".format(info['cpu_model'], info['num_cpus'])
     ret['mem'] = info['mem_total']
-    ip = [ item for item in info['ipv4'] if item != '127.0.0.1' ]
+    ip = [ item for item in info['ipv4'] if item != 'iamIPaddress' ]
     ret['ip'] = ip[0]
     ret['saltid'] = info['id']
     ret['netip'] = info.get('netip', 'null').rstrip()
@@ -241,7 +241,7 @@ def execCommand(salt_id, opt_name):
     ping_result = client.cmd(salt_id, 'test.ping')
     try:
         # 若salt_id不通，check_result结果为空字典
-        # 正常：{'centos_192.168.10.55': 'centos_192.168.10.55'}
+        # 正常：{'centos_iamIPaddress': 'centos_iamIPaddress'}
         check_result = client.cmd(salt_id, 'grains.get', ['id'])
     except Exception as error:
         check_result = None

@@ -6,7 +6,7 @@
 import pymysql
 import MG_DBProtocol_PB_pb2 as MHPB
 gsMsgPb = MHPB.DB_AllianceNewResource_PB()
-conn = pymysql.connect(host='10.130.49.2', port=3306, user='root', passwd='game@t6game', db='160926ProjectM2', charset="utf8")
+conn = pymysql.connect(host='iamIPaddress', port=3306, user='IamUsername', passwd='game@t6game', db='160926ProjectM2', charset="utf8")
 cur = conn.cursor()
 sql = "select c_new_data from t_alliance_list where c_name='SLoW_LiFe';"
 cur.execute(sql)

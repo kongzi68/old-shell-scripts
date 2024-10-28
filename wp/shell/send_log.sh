@@ -8,7 +8,7 @@
 #
 ##脚本说明：
 # 计划任务,建议定时在凌晨5~10分左右
-# #send /data/www/osslog's log to 119.29.192.31(write_oss)
+# #send /data/www/osslog's log to iamIPaddress(write_oss)
 # 5 0 * * * /data/scripts/send_log.sh >> /var/log/cron_scripts_run.log 2>&1
 #
 ##功能要求：
@@ -65,7 +65,7 @@ sendLog(){
     DIR=$2
     for ((i=1;i<=${SEND_MAX_TIME};i++))
     do
-        scp -i /root/.ssh/id_rsa ${LOGNAME} root@10.104.123.254:${DIR}
+        scp -i /IamUsername/.ssh/id_rsa ${LOGNAME} IamUsername@iamIPaddress:${DIR}
         if [ $? -eq 0 ];then
             echoGoodLog "Send log: ${LOGNAME} is successfully."
             return 0
@@ -96,7 +96,7 @@ cd /data/www/osslog/ && {
         DEVID=$(echo ${ITEM} |awk -F[/-] '{print $4}')
         DIR="/data/funnel/${GAMEID}/${DEVID}"
         tarLogFile ${LOGNAME} ${ITEM}
-        ssh -tt -i /root/.ssh/id_rsa root@10.104.123.254 <<-EOF
+        ssh -tt -i /IamUsername/.ssh/id_rsa IamUsername@iamIPaddress <<-EOF
             [ ! -d ${DIR} ] && mkdir -p ${DIR}
             exit
 EOF

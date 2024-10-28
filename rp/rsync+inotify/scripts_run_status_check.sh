@@ -4,8 +4,8 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 SCRIPTS_NAME=(
-	/root/train_service/auto_inotify.sh
-	/root/train_service/download_log_to_chengdu_tongji.sh
+	/IamUsername/train_service/auto_inotify.sh
+	/IamUsername/train_service/download_log_to_chengdu_tongji.sh
 )
 for i in ${SCRIPTS_NAME[@]}
 do

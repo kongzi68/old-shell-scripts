@@ -41,11 +41,11 @@ def ftp_get_file(update_file, ftpdir):
     update_file = str(update_file)
     ftp = ftplib.FTP()
     try:
-        # ftp.connect('192.168.10.36', 21)
+        # ftp.connect('iamIPaddress', 21)
         # ftp.login('ftpuser', '123456')
-        # ftp.connect('161.202.172.44', 21)
+        # ftp.connect('iamIPaddress', 21)
         # ftp.login('ftpuser', r'123456')
-        ftp.connect('10.232.20.54', 21)
+        ftp.connect('iamIPaddress', 21)
         ftp.login('ftptest', r'123456')
         ftp.cwd(ftpdir)
         ftp.retrbinary('RETR {0}'.format(update_file),

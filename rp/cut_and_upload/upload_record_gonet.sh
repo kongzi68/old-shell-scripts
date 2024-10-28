@@ -40,7 +40,7 @@ LCD_DIR="${GONETDIR}gonet_access_log_backup"
 ##
 # define the ftp server
 #
-FTPSERVER='11.11.11.11'
+FTPSERVER='iamIPaddress'
 FTPUSER='upload'
 FTPPASSWD='thisispassword'
 SSHPORT='220'

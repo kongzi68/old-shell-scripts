@@ -5,11 +5,11 @@ SRC='/data/www/traindata/imgs/'
 TARGET_MODULE='hls'
 RSYNC_PAS='/etc/rsync.pas'
 IPARRAY=(
-    222.32.65.10
-    221.0.187.10
-    61.232.45.10
-    221.173.128.10
-    118.244.237.10
+    iamIPaddress
+    iamIPaddress
+    iamIPaddress
+    iamIPaddress
+    iamIPaddress
 )
 
 inotifywait -mrq --timefmt '%d/%m/%y-%H:%M' --format '%T %w%f' -e modify,delete,create,attrib ${SRC} | while read file

@@ -1,9 +1,9 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.10.36
+Source Server         : iamIPaddress
 Source Server Version : 50613
-Source Host           : 192.168.10.36:3306
+Source Host           : iamIPaddress:3306
 Source Database       : cmdb
 
 Target Server Type    : MYSQL
@@ -58,7 +58,7 @@ CREATE TABLE `t_dbserver` (
 -- ----------------------------
 -- Records of t_dbserver
 -- ----------------------------
-INSERT INTO `t_dbserver` VALUES ('0a4cb4e5672a563a', 'f89b9a7c7acace67', '192.168.10.36,171.221.254.34', '3306', 'null', 'slave', '5.6.13', 'mysql', 0x636D64625F7765622C636D64625F6F73732C636D64622C);
+INSERT INTO `t_dbserver` VALUES ('0a4cb4e5672a563a', 'f89b9a7c7acace67', 'iamIPaddress,iamIPaddress', '3306', 'null', 'slave', '5.6.13', 'mysql', 0x636D64625F7765622C636D64625F6F73732C636D64622C);
 
 -- ----------------------------
 -- Table structure for `t_gametype`
@@ -133,11 +133,11 @@ CREATE TABLE `t_program` (
 -- ----------------------------
 -- Records of t_program
 -- ----------------------------
-INSERT INTO `t_program` VALUES ('0a4cb4e5672a563a', 'f89b9a7c7acace67', 'mysql', 0x2F7573722F6C6F63616C2F6D7973716C2F62696E2F6D7973716C64202D2D626173656469723D2F7573722F6C6F63616C2F6D7973716C202D2D646174616469723D2F646174612F6D7973716C2F64617461202D2D706C7567696E2D6469723D2F7573722F6C6F63616C2F6D7973716C2F6C69622F706C7567696E202D2D757365723D6D7973716C202D2D6C6F672D6572726F723D2F646174612F6D7973716C2F6C6F672F6D7973716C642E6C6F67202D2D6F70656E2D66696C65732D6C696D69743D3635353335202D2D7069642D66696C653D2F646174612F6D7973716C2F6D7973716C642E706964202D2D736F636B65743D2F646174612F6D7973716C2F646174612F6D7973716C2E736F636B202D2D706F72743D33333036, '192.168.10.36,171.221.254.34', '4227', '3306', '1');
-INSERT INTO `t_program` VALUES ('0fdd4c314feb3b1b', 'd379df63e0b6602a', 'GameServerMannage', 0x433A5C334A69616E48616F53657276657230315C47616D655365727665724D616E6E6167652E657865, '192.168.10.35,171.221.254.34', '4548', '55642', '1');
-INSERT INTO `t_program` VALUES ('356d3610ca088e68', 'd379df63e0b6602a', 'GameServerMannage', 0x433A5C334A69616E48616F53657276657230325C47616D655365727665724D616E6E6167652E657865, '192.168.10.35,171.221.254.34', '4612', '55641', '1');
-INSERT INTO `t_program` VALUES ('ba0ac295425a640c', 'c1d9e32ac1c63344', 'nginx', 0x6E67696E783A206D61737465722070726F63657373202F7573722F6C6F63616C2F6E67696E782F7362696E2F6E67696E78, '192.168.10.55,171.221.254.34', '1972', '80', '1');
-INSERT INTO `t_program` VALUES ('bac41bb7c7104abd', 'f89b9a7c7acace67', 'nginx', 0x6E67696E783A206D61737465722070726F63657373202F6F70742F6769746C61622F656D6265646465642F7362696E2F6E67696E78202D70202F7661722F6F70742F6769746C61622F6E67696E78, '192.168.10.36,171.221.254.34', '1152', '8060', '1');
+INSERT INTO `t_program` VALUES ('0a4cb4e5672a563a', 'f89b9a7c7acace67', 'mysql', 0x2F7573722F6C6F63616C2F6D7973716C2F62696E2F6D7973716C64202D2D626173656469723D2F7573722F6C6F63616C2F6D7973716C202D2D646174616469723D2F646174612F6D7973716C2F64617461202D2D706C7567696E2D6469723D2F7573722F6C6F63616C2F6D7973716C2F6C69622F706C7567696E202D2D757365723D6D7973716C202D2D6C6F672D6572726F723D2F646174612F6D7973716C2F6C6F672F6D7973716C642E6C6F67202D2D6F70656E2D66696C65732D6C696D69743D3635353335202D2D7069642D66696C653D2F646174612F6D7973716C2F6D7973716C642E706964202D2D736F636B65743D2F646174612F6D7973716C2F646174612F6D7973716C2E736F636B202D2D706F72743D33333036, 'iamIPaddress,iamIPaddress', '4227', '3306', '1');
+INSERT INTO `t_program` VALUES ('0fdd4c314feb3b1b', 'd379df63e0b6602a', 'GameServerMannage', 0x433A5C334A69616E48616F53657276657230315C47616D655365727665724D616E6E6167652E657865, 'iamIPaddress,iamIPaddress', '4548', '55642', '1');
+INSERT INTO `t_program` VALUES ('356d3610ca088e68', 'd379df63e0b6602a', 'GameServerMannage', 0x433A5C334A69616E48616F53657276657230325C47616D655365727665724D616E6E6167652E657865, 'iamIPaddress,iamIPaddress', '4612', '55641', '1');
+INSERT INTO `t_program` VALUES ('ba0ac295425a640c', 'c1d9e32ac1c63344', 'nginx', 0x6E67696E783A206D61737465722070726F63657373202F7573722F6C6F63616C2F6E67696E782F7362696E2F6E67696E78, 'iamIPaddress,iamIPaddress', '1972', '80', '1');
+INSERT INTO `t_program` VALUES ('bac41bb7c7104abd', 'f89b9a7c7acace67', 'nginx', 0x6E67696E783A206D61737465722070726F63657373202F6F70742F6769746C61622F656D6265646465642F7362696E2F6E67696E78202D70202F7661722F6F70742F6769746C61622F6E67696E78, 'iamIPaddress,iamIPaddress', '1152', '8060', '1');
 
 -- ----------------------------
 -- Table structure for `t_saltmaster`
@@ -182,12 +182,12 @@ CREATE TABLE `t_server` (
 -- ----------------------------
 -- Records of t_server
 -- ----------------------------
-INSERT INTO `t_server` VALUES ('c1d9e32ac1c63344', '1009', '', '192.168.10.55', '171.221.254.34', 'CentOS 6.5,Linux 2.6.32-431.el6.x86_64', 'Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz[2]', '1878', '48', '1', 'PublicServer', 'centos_192.168.10.55', null, null, null, null);
-INSERT INTO `t_server` VALUES ('d379df63e0b6602a', '1009', 'YW', '192.168.10.35', '171.221.254.34', 'Microsoft Windows Server 2008 R2 Enterprise 6.1.7601', 'Intel64 Family 6 Model 63 Stepping 2, GenuineIntel[2]', '4095', '48', '1', 'GMServer', 'win2008_test', null, null, null, null);
-INSERT INTO `t_server` VALUES ('f89b9a7c7acace67', '1009', 'sjh-gsdbMater04', '192.168.10.36', '171.221.254.34', 'CentOS 6.8,Linux 2.6.32-642.4.2.el6.x86_64', 'Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz[2]', '1877', '48', '1', 'PublicServer', 'centos_192.168.10.36', null, null, null, null);
+INSERT INTO `t_server` VALUES ('c1d9e32ac1c63344', '1009', '', 'iamIPaddress', 'iamIPaddress', 'CentOS 6.5,Linux 2.6.32-431.el6.x86_64', 'Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz[2]', '1878', '48', '1', 'PublicServer', 'centos_iamIPaddress', null, null, null, null);
+INSERT INTO `t_server` VALUES ('d379df63e0b6602a', '1009', 'YW', 'iamIPaddress', 'iamIPaddress', 'Microsoft Windows Server 2008 R2 Enterprise 6.1.7601', 'Intel64 Family 6 Model 63 Stepping 2, GenuineIntel[2]', '4095', '48', '1', 'GMServer', 'win2008_test', null, null, null, null);
+INSERT INTO `t_server` VALUES ('f89b9a7c7acace67', '1009', 'sjh-gsdbMater04', 'iamIPaddress', 'iamIPaddress', 'CentOS 6.8,Linux 2.6.32-642.4.2.el6.x86_64', 'Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz[2]', '1877', '48', '1', 'PublicServer', 'centos_iamIPaddress', null, null, null, null);
 
 -- ----------------------------
 -- View structure for `all_services`
 -- ----------------------------
 DROP VIEW IF EXISTS `all_services`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`171.221.254.34` SQL SECURITY DEFINER VIEW `all_services` AS select `a`.`server_id` AS `server_id`,`a`.`ip` AS `ip`,`a`.`netip` AS `netip`,`a`.`cpu` AS `cpu`,`a`.`mem` AS `mem`,`a`.`disk` AS `disk`,`a`.`os` AS `os`,`a`.`game_id` AS `game_id`,`b`.`program` AS `program`,`b`.`pid` AS `pid`,`b`.`port` AS `port` from (`t_server` `a` join `t_program` `b`) where (`a`.`server_id` = `b`.`server_id`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`IamUsername`@`iamIPaddress` SQL SECURITY DEFINER VIEW `all_services` AS select `a`.`server_id` AS `server_id`,`a`.`ip` AS `ip`,`a`.`netip` AS `netip`,`a`.`cpu` AS `cpu`,`a`.`mem` AS `mem`,`a`.`disk` AS `disk`,`a`.`os` AS `os`,`a`.`game_id` AS `game_id`,`b`.`program` AS `program`,`b`.`pid` AS `pid`,`b`.`port` AS `port` from (`t_server` `a` join `t_program` `b`) where (`a`.`server_id` = `b`.`server_id`) ;

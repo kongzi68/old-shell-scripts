@@ -1,0 +1,31 @@
+[hwcloud_data]
+data1 ansible_ssh_host=iamIPaddress
+data2 ansible_ssh_host=iamIPaddress
+data3 ansible_ssh_host=iamIPaddress
+wind-server ansible_ssh_host=iamIPaddress
+
+[saa_data]
+iamIPaddress
+
+[api3]
+iamIPaddress
+
+[api4_mirror]
+iamIPaddress
+iamIPaddress
+
+[tools]
+iamIPaddress
+
+[hwcloud:children]
+hwcloud_data
+api3
+api4_mirror
+saa_data
+tools
+
+[hwcloud:vars]
+ansible_ssh_user=iamUserName
+ansible_python_interpreter=/usr/bin/python3
+
+

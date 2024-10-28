@@ -4,7 +4,7 @@
 #Revision on 2015-11-03
 #
 #Useage: ./check_log.sh /home/upload/ 
-# 10 * * * * /root/check_log.sh
+# 10 * * * * /IamUsername/check_log.sh
 #
 ################################
 

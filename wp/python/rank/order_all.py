@@ -6,7 +6,7 @@ import MySQLdb
 from read_host import read_host
 def update_order(db_ip,db_port,db_name,lock):
     try:
-        conn = MySQLdb.connect(host=db_ip,user='root',passwd='123456',db=db_name,port=db_port,charset='utf8')
+        conn = MySQLdb.connect(host=db_ip,user='IamUsername',passwd='123456',db=db_name,port=db_port,charset='utf8')
         cur = conn.cursor()
         cur.execute("call rank_attdef")
         conn.commit()

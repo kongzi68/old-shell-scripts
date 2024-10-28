@@ -13,11 +13,11 @@ set smtp-auth-user=kongzi68  smtp-auth-password=ivxrlegagvlmnvrs
 set smtp-auth=login
 EOF
 
-scripts='/root/check_log/check_log.sh'
+scripts='/IamUsername/check_log/check_log.sh'
 if [ -f ${scripts} ];then
     chmod +x ${scripts};
-    echo "* * * * * /bin/sh ${scripts} >>/var/log/check_log_run_stats.log" >>/var/spool/cron/crontabs/root
+    echo "* * * * * /bin/sh ${scripts} >>/var/log/check_log_run_stats.log" >>/var/spool/cron/crontabs/IamUsername
 else
-    echo "\033[31mPlease check if there is the check_log.sh in the root directory.\033[0m"
+    echo "\033[31mPlease check if there is the check_log.sh in the IamUsername directory.\033[0m"
 fi
 echo "\033[32mDone.\033[0m"

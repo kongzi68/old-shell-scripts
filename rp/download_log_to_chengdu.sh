@@ -92,7 +92,7 @@ FTPERRORDIR="/tmp/ftp_err/"
 FTPERRORLOG="${FTPERRORDIR}ftp_temp_download_err$$.log"
 
 ftpGetLog(){
-    timeout 1h ftp -inv 114.215.141.72 21 > ${FTPERRORLOG} << _EOF_
+    timeout 1h ftp -inv iamIPaddress 21 > ${FTPERRORLOG} << _EOF_
     user upload chriscao
     passive
     bin
@@ -112,7 +112,7 @@ runFtpGetLog(){
     if [ $? -eq 0 ];then
         echoGoodLog "Get: $2/$1 was successfully."
         [ ${RMTARFILENUM} -eq 1 ] && {
-            ssh -p 22000 upload@114.215.141.72 rm /home/upload"$2"/${TEMPTARFILENAME}.tar.gz
+            ssh -p 22000 upload@iamIPaddress rm /home/upload"$2"/${TEMPTARFILENAME}.tar.gz
             RMTARFILENUM=0
         }
         return 0
@@ -135,7 +135,7 @@ getLogFileToChengDu(){
             [ ${TEMPNUM} -eq 0 ] && {
                 TEMPTARFILENAME=`echo ${FTPGETFILENAME} |grep -Eo "[a-z]{5,10}[0-9]{4}(-[0-9]{2}){2}"`
                 [ -e ${CHENGDUSAVEDIR}/${TEMPTARFILENAME}.tar.gz ] || {
-                    ssh -p 22000 upload@114.215.141.72 tar -czf /home/upload${ALIYUNFTPDIR}/${TEMPTARFILENAME}.tar.gz /home/upload${ALIYUNFTPDIR}/${FTPGETFILENAME}
+                    ssh -p 22000 upload@iamIPaddress tar -czf /home/upload${ALIYUNFTPDIR}/${TEMPTARFILENAME}.tar.gz /home/upload${ALIYUNFTPDIR}/${FTPGETFILENAME}
                     echoGoodLog "TAR: /home/upload${ALIYUNFTPDIR}/${TEMPTARFILENAME}.tar.gz..."
                     FTPGETFILENAME=${TEMPTARFILENAME}.tar.gz
                     RMTARFILENUM=1
@@ -173,7 +173,7 @@ CDLOGBACKUPDIR='/data/log_backup'
 checkLogFile(){
     DIR=$1
     matchLogName ${DIR}
-    ssh -p 22000 upload@'114.215.141.72' ls ${DIR}/${MATCHLOG} > ${TEMPCHECKLOGLIST}
+    ssh -p 22000 upload@'iamIPaddress' ls ${DIR}/${MATCHLOG} > ${TEMPCHECKLOGLIST}
     NOFILESUM=`grep "No such file or directory" ${TEMPCHECKLOGLIST} |wc -l`
     [ ${NOFILESUM} -eq 0 ] && {
         FILESUM=`cat ${TEMPCHECKLOGLIST} |wc -l`
@@ -192,7 +192,7 @@ excludeCheckDir(){
     TEMPDIRNUM=`echo "${DIR}" |grep -vE "[A-Z]"|grep -vE "[0-9]{4}(.[0-9]{2}){2}"|grep -E "/${TEMPDIR}/" |wc -l`
     TEMPFINDFILE="/tmp/temp_find_file$$.txt"
     [ -e ${TEMPFINDFILE} ] || touch ${TEMPFINDFILE}
-    ssh -p 22000 upload@'114.215.141.72' find ${DIR} -maxdepth 1 -type f -mtime -2 > ${TEMPFINDFILE}
+    ssh -p 22000 upload@'iamIPaddress' find ${DIR} -maxdepth 1 -type f -mtime -2 > ${TEMPFINDFILE}
     FILE_NUM=`cat ${TEMPFINDFILE}| grep -Eo "$(echo ${DIR} |awk -F/ '{print $4}')" |wc -l`
     [ ${FILE_NUM} -gt 1 ] && [ ${TEMPDIRNUM} -eq 1 ] && {
         checkLogFile ${DIR}
@@ -202,17 +202,17 @@ excludeCheckDir(){
 }
 
 DIRLISTFILE='uploadDirList.txt'
-scp -P 22000 upload@'114.215.141.72':/home/upload/${DIRLISTFILE} /root/
+scp -P 22000 upload@'iamIPaddress':/home/upload/${DIRLISTFILE} /IamUsername/
 
-[ -f /root/${DIRLISTFILE} ] && {
-    TEMPFORNUM=$(wc -l /root/${DIRLISTFILE})
+[ -f /IamUsername/${DIRLISTFILE} ] && {
+    TEMPFORNUM=$(wc -l /IamUsername/${DIRLISTFILE})
     for((FORNUM=1;FORNUM<=${TEMPFORNUM};FORNUM++))
     do
-        DIRNAME=`sed -n "${FORNUM}p" /root/${DIRLISTFILE}`
+        DIRNAME=`sed -n "${FORNUM}p" /IamUsername/${DIRLISTFILE}`
         excludeCheckDir ${DIRNAME}
         echoGoodLog "==========${FORNUM}==========="
     done
-    rm /root/${DIRLISTFILE}
+    rm /IamUsername/${DIRLISTFILE}
 }
 
 sendEmail ${TEMP_EMAIL_FILES}

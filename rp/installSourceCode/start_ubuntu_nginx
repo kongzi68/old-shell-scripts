@@ -84,7 +84,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 PS=${PS:-"nginx"}                             # process name
 DESCRIPTION=${DESCRIPTION:-"Nginx Server..."} # process description
-NGINXPATH=${NGINXPATH:-/usr/local/nginx}      # root path where installed
+NGINXPATH=${NGINXPATH:-/usr/local/nginx}      # IamUsername path where installed
 DAEMON=${DAEMON:-$NGINXPATH/sbin/nginx}       # path to daemon binary
 NGINX_CONF_FILE=${NGINX_CONF_FILE:-$NGINXPATH/etc/nginx.conf} # config file path
 
@@ -92,7 +92,7 @@ PIDNAME=${PIDNAME:-"nginx"}                   # lets you do $PS-slave
 PIDFILE=${PIDFILE:-$PIDNAME.pid}              # pid file
 PIDSPATH='/run'                               # set pid path
 PIDSPATH=${PIDSPATH:-$NGINXPATH/logs}         # default pid location, you should change it
-RUNAS=${RUNAS:-root}                          # user to run as
+RUNAS=${RUNAS:-IamUsername}                          # user to run as
 
 SCRIPT_OK=0           # ala error codes
 SCRIPT_ERROR=1        # ala error codes

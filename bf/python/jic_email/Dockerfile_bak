@@ -1,0 +1,7 @@
+FROM iamIPaddress/jic/jictrust-send-email-or-sms:python-tool
+LABEL maintainer="colin" version="1.0" datetime="2023-05-06"
+WORKDIR /opt/iamUserName/
+RUN apt-get install -y vim && \
+    mkdir -p /opt/iamUserName/conf
+COPY jicSendEmailOrSMS.py /opt/iamUserName/
+COPY README.md /opt/iamUserName/

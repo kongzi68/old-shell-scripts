@@ -189,7 +189,7 @@ EOF
 installTool(){
     echoGoodLog "Install tools."
     echoLine
-    echo "nameserver 114.114.114.114" > /etc/resolv.conf
+    echo "nameserver iamIPaddress" > /etc/resolv.conf
     PINGSTATUS=`ping -c 4 www.baidu.com |grep "packet loss"|awk -F, '{print $3}'|grep -Eo '[0-9]+'`
     [ "${PINGSTATUS}" -eq 0 ] || {
         echoBadLog "Please set the network for the system..."
@@ -220,13 +220,13 @@ installTool(){
 }
 
 setScriptCrontab(){
-    SCRIPTSRUNDIR='/root/train_service/'
+    SCRIPTSRUNDIR='/IamUsername/train_service/'
     [ -d ${SCRIPTSRUNDIR} ] || mkdir -p ${SCRIPTSRUNDIR}
     [ -d ${DIRCONFIG}scripts ] && { 
         cp -a ${DIRCONFIG}scripts/* ${SCRIPTSRUNDIR} && chmod +x ${SCRIPTSRUNDIR} -R
-        cat >> /var/spool/cron/crontabs/root <<EOF
-*/5 * * * * /root/train_service/system_status.sh -g >> /var/log/system_status_run_status.log  2>&1  &
-0 * * * * /root/train_service/upload_record_gonet.sh  >> /var/log/cron_scripts_run.log  2>&1  &
+        cat >> /var/spool/cron/crontabs/IamUsername <<EOF
+*/5 * * * * /IamUsername/train_service/system_status.sh -g >> /var/log/system_status_run_status.log  2>&1  &
+0 * * * * /IamUsername/train_service/upload_record_gonet.sh  >> /var/log/cron_scripts_run.log  2>&1  &
 EOF
     }
 }
@@ -248,7 +248,7 @@ installBind9(){
 options {
         directory "/var/cache/bind";
         forwarders {
-                114.114.114.114;
+                iamIPaddress;
         };
         allow-query-cache { any; };
         auth-nxdomain no;
@@ -428,7 +428,7 @@ emergency_restart_interval = 60s
 [www]
 user = www-data
 group = www-data
-listen = 127.0.0.1:9000
+listen = iamIPaddress:9000
 listen.owner = www-data
 listen.group = www-data
 pm=static
@@ -673,7 +673,7 @@ EOF
         delete from user where user='';
         grant all on rht_train.* to 'wifidb'@'${MYSQLIPADDR}%' identified by 'ZdEa_phN7bNQQq8';
         grant all on rht_tongji.* to 'wifidb'@'${MYSQLIPADDR}%';
-        update user set password=password('password') where user='root';
+        update user set password=password('password') where user='IamUsername';
         flush privileges;
 EOF
         checkInstallStatus mysql 3306

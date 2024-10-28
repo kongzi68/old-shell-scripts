@@ -26,13 +26,13 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 # 游戏服用户名与密码
-gsdb_user = 'root'
+gsdb_user = 'IamUsername'
 gsdb_passwd = '123456'
 
 # 登录服与充值库,lc：login和charge
-lc_user = 'root'
+lc_user = 'IamUsername'
 lc_passwd = '123456'
-lc_host = '10.221.124.144'
+lc_host = 'iamIPaddress'
 lc_port = 3306
 
 def query_mysql_result(host, port, user, passwd, dbname, query, 
@@ -122,7 +122,7 @@ class UserTotalCount(object):
         query = '''SELECT c_uid, DATE_FORMAT(inserttime, '%Y-%m-%d') AS t_date 
                 FROM t_account WHERE DATE_FORMAT(inserttime, '%Y-%m-%d') 
                 BETWEEN '2017-05-03' AND '2017-05-11';'''
-        q_ret = query_mysql_result('10.221.124.144', 3306, self.user, self.passwd, 
+        q_ret = query_mysql_result('iamIPaddress', 3306, self.user, self.passwd, 
                                    'Login', query)
         for uid, date in q_ret:
             if date not in ret.keys():
@@ -139,7 +139,7 @@ class UserTotalCount(object):
         '''
         query = '''SELECT sdbip, sdbport, sdbname FROM t_gameserver_list WHERE 
                 sid = {0};'''.format(sid)
-        q_ret = query_mysql_result('10.221.124.144', 3306, self.user, self.passwd, 
+        q_ret = query_mysql_result('iamIPaddress', 3306, self.user, self.passwd, 
                                    'Login', query)
         return q_ret[0]
 
@@ -191,7 +191,7 @@ class UserTotalCount(object):
                             WHERE uid IN ({1}) AND UNIX_TIMESTAMP(insertime) = ( SELECT 
                             {2}(UNIX_TIMESTAMP(insertime)) FROM Login{0} b WHERE 
                             b.uid = a.uid );'''.format(day + daytime.tm_yday, str_uid, item)
-                    q_ret = query_mysql_result('10.221.168.131', 3306, self.user, 
+                    q_ret = query_mysql_result('iamIPaddress', 3306, self.user, 
                                                 self.passwd, 'OSS', query)
 
                     if item == 'min':
@@ -224,10 +224,10 @@ if __name__ == '__main__':
     logging.info(uids)
     str_uid = str(uids)[1:-1]   #截取头和尾的[]符号
 
-    record_db = (('10.221.172.123',3306),
-                 ('10.221.172.123',3307),
-                 ('10.221.76.226',3306),
-                 ('10.221.76.226',3307))
+    record_db = (('iamIPaddress',3306),
+                 ('iamIPaddress',3307),
+                 ('iamIPaddress',3306),
+                 ('iamIPaddress',3307))
 
     file_name = "result_task_and_old_player.xlsx"
     ret = get_task_summary(record_db, str_uid, sta_time, end_time)

@@ -6,7 +6,7 @@
 #功能说明：该脚本只能运用于aclog保存在window上的服务器
 #
 #部署说明：
-#脚本计划需要在每个整点的2分钟之后执行：2 * * * * /root/upload_aclog.sh
+#脚本计划需要在每个整点的2分钟之后执行：2 * * * * /IamUsername/upload_aclog.sh
 #因为win_aclog服务器上的日志保存工具是在每个整点时运行并生成日志文件，因此需要错开这个时间
 #
 #更新说明：
@@ -22,7 +22,7 @@ echo "`date +%F" "%T":"%N` Script: $0 will run..." >> ${scripts_run_log}
 lcd_dir='/mnt'
 cd_dir="/aclog/sd/qdn"
 log_type="aclog"
-win_ip='172.23.1.200'       #保存aclog日志的win服务器地址
+win_ip='iamIPaddress'       #保存aclog日志的win服务器地址
 win_dir='oldlog'
 #############################
 
@@ -95,7 +95,7 @@ put_log_hour_name="${log_type}${last_hour_time}.txt"
 
 #FTP自动化上传函数
 function send_log() {
-    ftp -ivn 114.215.141.72 21 >${ftp_err_log} << _EOF_
+    ftp -ivn iamIPaddress 21 >${ftp_err_log} << _EOF_
     user upload chriscao
     passive
     bin

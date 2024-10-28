@@ -4,7 +4,7 @@
 
 DATADISK=`df -hP|awk '{print $6}'|grep -w "data" |wc -l`
 [ ${DATADISK} -eq 1 ] && { 
-    cd /root/ && {
+    cd /IamUsername/ && {
         for i in `find . -maxdepth 1 -type f -name "*.sh"`
         do
             NEED_MOD_FILE=`echo $i |awk -F/ '{print $NF}'`

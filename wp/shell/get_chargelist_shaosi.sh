@@ -1,22 +1,22 @@
 #!/bin/bash
 # 用于导出少四的充值数据，并发送给财务等
-# 通过ssh免密匙的方式,密匙文件/root/.ssh/shaosi_charge，shaosi_charge.pub
+# 通过ssh免密匙的方式,密匙文件/IamUsername/.ssh/shaosi_charge，shaosi_charge.pub
 
 lastmonth=$(date -d last-month +%Y-%m)
 passwd='thisispassword'
 
 EMAIL=(
-    kongxiaolin@windplay.cn
+    zhangsan@windplay.cn
     test1@windplay.cn
 )
 
 # 导出IOS充值
-ssh -i /root/.ssh/shaosi_charge db02@119.29.64.141 mysql -udb02 -h'10.66.160.116' -p"${passwd}" -P3306 > IOSFinish${lastmonth}.txt <<-EOF
+ssh -i /IamUsername/.ssh/shaosi_charge db02@iamIPaddress mysql -udb02 -h'iamIPaddress' -p"${passwd}" -P3306 > IOSFinish${lastmonth}.txt <<-EOF
     use Charge_zb;
     select transaction_id,totalmoney,time from IOSFinish where (time>='${lastmonth}-01 00:00:00' and time<='${lastmonth}-31 23:59:59');
 EOF
 # 导出第三方充值
-ssh -i /root/.ssh/shaosi_charge db02@119.29.64.141 mysql -udb02 -h'10.66.160.116' -p"${passwd}" -P3306 > ThirdFinish${lastmonth}.txt <<-EOF
+ssh -i /IamUsername/.ssh/shaosi_charge db02@iamIPaddress mysql -udb02 -h'iamIPaddress' -p"${passwd}" -P3306 > ThirdFinish${lastmonth}.txt <<-EOF
     use Charge;
     select thirdorderid,totalmoney,time from ThirdFinish where (time>='${lastmonth}-01 00:00:00' and time<='${lastmonth}-31 23:59:59');
 EOF

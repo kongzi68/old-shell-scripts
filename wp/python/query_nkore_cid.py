@@ -13,8 +13,8 @@ reload(sys)
 sys.setdefaultencoding("utf8")
 
 # 设置Login库的连接信息，用于查询需要遍历的游戏数据库
-# 数据样板："10.232.26.60",3310,"ProjectM"
-l_host = "10.0.201.25"
+# 数据样板："iamIPaddress",3310,"ProjectM"
+l_host = "iamIPaddress"
 l_port = 3306
 l_dbname = "login"
 user = "sgh_svc"

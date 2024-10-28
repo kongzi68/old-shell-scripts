@@ -12,9 +12,9 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 #--------------------------
-dbuser = 'root'
+dbuser = 'IamUsername'
 dbpasswd = '123456'
-dbhost = '10.66.143.17'
+dbhost = 'iamIPaddress'
 dbport = 3306
 #--------------------------
 
@@ -114,7 +114,7 @@ if __name__ == '__main__':
         query = ''' SELECT DISTINCT uid, cid, level, max(insertime) AS maxtime 
                     FROM Login{0} WHERE serverid={1} GROUP BY serverid, uid, 
                     cid; '''.format(opendate.tm_yday, sid)
-        q_ret = query_mysql_result('10.66.203.128', 3306, dbuser, 
+        q_ret = query_mysql_result('iamIPaddress', 3306, dbuser, 
                                     dbpasswd, 'OSS', query)
         t_dict_level = {}
         for uid, cid, tlevel, _ in q_ret:

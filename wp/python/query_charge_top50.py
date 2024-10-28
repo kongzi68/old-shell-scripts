@@ -20,7 +20,7 @@ gsdb_passwd = '123456'
 # 登录服与充值库,lc：login和charge
 lc_user = 'user'
 lc_passwd = '123456'
-lc_host = '10.12.72.38'
+lc_host = 'iamIPaddress'
 lc_port = 3306
 
 gsMsgPb = MHPB.DB_VIPAssetData_PB()

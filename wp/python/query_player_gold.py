@@ -25,7 +25,7 @@ def execMysqlCommand(host,port,user,passwd,dbname,query):
 
 # 拉取所有游戏服数据库信息
 query = "SELECT DISTINCT sdbip,sdbport,sdbname FROM t_gameserver_list;"
-server_list = execMysqlCommand('10.221.124.144', 3306, 'root', '123456',
+server_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', '123456',
                                'Login', query)
 
 # 已登录玩家清单
@@ -38,7 +38,7 @@ for i in range(1, localtime.tm_yday):
                WHERE DATE_FORMAT(insertime,'%Y-%m-%d') 
                BETWEEN '{1}' AND '{2}';'''.format(i, query_start_time,
                                                   query_end_time)
-    t_login_play_list = execMysqlCommand('10.221.168.131', 3306, 'root', 
+    t_login_play_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', 
                                          '123456', 'OSS', query)
     print i,query
     for uid,cid in t_login_play_list:
@@ -49,7 +49,7 @@ for i in range(1, localtime.tm_yday):
 charge_list = set()
 query = '''SELECT DISTINCT uid,cid FROM IOSFinish 
            UNION SELECT DISTINCT uid,cid FROM TmallFinish;'''
-t_charge_list = execMysqlCommand('10.221.124.144', 3306, 'root', '123456',
+t_charge_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', '123456',
                                  'Charge', query)
 for uid,cid in t_charge_list:
     key = "{0}{1}".format(uid, cid)
@@ -60,7 +60,7 @@ for uid,cid in t_charge_list:
 total_gold = 0
 for host, port, dbname in server_list:
     query = "SELECT c_cid,c_uid,c_charname,c_unbindgold FROM t_char_basic;"    
-    play_list = execMysqlCommand(host, port, 'root', '123456', dbname, query)
+    play_list = execMysqlCommand(host, port, 'IamUsername', '123456', dbname, query)
     t_total_gold = 0 
     for c_cid,c_uid,c_charname,c_unbindgold in play_list:
         a_play = "{0}{1}".format(c_uid, c_cid)

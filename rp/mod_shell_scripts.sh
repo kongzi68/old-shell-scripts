@@ -2,7 +2,7 @@
 #mod shell scripts
 #修改脚本的ftp函数的代码部分
 
-cd /root/ && {
+cd /IamUsername/ && {
     for i in `find . -maxdepth 1 -type f -name "*.sh"`
     do
         NEED_MOD_FILE=`echo $i |awk -F/ '{print $NF}'`

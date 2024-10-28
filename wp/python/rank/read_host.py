@@ -4,7 +4,7 @@ def read_host():
         "this is for reading GSDB host and port"
 	try:
 		hostList = []
-		conn = MySQLdb.connect(host='10.66.143.17',user='root',passwd='123456',db='Login',port=3306,charset='utf8')
+		conn = MySQLdb.connect(host='iamIPaddress',user='IamUsername',passwd='123456',db='Login',port=3306,charset='utf8')
 		cur = conn.cursor()
 		sql = "SELECT DISTINCT dbip,dbport,dbname FROM t_gameserver_list ORDER BY real_sid;"
 		cur.execute(sql)

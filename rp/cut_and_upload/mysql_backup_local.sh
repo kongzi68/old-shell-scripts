@@ -63,7 +63,7 @@ WEEK_DAY=$(date +%w)
 FILEBAKDIR='/data/store/dbback'
 MYSQL_DATA_DIR='/data/mysql'
 BIN_lOG_NAME='mysql-bin'
-DBUSER='root'
+DBUSER='IamUsername'
 DBPASSWD='password'
 FILETYPE='mysql_bak'
 

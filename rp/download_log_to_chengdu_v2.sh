@@ -28,7 +28,7 @@ EMAIL=(
     colin@rockhippo.cn
 )
 
-FTPSERVERIP='114.215.141.72'
+FTPSERVERIP='iamIPaddress'
 
 ##
 # 需要检查的目录

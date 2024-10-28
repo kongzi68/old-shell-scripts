@@ -38,7 +38,7 @@ LCD_DIR="/data/www/jiaoyun/jiaoyun_auth/stats"
 CD_DIR="/jiaoyun_auth_tongji/stats"
 #############################
 #define the ftp server
-FTPSERVER='11.11.11.11'
+FTPSERVER='iamIPaddress'
 FTPUSER='upload'
 FTPPASSWD='thisispasswd'
 SSHPORT='220'

@@ -22,8 +22,8 @@ liziapp.com. IN SOA dns.liziapp.com. admin.liziapp.com. (
 liziapp.com. IN NS dns.liziapp.com.
 liziapp.com. IN MX 10 mta.liziapp.com.
 
-push IN A 118.244.233.137
-* IN A 118.244.233.137
+push IN A iamIPaddress
+* IN A iamIPaddress
 EOF
 }
 
@@ -40,7 +40,7 @@ server {
         listen       80;
         listen       81;
         server_name  app.wonaonao.com;
-        root   /data/www/train/public/app;
+        IamUsername   /data/www/train/public/app;
         access_log /data/store/logs/www/app_wonaonao_access.log;
         error_log /data/store/logs/www/app_wonaonao_error.log notice;
         location = /favicon.ico {
@@ -64,9 +64,9 @@ server {
         error_page 404 500 502 503 504  /static/404.html;
         include /data/www/train/protected/configs/app_urls.conf;
         location ~ \.php$ {
-                fastcgi_pass   127.0.0.1:9000;
+                fastcgi_pass   iamIPaddress:9000;
                 fastcgi_index  index.php;
-                fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+                fastcgi_param  SCRIPT_FILENAME    $document_IamUsername$fastcgi_script_name;
                 include        fastcgi_params;
                 #include                        fastcgi.conf;
         }
@@ -80,7 +80,7 @@ server {
         listen       80;
         listen       81;
         server_name  appimg.wonaonao.com;
-        root   /data/www/train/public/app/;
+        IamUsername   /data/www/train/public/app/;
         access_log /data/store/logs/www/appimg_wonaonao_access.log;
         error_log /data/store/logs/www/appimg_wonaonao_error.log;
         location = /favicon.ico {

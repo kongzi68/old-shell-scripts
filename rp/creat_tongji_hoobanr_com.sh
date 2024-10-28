@@ -37,7 +37,7 @@ server {
         listen       81;
         server_name  tongji.hoobanr.com;
 
-        root   /data/www/train/public/tongji/;
+        IamUsername   /data/www/train/public/tongji/;
 
         access_log /data/store/logs/www/tongji_hoobanr_access.log;
         error_log /data/store/logs/www/tongji_hoobanr_error.log;
@@ -52,9 +52,9 @@ server {
         }
         error_page 404 500 502 503 504  /static/404.html;
         location ~ \.php$ {
-                fastcgi_pass   127.0.0.1:9000;
+                fastcgi_pass   iamIPaddress:9000;
                 fastcgi_index  index.php;
-                fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+                fastcgi_param  SCRIPT_FILENAME    $document_IamUsername$fastcgi_script_name;
                 include        fastcgi_params;
         }
         location ~ /\.ht {

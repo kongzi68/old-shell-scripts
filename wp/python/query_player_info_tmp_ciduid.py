@@ -42,11 +42,11 @@ def execMysqlCommand(host,port,user,passwd,dbname,query):
 
 # 拉取所有游戏服数据库信息
 query = "SELECT DISTINCT sdbip,sdbport,sdbname,real_sid,real_sname FROM t_gameserver_list;"
-server_list = execMysqlCommand('10.221.124.144', 3306, 'root', '123456', 'Login', query)
+server_list = execMysqlCommand('iamIPaddress', 3306, 'IamUsername', '123456', 'Login', query)
 
 for sdbip,sdbport,sdbname,real_sid,real_sname in server_list:
     query = "SELECT DISTINCT c_cid,c_uid,c_charname from t_char_basic;"
-    every_gs = execMysqlCommand(sdbip, sdbport, 'root', '123456', sdbname, query)
+    every_gs = execMysqlCommand(sdbip, sdbport, 'IamUsername', '123456', sdbname, query)
     for c_cid,c_uid,c_charname in every_gs:
         key = "{0}{1}".format(c_cid,c_uid)
         if int(key) in cid_list:

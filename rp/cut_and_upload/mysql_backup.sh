@@ -63,7 +63,7 @@ WEEK_DAY=$(date +%w)
 FILEBAKDIR='/data/store/dbback'
 MYSQL_DATA_DIR='/data/mysql'
 BIN_lOG_NAME='mysql-bin'
-DBUSER='root'
+DBUSER='IamUsername'
 DBPASSWD='password'
 FILETYPE='mysql_bak'
 STATION=`echo $(hostname) |awk -F- '{print $3}'|tr [A-Z] [a-z]`
@@ -71,7 +71,7 @@ STATION=`echo $(hostname) |awk -F- '{print $3}'|tr [A-Z] [a-z]`
 ##
 # define the ftp server
 #
-FTPSERVER='11.11.11.11'
+FTPSERVER='iamIPaddress'
 FTPUSER='upload'
 FTPPASSWD='thisispassword'
 SSHPORT='220'

@@ -65,7 +65,7 @@ class ConfigUploadForm(FlaskForm):
         render_kw={"required": 'required',
                    "class": "form-control",
                    "rows": 10,
-                   "placeholder": ur"请输入配置文件动态数据，示例：13799ff4c8113a06,C:\3JianHaoServer01\Data\Config\ServerConfig.xml,10100211,203.195.193.234,10022,202服 万水千山,10.232.62.11,3306,ProjectM;13799ff4c8113a06,C:\3JianHaoServer02\Data\Config\ServerConfig.xml,10100212,203.195.193.234,10023,203服 风流倜傥,10.232.62.11,3306,ProjectM;"})
+                   "placeholder": ur"请输入配置文件动态数据，示例：13799ff4c8113a06,C:\3JianHaoServer01\Data\Config\ServerConfig.xml,10100211,iamIPaddress,10022,202服 万水千山,iamIPaddress,3306,ProjectM;13799ff4c8113a06,C:\3JianHaoServer02\Data\Config\ServerConfig.xml,10100212,iamIPaddress,10023,203服 风流倜傥,iamIPaddress,3306,ProjectM;"})
 
 
 class ConfigQueryForm(FlaskForm):

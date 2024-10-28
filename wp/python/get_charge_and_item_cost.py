@@ -12,9 +12,9 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 #--------------------------
-dbuser = 'root'
+dbuser = 'IamUsername'
 dbpasswd = '123456'
-dbhost = '10.66.143.17'
+dbhost = 'iamIPaddress'
 dbport = 3306
 #--------------------------
 
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     logger.info("get charge list finish.")
 
     # 统计充值玩家与这些玩家物品使用相关的数据
-    conn = mysql_conn('10.66.203.128', 3306, dbuser, dbpasswd, 'OSS_record')
+    conn = mysql_conn('iamIPaddress', 3306, dbuser, dbpasswd, 'OSS_record')
     cur = conn.cursor()
     for sid in dict_charge.keys():
         if sid not in dict_result.keys(): dict_result[sid] = []

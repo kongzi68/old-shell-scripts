@@ -67,7 +67,7 @@ LCD_DIR="/data/store/logs/record"
 #############################
 # define the ftp server
 #
-FTPSERVER='11.11.11.11'
+FTPSERVER='iamIPaddress'
 FTPUSER='upload'
 FTPPASSWD='thisispassword'
 SSHPORT='220'

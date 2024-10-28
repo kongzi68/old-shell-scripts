@@ -27,9 +27,9 @@ def execMysqlCommand(host,port,user,passwd,dbname,query):
 
 # 拉取所有游戏服数据库信息
 query = "SELECT DISTINCT sdbip,sdbport,sdbname,real_sid,real_sname FROM t_gameserver_list;"
-server_list = execMysqlCommand('10.221.124.144',
+server_list = execMysqlCommand('iamIPaddress',
                                 3306,
-                                'root',
+                                'IamUsername',
                                 '123456',
                                 'Login',
                                 query)
@@ -39,9 +39,9 @@ def getCharTypeData(query):
     传入日期参数，查询并分析汇总结果
     '''
     # 期间新增的玩家
-    register_list = execMysqlCommand('10.221.124.144',
+    register_list = execMysqlCommand('iamIPaddress',
                                         3306,
-                                        'root',
+                                        'IamUsername',
                                         '123456',
                                         'Login',
                                         query)
@@ -55,7 +55,7 @@ def getCharTypeData(query):
                 " WHEN c_chartype IN (10007, 10008) THEN 'gb' "
                 " WHEN c_chartype IN (10009, 10010) THEN 'xy' END AS chartype "
                 " FROM t_char_basic WHERE c_uid = '{0}'".format(c_uid[0]))
-            player_list = execMysqlCommand(sdbip, sdbport, 'root', '123456', sdbname, query)
+            player_list = execMysqlCommand(sdbip, sdbport, 'IamUsername', '123456', sdbname, query)
             if player_list:
                 for c_cid,c_level,chartype in player_list:
                     # aaa += 1
@@ -113,9 +113,9 @@ for row, chartype_dict in enumerate(day_chartype_list):
                         " DATE_FORMAT(time, '%Y-%m-%d') = '{0}' "
                         " AND uid = '{1}' "
                         " AND cid = '{2}' ".format(register_day, c_uid, c_cid))
-                result_money = execMysqlCommand('10.221.124.144',
+                result_money = execMysqlCommand('iamIPaddress',
                                                 3306,
-                                                'root',
+                                                'IamUsername',
                                                 '123456',
                                                 'Charge',
                                                 query)
@@ -150,9 +150,9 @@ for d_day in login_day:
                 c_uid, c_cid, _ = item
                 query = ("SELECT uid, cid FROM Login{0} WHERE uid = {1} "
                         " AND cid = {2} ".format(d_day, c_uid, c_cid))
-                select_result = execMysqlCommand('10.221.168.131',
+                select_result = execMysqlCommand('iamIPaddress',
                                                 3306,
-                                                'root',
+                                                'IamUsername',
                                                 '123456',
                                                 'OSS',
                                                 query)

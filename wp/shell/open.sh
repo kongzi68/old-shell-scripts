@@ -12,8 +12,8 @@ MAIL_FILE='./temp_mail_send.txt'
 [ -f ${MAIL_FILE} ] && rm ${MAIL_FILE}
 
 EMAIL=(
-    15982363550@139.com
-    kongxiaolin@windplay.cn
+    15987654321@139.com
+    zhangsan@windplay.cn
 )
 
 sendEmail(){
@@ -24,7 +24,7 @@ sendEmail(){
     done
 }
 
-/usr/bin/mysql -h10.221.124.144 -uroot -p'thisispassword' --default-character-set=utf8 > ${MAIL_FILE} << EOF
+/usr/bin/mysql -hiamIPaddress -uIamUsername -p'thisispassword' --default-character-set=utf8 > ${MAIL_FILE} << EOF
     use Login;
     # update t_gameserver_list set recommendstate=0 where sid=${OLD_GS};
     # update t_gameserver_list set mask=31,recommendstate=3 where sid=${NEW_GS};

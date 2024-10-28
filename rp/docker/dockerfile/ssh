@@ -4,7 +4,7 @@ FROM docker.io/centos:6.7
 MAINTAINER  COLIN
 # RUN命令会在上面指定的镜像里执行任何命令
 RUN yum install openssh-server passwd -y
-RUN echo '123456' | passwd --stdin root
+RUN echo '123456' | passwd --stdin IamUsername
 # 暴露ssh端口22
 EXPOSE  22
 # 设定运行以daemon方式启动sshd

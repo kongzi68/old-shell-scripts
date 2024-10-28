@@ -60,7 +60,7 @@ fi
 }
 #使用帮助及参数合法性判断
 if [ $# -eq 0 ];then
-    echo -e "\033[32mUsage command:sh $0 /boot /root \033[0m"
+    echo -e "\033[32mUsage command:sh $0 /boot /IamUsername \033[0m"
 else
     #判断输入的文件夹是否存在
     for i in ${TO_BACKUP_DIRNAME[@]}

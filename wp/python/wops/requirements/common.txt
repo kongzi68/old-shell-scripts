@@ -1,7 +1,7 @@
 alembic==0.9.6
 asn1crypto==0.24.0
 backports-abc==0.5
-backports.ssl-match-hostname==3.5.0.1
+backports.ssl-match-hostname==iamIPaddress
 bcrypt==3.1.4
 blinker==1.4
 certifi==2017.11.5
@@ -46,7 +46,7 @@ PyYAML==3.12
 pyzmq==16.0.3
 requests==2.18.4
 salt==2017.7.2
-singledispatch==3.4.0.3
+singledispatch==iamIPaddress
 six==1.11.0
 SQLAlchemy==1.1.15
 tornado==4.5.2

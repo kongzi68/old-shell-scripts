@@ -59,17 +59,17 @@ RUNLOG_MAX_DELNUM=5000
 BACKPATH='/data/db_backup/bak_mysql/'  # 路径最后一级必须加‘/’
 [ -d ${BACKPATH} ] || mkdir -p ${BACKPATH}
 
-USER='root'
+USER='IamUsername'
 PASSWORD='thisispassword'
 T_YMDH=$(date +%y%m%d%H)
 KEEPDAY=6
-LOGINIP='10.221.124.144'
+LOGINIP='iamIPaddress'
 BAK_NAME="$(date +%y%m%d).tar.gz"
 DBLISTS="${BACKPATH}dblists"
 
 # MOD: 修改接收邮件者
 EMAILS=(
-    kongxiaolin@windplay.cn
+    zhangsan@windplay.cn
     test1@windplay.cn
 )
 

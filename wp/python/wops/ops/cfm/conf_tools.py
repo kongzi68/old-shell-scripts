@@ -30,7 +30,7 @@ class CreateSLS(object):
         if conf_groupid is None:
             logger.error(u"未能获取到有效的config_id")
             return
-        self.base_root = '/srv/salt'
+        self.base_IamUsername = '/srv/salt'
         self.conf_groupid = conf_groupid
         self.sls_dir = '{0}/{1}'.format(wops_conf_dir, self.conf_groupid)
         self.sls_model_dir = '{0}/files'.format(self.sls_dir)
@@ -141,7 +141,7 @@ class CreateSLS(object):
     def create_top_sls(self):
         sls_dict = self.create_notop_sls()
         logger.debug(str(sls_dict))
-        # sls_dict = "{u'win2008_test': ['c5bc97e74b7b5367.1899e14ab77148ad_0'], u'203.195.192.232': ['c5bc97e74b7b5367.1a3ea89edf0a1dee_0', 'c5bc97e74b7b5367.1a3ea89edf0a1dee_1', 'c5bc97e74b7b5367.1a3ea89edf0a1dee_2'], u'203.195.192.228': ['c5bc97e74b7b5367.13799ff4c8113a06_0', 'c5bc97e74b7b5367.13799ff4c8113a06_1']}"
+        # sls_dict = "{u'win2008_test': ['c5bc97e74b7b5367.1899e14ab77148ad_0'], u'iamIPaddress': ['c5bc97e74b7b5367.1a3ea89edf0a1dee_0', 'c5bc97e74b7b5367.1a3ea89edf0a1dee_1', 'c5bc97e74b7b5367.1a3ea89edf0a1dee_2'], u'iamIPaddress': ['c5bc97e74b7b5367.13799ff4c8113a06_0', 'c5bc97e74b7b5367.13799ff4c8113a06_1']}"
         with open(self.file_name, 'wb') as f:
             f.write(str(sls_dict))
 
@@ -149,10 +149,10 @@ class CreateSLS(object):
         self.create_top_sls()
         tools = Tools(self.game_id)
         tools.zip_file(self.conf_groupid)
-        dst_master_top_scripts = '{0}/{1}'.format(self.base_root, self.master_top_scripts)
+        dst_master_top_scripts = '{0}/{1}'.format(self.base_IamUsername, self.master_top_scripts)
         tools.transfer_file(self.scritps_file, dst_master_top_scripts)
         src_zip = '{0}/{1}.zip'.format(wops_conf_dir, self.conf_groupid)
-        dst_zip = '{0}/{1}.zip'.format(self.base_root, self.conf_groupid)
+        dst_zip = '{0}/{1}.zip'.format(self.base_IamUsername, self.conf_groupid)
         tools.transfer_file(src_zip, dst_zip)
         os.remove(src_zip)
         tools.exec_command('chmod +x {0}'.format(dst_master_top_scripts))
@@ -201,12 +201,12 @@ class Tools(object):
         self.game_id = game_id
         self.dir = wops_conf_dir
         self.ip, self.netip = self.get_master_ip()
-        # self.ip = '192.168.10.36'
-        self.user = 'root'
+        # self.ip = 'iamIPaddress'
+        self.user = 'IamUsername'
         self.port = 22
         # self.key_file = os.environ.get('SSH_KEY_FILE')
         self.key_file = 'config/id_rsa'
-        # self.know_host = '/root/.ssh/known_hosts'
+        # self.know_host = '/IamUsername/.ssh/known_hosts'
 
     def get_master_ip(self):
         ret = []

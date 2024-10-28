@@ -9,7 +9,7 @@ WGETPATH='/soft/lamp/'
 echo -e "\033[32mInstall cmake and ntpdate servers,Please wait...\033[0m"
 yum -y install  cmake  vim  wget  lrzsz  unzip man  ntpdate  gcc*  autoconf  libtool  python-devel  libXpm-devel  ncurses-devel  git
 #初始化部分系统环境
-#echo "alias vi='vim'" >>/root/.bashrc && source /root/.bashrc
+#echo "alias vi='vim'" >>/IamUsername/.bashrc && source /IamUsername/.bashrc
 echo -e "\033[32mNtpdate is running,Please wait...\033[0m"
 ntpdate pool.ntp.org
 sleep 3
@@ -97,10 +97,10 @@ function Mysql_install()
 		echo -e "\033[31mThe Mysql is installed failed,Please check...\033[0m"
        exit
     fi
-	cd ${MYSQL_PREFIX} ; groupadd mysql ; useradd -g mysql mysql ; chown -R root:mysql ${MYSQL_PREFIX} && chown -R mysql:mysql ${MYSQL_DATA_DIR} ;
+	cd ${MYSQL_PREFIX} ; groupadd mysql ; useradd -g mysql mysql ; chown -R IamUsername:mysql ${MYSQL_PREFIX} && chown -R mysql:mysql ${MYSQL_DATA_DIR} ;
 	cp ${MYSQL_PREFIX}/support-files/my-default.cnf /etc/my.cnf && cp ${MYSQL_PREFIX}/support-files/mysql.server /etc/init.d/mysqld &&
 	${MYSQL_PREFIX}/scripts/mysql_install_db --user=mysql --basedir=${MYSQL_PREFIX} --datadir=${MYSQL_DATA_DIR} &&
-	echo "export PATH="\$PATH":${MYSQL_PREFIX}/bin/" >>/root/.bash_profile && source /root/.bash_profile && service mysqld restart 
+	echo "export PATH="\$PATH":${MYSQL_PREFIX}/bin/" >>/IamUsername/.bash_profile && source /IamUsername/.bash_profile && service mysqld restart 
 	if [ "${MYSQL_STATUS_A}" = 'mysqld_safe' ];then
 		echo -e "\033[32mThe Mysql was installed successfully to ${MYSQL_PREFIX}\033[0m"
 		service mysqld stop ;

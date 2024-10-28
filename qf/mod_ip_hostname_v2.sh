@@ -167,10 +167,10 @@ if [ ${host} -gt 0 ];then
     esac
     echo -e "\033[32m\033[0m"
 	sed -i "/${HOST_NAME}/d" ${HOSTS_CONFIG}
-	echo "127.0.0.1 ${HOST_NAME}" >>${HOSTS_CONFIG}        
+	echo "iamIPaddress ${HOST_NAME}" >>${HOSTS_CONFIG}        
 else
 	echo -e "\033[32mNow,will modify the hostname of ${HOSTS_CONFIG}...\033[0m"
-	echo "127.0.0.1 ${HOST_NAME}" >>${HOSTS_CONFIG}
+	echo "iamIPaddress ${HOST_NAME}" >>${HOSTS_CONFIG}
 fi
 #if [ "`hostname`" -eq "`echo ${HOSTNAME}`" ];then
 	echo -e "\033[32mThe hostname is modify successfully...\n\

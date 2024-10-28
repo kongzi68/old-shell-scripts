@@ -27,13 +27,13 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 # 数据库用户名与密码
-db_user = 'root'
+db_user = 'IamUsername'
 db_passwd = '123456'
 
-record_db = (('10.221.140.141',3306),
-             ('10.221.140.141',3307),
-             ('10.225.6.185',3306),
-             ('10.225.6.185',3307))
+record_db = (('iamIPaddress',3306),
+             ('iamIPaddress',3307),
+             ('iamIPaddress',3306),
+             ('iamIPaddress',3307))
 
 def query_mysql_result(host, port, user, passwd, dbname, query, 
                        dict_ret=False):
@@ -76,7 +76,7 @@ def get_games_db_lists():
     ret = {}
     query = '''select real_sid, real_sname, sdbip, sdbport, sdbname, group_concat(sid) as sids
                from t_gameserver_list group by real_sid;'''
-    q_ret = query_mysql_result('10.221.124.144', 3306, db_user, db_passwd, 'Login', query)
+    q_ret = query_mysql_result('iamIPaddress', 3306, db_user, db_passwd, 'Login', query)
 
     for rsid, sname, sdbip, sdbport, sdbname, sids in q_ret:
         ret[sids] = [rsid, sname, sdbip, sdbport, sdbname]
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
     query = '''SELECT DISTINCT serverid,uid,cid FROM AddItem WHERE itemid IN {0}
                AND src=23 AND itemnum=5 AND DATE_FORMAT(insertime,'%Y-%m-%d') = '2017-02-28';'''
-    q_ret = query_mysql_result('10.0.203.228', 20306, db_user, db_passwd, 'OSS_record', query)
+    q_ret = query_mysql_result('iamIPaddress', 20306, db_user, db_passwd, 'OSS_record', query)
 
 '''
     SELECT serverid,uid,cid,GROUP_CONCAT(src) AS srcs,itemid,sum(itemnum) AS itemnums FROM AddItem WHERE itemid IN (12001610,12001620,12001630,12001640,12001650,12001660,12001670,12001680,12001690,12001700,12001710,12001720,12001530,12001540,12001730,12001740,12001750,12001760,12001550,12001760) AND insertime BETWEEN '2017-03-15 00:00:00' AND '2017-03-15 08:00:00' GROUP BY itemid,serverid,uid,cid;
