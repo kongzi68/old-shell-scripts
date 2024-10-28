@@ -22,7 +22,7 @@ $ tree
 │   └── script-libs              # 公共脚本函数库
 │       └── functions.sh
 ├── python
-│   ├── jic_email                 # 某投行内部告警消息提交，python脚本
+│   ├── jic_email                 # 某**内部告警消息提交，python脚本
 │   │   ├── Dockerfile
 │   │   ├── Dockerfile_bak
 │   │   ├── Dockerfile_python
@@ -54,7 +54,7 @@ $ tree
 │   └── update_mosek_lic.sh
 ├── shell-monitor
 │   ├── README.md
-│   ├── jictrust                                 # 某行内网服务器基础监控告警脚本
+│   ├── jictrust                                 # 某**内网服务器基础监控告警脚本
 │   │   ├── bak_mysql_db.sh
 │   │   ├── collect_container_status.sh
 │   │   ├── collect_disk_utilization_status.sh
