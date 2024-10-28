@@ -1,12 +1,112 @@
 [TOC]
+
 ***
+
 # 说明
+
 包含以前写的shell与python脚本。清理了重要的密码、用户名，以及真实的IP地址。
-## 脚本用途简要说明
+
+## 2022-2024年，shell、python脚本
+
+```bash
+$ tree
+.
+├── README.md
+├── ansible.cfg
+├── ansible_hosts
+├── ops-libs
+│   ├── README.md
+│   ├── alarm
+│   │   ├── ops_alarm.py
+│   │   └── readme.md
+│   └── script-libs              # 公共脚本函数库
+│       └── functions.sh
+├── python
+│   ├── jic_email                 # 某投行内部告警消息提交，python脚本
+│   │   ├── Dockerfile
+│   │   ├── Dockerfile_bak
+│   │   ├── Dockerfile_python
+│   │   ├── README.md
+│   │   ├── instantclient_11_2
+│   │   │   ├── BASIC_README
+│   │   │   ├── adrci
+│   │   │   ├── genezi
+│   │   │   ├── libclntsh.so.11.1
+│   │   │   ├── libnnz11.so
+│   │   │   ├── libocci.so.11.1
+│   │   │   ├── libociei.so
+│   │   │   ├── libocijdbc11.so
+│   │   │   ├── ojdbc5.jar
+│   │   │   ├── ojdbc6.jar
+│   │   │   ├── uidrvci
+│   │   │   └── xstreams.jar
+│   │   ├── jicSendEmailOrSMS.py
+│   │   └── sources.list
+│   └── 数据库导入导出
+│       ├── Dockerfile
+│       ├── export-tools-create-table.py
+│       └── export_sql_to_csv.py
+├── scripts
+│   ├── feishu-scripts-bak20240914.sh
+│   ├── feishu_airflow_alarm.sh
+│   ├── increment_rsync_parquet.sh
+│   ├── temp
+│   └── update_mosek_lic.sh
+├── shell-monitor
+│   ├── README.md
+│   ├── jictrust                                 # 某行内网服务器基础监控告警脚本
+│   │   ├── bak_mysql_db.sh
+│   │   ├── collect_container_status.sh
+│   │   ├── collect_disk_utilization_status.sh
+│   │   ├── collect_svc_port_status.sh
+│   │   ├── collect_system_load_status.sh
+│   │   ├── libs
+│   │   │   └── functions.sh
+│   │   └── restart_svc_container.sh
+│   ├── n9e-exec-plugin
+│   │   ├── collect_exec_check_process.sh
+│   │   ├── collect_exec_tag_etf_all_zx.sh
+│   │   ├── hq_status.sh
+│   │   └── jfrog
+│   │       ├── collect_jfrog_container_status.sh
+│   │       └── jfrog_container_start.sh
+│   ├── n9e-scripts
+│   │   └── devops_deploy_shell_scripts.sh
+│   └── temp-bak
+│       ├── collect_net_iftop_status.sh
+│       ├── collect_net_nethogs_status.sh
+│       ├── collect_net_netstat_status.sh
+│       ├── collect_net_recv_sent_status-bak.sh
+│       └── collect_net_recv_sent_status.sh
+└── shell-scripts
+    ├── 122-112-142-69-check_wind.sh
+    ├── 192-168-0-104-auto_start_jenkins.sh
+    ├── 192-168-0-104-ping_check.sh
+    ├── api3_error_log_check_sql_connection.sh
+    ├── api3_restart_svc_docker.sh
+    ├── api4_restart_svc_docker.sh
+    ├── bak_files_to_minio.sh
+    ├── bak_files_to_minio_1.sh
+    ├── bak_mysql_db.sh
+    ├── bak_mysql_db_no_create_databases.sh
+    ├── bak_mysql_db_to_minio.sh
+    ├── bak_mysql_db_to_minio_1.sh
+    ├── bak_mysql_db_to_minio_2.sh
+    ├── by_reg_delete_old_file.sh
+    ├── deploy-n9e-client-office.sh
+    ├── deploy-n9e-client.sh
+    └── mod_telegraf_hwcloud_api3_ip.sh
+
+17 directories, 68 files
+```
+
+## 2018-05以前：脚本用途简要说明
+
 备注过的属于重点推荐脚本，其它未备注的也有很多自认为写得还是比较好的。
 这些脚本，算是慢慢成长的见证吧
-```
-root@ubuntu:/data/shell_scripts# tree 
+
+```bash
+IamUsername@ubuntu:/data/shell_scripts# tree 
 .
 ├── qf
 │   ├── auto_backup_tar.sh
@@ -176,9 +276,11 @@ root@ubuntu:/data/shell_scripts# tree
 
 22 directories, 143 files
 ```
-## PYTHON项目开发
-```
-root@ubuntu:/data/shell_scripts/wp/python# tree -L 3 .
+
+## 2018-05以前：PYTHON项目开发
+
+```bash
+IamUsername@ubuntu:/data/shell_scripts/wp/python# tree -L 3 .
 .
 ├── alarm
 │   ├── alarm.py
