@@ -34,8 +34,8 @@ action = 'CaptchaQuery'
 
 config = {
     'Region': 'ap-guangzhou',
-    'secretId': 'AKIDVsZ4ReMFoGqJenpXCmEZntfMsHVyR4ta',
-    'secretKey': 'jIhwDLJTYVHxZ1LUSisV1MXaSSJySlwy',
+    'secretId': '1111111111111111',
+    'secretKey': '11111111111111111111111',
     'method': 'get'
 }
 
