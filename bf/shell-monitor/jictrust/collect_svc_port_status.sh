@@ -56,7 +56,7 @@ checkSVCPortStatus() {
 
 ## 定义Portainer
 PORTAINER_URL='https://iamIPaddress:9443'
-X_API_KEY='ptr_CD1WzR7ndBgnA4OzWewkW8ffy+ZE6JOfDSxz8qbsSyM='
+X_API_KEY='iamSecrets121364964674646161'
 # ALL_IP_PORTS=$(sh -c """http --verify no --timeout 5 GET ${PORTAINER_URL}/api/endpoints/2/docker/containers/json all==true \
 #     X-API-Key:"${X_API_KEY}" | jq '[.[] | {NAMES: .Names[0], IP: (.NetworkSettings.Networks."new-bar_default".IPAddress, .NetworkSettings.Networks.bridge.IPAddress), PORT: .Ports[].PrivatePort}]' \
 #     | jq '[.[] | select(.IP!=null)]'""")

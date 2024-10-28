@@ -240,7 +240,7 @@ def sendMessage(args):
     :return:
     """
     url = 'http://iamIPaddress/api_sms/Sms.php'
-    privateKey = '0ecylJDlLOm1olA1yXEihdU4NFoTNzz8Z'
+    privateKey = 'iamsecrets112314141'
     logger.info('发送短信')
     message = args.message
     phones = getAddress(args.receivers, 'phone')

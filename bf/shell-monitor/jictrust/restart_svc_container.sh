@@ -28,7 +28,7 @@ echoGoodLog "Now, Script: $(basename $0) running."
 
 ## 定义Portainer
 PORTAINER_URL='https://iamIPaddress:9443'
-X_API_KEY='ptr_CD1WzR7ndBgnA4OzWewkW8ffy+ZE6JOfDSxz8qbsSyM='
+X_API_KEY='iamSecrets121364964674646161'
 
 ## 获取容器id
 #+ bar-svc-api-app|data-generator

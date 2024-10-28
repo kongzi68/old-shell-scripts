@@ -9,7 +9,7 @@ apt-get -y install heirloom-mailx dos2unix
 sed -i "/sendcharsets/s/=.*/=GB2312/g" /etc/nail.rc
 cat >> /etc/nail.rc <<EOF
 set from=kongzi68@126.com  smtp=smtp.126.com
-set smtp-auth-user=kongzi68  smtp-auth-password=ivxrlegagvlmnvrs
+set smtp-auth-user=kongzi68  smtp-auth-password=iamsecrets
 set smtp-auth=login
 EOF
 

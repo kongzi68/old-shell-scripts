@@ -38,7 +38,7 @@ cat <<EOF > /opt/telegraf/telegraf.conf
 [[outputs.datadog]]
   timeout = "5s"
   url = "http://iamIPaddress:19000/datadog/api/v1/series"
-  apikey = "cciagaljlgc2b9aba533cbb263a36c07ah8c3j49"
+  apikey = "iamsecrets11111111"
 
 [[inputs.cpu]]
   percpu = true

@@ -42,7 +42,7 @@ TEMP_MAIL_CONTENT_FILE="/tmp/tmp_$(basename $0 .sh).txt"
 
 ## 定义Portainer
 PORTAINER_URL='https://iamIPaddress:9443'
-X_API_KEY='ptr_CD1WzR7ndBgnA4OzWewkW8ffy+ZE6JOfDSxz8qbsSyM='
+X_API_KEY='iamSecrets121364964674646161'
 #+ 每7天更新一次容器列表清单/tmp/jictrust_container_list.txt
 TEMP_CONTAINER_FILE='/tmp/jictrust_container_list.txt'
 if [ -f ${TEMP_CONTAINER_FILE} ];then
